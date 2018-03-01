@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif');
+
+.lf-box {
+	background:#FFF;
+}
+
+.lf-box textarea[name="Post"] {
+	width:calc(100% - 5px);
+	min-height:200px;
+	margin:auto;
+	border:none;
+	outline:none;
+}
+
+#lfStandardToolbox > div {
+	display:inline-block;
+}
+
+#lfStandardToolbox {
+	border-bottom:1px solid rgba(0,0,0,.1);
+}
+
+#lfCustomToolbox {
+	border-top:1px solid rgba(0,0,0,.1);
+}
+
+#quickOptions {
+	width:170px;
+}
+
+.lf-text-tools, .lf-media-tools {
+	display: inline-block;
+}
+
+.lf-text-tools button {
+	font-family: 'Noto Serif', serif;
+	font-size:18px;
+	color:#000;
+	background:transparent;
+	border:none;
+	width:40px;
+	height:40px;
+	text-align: center;
+	position:relative;
+	outline:none;
+}
+
+.lf-text-tools button:hover, select.lf-type:hover {
+	background: rgba(0,0,0,.3);
+	cursor:pointer;
+}
+
+select.lf-type > option {
+	pointer-events: none;
+}
+
+.lf-text-tools button:hover::before {
+	content: attr(data-tooltip);
+	position:absolute;
+	bottom:115%;
+	border-radius: 3px;
+	background:rgba(0,0,0,.85);
+	color:#FFF;
+	padding:5px 7px;
+	font-family:'Arial', sans-serif;
+	font-size:11px;
+	font-weight: normal;
+	font-style: normal;
+	text-decoration: none;
+}
+
+.lf-type {
+	width:40px;
+	height:40px;
+	border:none;
+	outline:none;
+}
+
+#lfBold:hover::before {
+	width:60px;
+	left:-20px;
+}
+
+#lfItalic:hover::before {
+	width:60px;
+	left:-20px;
+}
+
+#lfUnderline:hover::before {
+	width:90px;
+	left:-30px;
+}
+#lfStrikethrough:hover::before {
+	left:-2px;
+}
+
+#lfImg {
+	background: url('chrome-extension://__MSG_@@extension_id__/icons/img.svg') no-repeat;
+}
+
+.show {
+	display:inline-block;
+}
+
+.lf-dropdown-content {
+	display:none;
+}

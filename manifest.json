@@ -1,0 +1,19 @@
+{
+	"manifest_version": 2,
+	"name": "LiveForum",
+	"version": "3.0",
+	"description": "forum.ge BBCode helper",
+	"icons": {
+		"48": "icons/icon_48.png"
+	},
+
+	"content_scripts": [
+		{
+			"matches": ["*://forum.ge/*showtopic*", "*://*.forum.ge/*showtopic*"],
+			"js": ["js/storage.js", "js/main.js"],
+			"css": ["css/style.css"]
+		}
+	],
+
+	"web_accessible_resources":["*"]
+}
