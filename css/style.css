@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Noto+Serif');
 
 .lf-box {
-	background:#FFF;
+	background:#E65100;
+	border-radius: 5px;
 }
 
 .lf-box textarea[name="Post"] {
-	width:calc(100% - 5px);
+	width:calc(100% - 4px);
 	min-height:200px;
 	margin:auto;
 	border:none;
@@ -35,7 +36,7 @@
 .lf-text-tools button, .lf-dropdown > button {
 	font-family: 'Noto Serif', serif;
 	font-size:18px;
-	color:#000;
+	color:#FFF;
 	background:transparent;
 	border:none;
 	width:40px;
@@ -46,9 +47,18 @@
 }
 
 .lf-text-tools button:hover, .lf-dropdown > button:hover {
-	background: rgba(0,0,0,.3);
+	background: rgba(0,0,0,.1);
 	cursor:pointer;
 }
+
+.lf-dropdown > button {
+	background:url('chrome-extension://__MSG_@@extension_id__/icons/menu-down.svg') no-repeat center right;
+}
+
+.lf-dropdown > button:hover {
+	background:url('chrome-extension://__MSG_@@extension_id__/icons/menu-down.svg') no-repeat center right rgba(0,0,0,.1);
+}
+
 
 .lf-text-tools button:hover::before {
 	content: attr(data-tooltip);
@@ -114,7 +124,7 @@
 }
 
 #lfGeoContainer input:checked + label::before {
-	content:'GE';
+	content:'KA';
 }
 
 #lfGeoContainer input:not(:checked) + label::before {
@@ -125,7 +135,7 @@
 #lfGeoContainer label {
 	font-family: 'Arial', sans-serif;
 	font-size:11px;
-	color:#000;
+	color:#FFF;
 	background:transparent;
 	text-align: center;
 	display: block;
