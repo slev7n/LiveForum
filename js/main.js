@@ -8,31 +8,20 @@ LiveForum.sibling = LiveForum.parent.previousElementSibling;
 
 LiveForum.start = function() {
 	this.parent.innerHTML = `
-	<div id="lfEditor" class="lf-box">
+<div id="lfEditor" class="lf-box">
 	<div id="lfStandardToolbox" class="lf-standardtoolbox">
-		<input type="checkbox" name="geo" checked>
+		<div id="lfGeoContainer">
+			<input id="lfGeo" type="checkbox" name="geo" checked>
+			<label for="lfGeo"></label>
+		</div>
 		<div class="lf-text-tools">
 			<button accesskey="b" data-bbcode="b" data-tooltip="Bold (Alt+B)" id="lfBold"  style="font-weight:bold">B</button>
 			<button accesskey="i" data-bbcode="i" data-tooltip="Italic (Alt+I)" id="lfItalic" style="font-style:italic">I</button>
 			<button accesskey="u" data-bbcode="u" data-tooltip="Underline (Alt+U)" id="lfUnderline" style="text-decoration:underline">U</button>
 			<button accesskey="s" data-bbcode="s" data-tooltip="Strike" id="lfStrikethrough"  style="text-decoration:line-through">S</button>
 		</div>
-		<!--
-		<div class="lf-media-tools">
-			<input type="button" accesskey="m" id="lfImg">
-		</div>
 		<div class="lf-dropdown">
-			<input type="button" accesskey="h" value="Url" id="lfUrlBtn">
-			<div class="dropdown-content" id="lfUrlDropdown">
-				<input type="text">
-				<input type="text">
-				<input type="button" value="Ok">
-			</div>
-		</div>
-		-->
-		<div>
-		<div id="lfFonts" class="lf-dropdown">
-			<button id="lfFont">A</button>
+			<button id="lfFont" class="lf-dropbtn">A</button>
 			<div class="lf-dropdown-content">
 				<div style="font-family:Arial">Arial</div>
 				<div style="font-family:Times">Times</div>
@@ -40,43 +29,49 @@ LiveForum.start = function() {
 				<div style="font-family:Impact">Impact</div>
 				<div style="font-family:Geneva">Geneva</div>
 				<div style="font-family:Optima">Optima</div>
+				<div class="lf-own-name">
+					<input type="text" placeholder="Font Name">
+					<button>Ok</button>
+				</div>
 			</div>
 		</div>
-		<!--
-		<select id="lfSize" class="lf-type">
-			<option disabled selected hidden>T</option>
-			<option value="1">1 S</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4 M</option>
-			<option value="5">5</option>
-			<option value="6">6</option>
-			<option value="7">7 L</option>
-			<option value="8">8</option>
-			<option value="9">9</option>
-			<option value="10">10</option>
-			<option value="11">11</option>
-			<option value="12">12</option>
-			<option value="13">13</option>
-			<option value="14">14 XL</option>
-		</select>
-		<select id="lfColor" class="lf-type">
-			<option disabled selected hidden>C</option>
-			<option value="blue" style="color:blue">Blue</option>
-			<option value="red" style="color:red">Red</option>
-			<option value="purple" style="color:purple">Purple</option>
-			<option value="orange" style="color:orange">Orange</option>
-			<option value="yellow" style="color:yellow">Yellow</option>
-			<option value="gray" style="color:gray">Gray</option>
-			<option value="green" style="color:green">Green</option>
-		</select>
-		-->
+		<div class="lf-dropdown">
+			<button id="lfSize" class="lf-dropbtn">T</button>
+			<div class="lf-dropdown-content">
+				<div>1 S</div>
+				<div>2</div>
+				<div>3</div>
+				<div>4 M</div>
+				<div>5</div>
+				<div>6</div>
+				<div>7 L</div>
+				<div>8</div>
+				<div>9</div>
+				<div>10</div>
+				<div>11</div>
+				<div>12</div>
+				<div>13</div>
+				<div>14 XL</div>
+			</div>
+		</div>
+		<div class="lf-dropdown">
+			<button id="lfColor" class="lf-dropbtn">C</button>
+			<div class="lf-dropdown-content">
+				<div style="color:blue">Blue</div>
+				<div style="color:red">Red</div>
+				<div style="color:purple">Purple</div>
+				<div style="color:orange">Orange</div>
+				<div style="color:yellow">Yellow</div>
+				<div style="color:gray">Gray</div>
+				<div style="color:green">Green</div>
+			</div>
 		</div>
 		</div>
-		<textarea name="Post" onkeypress="changeVal()"></textarea>
-		<div id="lfCustomToolbox">+</div>
-	</div>
-	`;
+	<textarea name="Post" onkeypress="changeVal()"></textarea>
+	<div id="lfCustomToolbox">+</div>
+</div>
+`;
+
 	this.sibling.innerHTML = `<div id="quickOptions"></div>`;
 
 	this.events();
@@ -86,14 +81,18 @@ LiveForum.events = function() {
 	var self = this;
 
 	document.addEventListener('click', function(e) {
-		// if(!e.target.matches('.dropdown')) {
-		// 	console.log('hide');
+		console.log(e.target.parentNode);
+		// if(!e.target.matches('.lf-dropdown .lf-dropbtn')) {
+		// 	document.querySelectorAll('.lf-dropdown-content').forEach(el => {
+		// 		if(el.classList.contains('show'))
+		// 			el.classList.remove('show');
+		// 	});
 		// }
 	});
 
 	document.getElementById('lfBold').addEventListener('click', function(e) {
 		e.preventDefault();
-		self.wrapper(this.dataset.bbcodes);
+		self.wrapper(this.dataset.bbcode);
 	});
 
 	document.getElementById('lfItalic').addEventListener('click', function(e) {
@@ -102,22 +101,24 @@ LiveForum.events = function() {
 	});
 	document.getElementById('lfUnderline').addEventListener('click', function(e) {
 		e.preventDefault();
-		self.wrapper(this.dataset.bbcodes);
+		self.wrapper(this.dataset.bbcode);
 	});
 	document.getElementById('lfStrikethrough').addEventListener('click', function(e) {
 		e.preventDefault();
-		self.wrapper(this.dataset.bbcodes);
+		self.wrapper(this.dataset.bbcode);
 	});	
 	document.getElementById('lfFont').addEventListener('click', function(e) {
 		e.preventDefault();
 		this.nextElementSibling.classList.toggle('show');
 	});
-	// document.getElementById('lfSize').addEventListener('change', function() {
-	// 	self.wrapper('size', this.value);
-	// });
-	// document.getElementById('lfColor').addEventListener('change', function() {
-	// 	self.wrapper('color', this.value);
-	// });
+	document.getElementById('lfSize').addEventListener('click', function(e) {
+		e.preventDefault();
+		this.nextElementSibling.classList.toggle('show');
+	});
+	document.getElementById('lfColor').addEventListener('click', function(e) {
+		e.preventDefault();
+		this.nextElementSibling.classList.toggle('show');
+	});
 	// document.getElementById('lfUrlBtn').addEventListener('click', function() {
 	// 	this.nextElementSibling.classList.toggle('show');
 	// });

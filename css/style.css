@@ -24,15 +24,15 @@
 	border-top:1px solid rgba(0,0,0,.1);
 }
 
+#lfStandardToolbox, #lfCustomToolbox {
+	padding-left:5px;
+}
+
 #quickOptions {
 	width:170px;
 }
 
-.lf-text-tools, .lf-media-tools {
-	display: inline-block;
-}
-
-.lf-text-tools button {
+.lf-text-tools button, .lf-dropdown > button {
 	font-family: 'Noto Serif', serif;
 	font-size:18px;
 	color:#000;
@@ -45,13 +45,9 @@
 	outline:none;
 }
 
-.lf-text-tools button:hover, select.lf-type:hover {
+.lf-text-tools button:hover, .lf-dropdown > button:hover {
 	background: rgba(0,0,0,.3);
 	cursor:pointer;
-}
-
-select.lf-type > option {
-	pointer-events: none;
 }
 
 .lf-text-tools button:hover::before {
@@ -98,10 +94,82 @@ select.lf-type > option {
 	background: url('chrome-extension://__MSG_@@extension_id__/icons/img.svg') no-repeat;
 }
 
+.lf-dropdown {
+	position: relative;
+}
+
+.lf-dropdown-content {
+	position: absolute;
+	top: 100%;
+	box-shadow: 0 2px 6px 0 rgba(0,0,0,.2);
+	display:none;
+}
+
 .show {
 	display:inline-block;
 }
 
-.lf-dropdown-content {
+#lfGeoContainer input {
 	display:none;
 }
+
+#lfGeoContainer input:checked + label::before {
+	content:'GE';
+}
+
+#lfGeoContainer input:not(:checked) + label::before {
+	content:'EN';
+
+}
+
+#lfGeoContainer label {
+	font-family: 'Arial', sans-serif;
+	font-size:11px;
+	color:#000;
+	background:transparent;
+	text-align: center;
+	display: block;
+	width: 20px;
+}
+
+#lfGeoContainer label:hover {
+	cursor:pointer;
+}
+
+/*#lfGeoContainer {
+	position:relative;
+	background:transparent;
+	border:1px solid rgba(0,0,0,1);
+	width:40px;
+	height:25px;
+}
+
+#lfGeoContainer::before {
+	content:'GE';
+}
+
+#lfGeoContainer::after {
+	content:'EN';
+}
+
+#lfGeoContainer input {
+	display:none;
+}
+
+#lfGeoContainer label {
+  position:absolute;
+  left:0px;
+  background:#000;
+  display:inline-block;
+  width:20px;
+  height:25px;
+  transition:left ease .5s;
+}
+
+#lfGeoContainer input {
+	display: none;
+}
+
+#lfGeoContainer input:checked + label {
+	left:20px;
+}*/
