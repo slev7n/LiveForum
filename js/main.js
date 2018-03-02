@@ -9,7 +9,7 @@ LiveForum.sibling = LiveForum.parent.previousElementSibling;
 LiveForum.start = function() {
 	this.parent.innerHTML = `
 <div id="lfEditor" class="lf-box">
-	<div id="lfStandardToolbox" class="lf-standardtoolbox">
+	<div id="lfStandardToolbox" class="lf-standard-toolbox">
 		<div id="lfGeoContainer">
 			<input id="lfGeo" type="checkbox" name="geo" checked>
 			<label for="lfGeo"></label>
@@ -20,72 +20,81 @@ LiveForum.start = function() {
 			<button accesskey="u" data-bbcode="u" data-tooltip="Underline (Alt+U)" id="lfUnderline" style="text-decoration:underline">U</button>
 			<button accesskey="s" data-bbcode="s" data-tooltip="Strike" id="lfStrikethrough"  style="text-decoration:line-through">S</button>
 		</div>
-
-		<div class="lf-dropdown">
-			<button id="lfImg" class="lf-dropbtn"></button>
-			<div class="lf-dropdown-content">
-				<input type="text" placeholder="Image URL...">
-				<button>Ok</button>
-			</div>
-		</div>
-
-		<div class="lf-dropdown">
-			<button id="lfFont" class="lf-dropbtn">A</button>
-			<div class="lf-dropdown-content">
-				<ul>
-					<li style="font-family:Arial">Arial</li>
-					<li style="font-family:Times">Times</li>
-					<li style="font-family:Courier">Courier</li>
-					<li style="font-family:Impact">Impact</li>
-					<li style="font-family:Geneva">Geneva</li>
-					<li style="font-family:Optima">Optima</li>
-				</ul>
-				<div class="lf-own-name">
-					<input type="text" placeholder="Font Name">
+		<div class="lf-family2">
+			<div class="lf-dropdown">
+				<button id="lfUrl" class="lf-dropbtn"></button>
+				<div class="lf-dropdown-content">
+					<input type="text" placeholder="Image URL...">
+					<input type="text" placeholder="Image URL...">
 					<button>Ok</button>
 				</div>
 			</div>
-		</div>
-		<div class="lf-dropdown">
-			<button id="lfSize" class="lf-dropbtn">T</button>
-			<div class="lf-dropdown-content">
-				<ul>
-					<li>1 S</li>
-					<li>2</li>
-					<li>3</li>
-					<li>4 M</li>
-					<li>5</li>
-					<li>6</li>
-					<li>7 L</li>
-					<li>8</li>
-					<li>9</li>
-					<li>10</li>
-					<li>11</li>
-					<li>12</li>
-					<li>13</li>
-					<li>14 XL</li>
-				</ul>
-			</div>
-		</div>
-		<div class="lf-dropdown">
-			<button id="lfColor" class="lf-dropbtn">C</button>
-			<div class="lf-dropdown-content">
-				<div class="lf-color-palette">
-					<span data-color="blue" style="background:blue"></span>
-					<span data-color="red" style="background:red"></span>
-					<span data-color="purple" style="background:purple"></span>
-					<span data-color="orange" style="background:orange"></span>
-					<span data-color="yellow" style="background:yellow"></span>
-					<span data-color="gray" style="background:gray"></span>
-					<span data-color="green" style="background:green"></span>
-				</div>
-				<div class="lf-own-name">
-					<input type="text" placeholder="Color Name">
+			<div class="lf-dropdown">
+				<button id="lfImg" class="lf-dropbtn"></button>
+				<div class="lf-dropdown-content">
+					<input type="text" placeholder="Image URL...">
+					<button accesskey="g" onclick="fgModalRun()">Upload</button>
 					<button>Ok</button>
 				</div>
 			</div>
+			<div class="lf-dropdown">
+				<button id="lfFont" class="lf-dropbtn">A</button>
+				<div class="lf-dropdown-content">
+					<ul>
+						<li style="font-family:Arial">Arial</li>
+						<li style="font-family:Times">Times</li>
+						<li style="font-family:Courier">Courier</li>
+						<li style="font-family:Impact">Impact</li>
+						<li style="font-family:Geneva">Geneva</li>
+						<li style="font-family:Optima">Optima</li>
+					</ul>
+					<div class="lf-own-name">
+						<input type="text" placeholder="Font Name">
+						<button>Ok</button>
+					</div>
+				</div>
+			</div>
+			<div class="lf-dropdown">
+				<button id="lfSize" class="lf-dropbtn">T</button>
+				<div class="lf-dropdown-content">
+					<ul>
+						<li>1 S</li>
+						<li>2</li>
+						<li>3</li>
+						<li>4 M</li>
+						<li>5</li>
+						<li>6</li>
+						<li>7 L</li>
+						<li>8</li>
+						<li>9</li>
+						<li>10</li>
+						<li>11</li>
+						<li>12</li>
+						<li>13</li>
+						<li>14 XL</li>
+					</ul>
+				</div>
+			</div>
+			<div class="lf-dropdown">
+				<button id="lfColor" class="lf-dropbtn">C</button>
+				<div class="lf-dropdown-content">
+					<div class="lf-color-palette">
+						<span data-color="blue" style="background:blue"></span>
+						<span data-color="red" style="background:red"></span>
+						<span data-color="purple" style="background:purple"></span>
+						<span data-color="orange" style="background:orange"></span>
+						<span data-color="yellow" style="background:yellow"></span>
+						<span data-color="gray" style="background:gray"></span>
+						<span data-color="green" style="background:green"></span>
+					</div>
+					<div class="lf-own-name">
+						<input type="text" placeholder="Color Name">
+						<button>Ok</button>
+					</div>
+				</div>
+			</div>
 		</div>
-		</div>
+	</div>
 	<textarea name="Post" onkeypress="changeVal()"></textarea>
 	<div id="lfCustomToolbox">+</div>
 </div>
@@ -162,14 +171,15 @@ LiveForum.events = function() {
 		}
 		this.nextElementSibling.classList.toggle('show');
 		self.lastId = this.id;
+	})
+	document.getElementById('lfUrl').addEventListener('click', function(e) {
+		e.preventDefault();
+		if(self.lastId !== null && self.lastId !== this.id) {
+			self.closeDropdown();
+		}
+		this.nextElementSibling.classList.toggle('show');
+		self.lastId = this.id;
 	});
-	// document.getElementById('lfUrlBtn').addEventListener('click', function() {
-	// 	this.nextElementSibling.classList.toggle('show');
-	// });
-	// document.querySelector('#lfUrlDropdown input[type="button"]').addEventListener('click', function() {
-	// 	self.wrapper('img', '', 'http.jpg')
-	// })
-
 }
 
 LiveForum.dissect = function(textarea) {

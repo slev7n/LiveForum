@@ -16,7 +16,12 @@
 }
 
 #lfStandardToolbox > div {
+	float:left;
 	display:inline-block;
+}
+
+.lf-family2 > div{
+	float:left;
 }
 
 #lfStandardToolbox {
@@ -47,6 +52,8 @@
 	text-align: center;
 	position:relative;
 	outline:none;
+	display:inline-block;
+	vertical-align: top;
 }
 
 .lf-text-tools button:hover, .lf-dropdown > button:hover {
@@ -119,6 +126,10 @@
 	content: url('chrome-extension://__MSG_@@extension_id__/icons/img.svg');
 }
 
+#lfUrl::before {
+	content: url('chrome-extension://__MSG_@@extension_id__/icons/link.svg');
+}
+
 .lf-dropdown {
 	position: relative;
 }
@@ -132,6 +143,10 @@
 
 .show {
 	display:inline-block;
+}
+
+#lfGeoContainer {
+
 }
 
 #lfGeoContainer input {
@@ -152,12 +167,15 @@
 	font-size:9px;
 	color:#000;
 	background:transparent;
-	text-align: center;
-	display: block;
-	width: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width:30px;
+	height:30px;
 }
 
 #lfGeoContainer label:hover {
+	color:#FF5722;
 	cursor:pointer;
 }
 
