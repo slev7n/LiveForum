@@ -20,15 +20,26 @@ LiveForum.start = function() {
 			<button accesskey="u" data-bbcode="u" data-tooltip="Underline (Alt+U)" id="lfUnderline" style="text-decoration:underline">U</button>
 			<button accesskey="s" data-bbcode="s" data-tooltip="Strike" id="lfStrikethrough"  style="text-decoration:line-through">S</button>
 		</div>
+
+		<div class="lf-dropdown">
+			<button id="lfImg" class="lf-dropbtn"></button>
+			<div class="lf-dropdown-content">
+				<input type="text" placeholder="Image URL...">
+				<button>Ok</button>
+			</div>
+		</div>
+
 		<div class="lf-dropdown">
 			<button id="lfFont" class="lf-dropbtn">A</button>
 			<div class="lf-dropdown-content">
-				<div style="font-family:Arial">Arial</div>
-				<div style="font-family:Times">Times</div>
-				<div style="font-family:Courier">Courier</div>
-				<div style="font-family:Impact">Impact</div>
-				<div style="font-family:Geneva">Geneva</div>
-				<div style="font-family:Optima">Optima</div>
+				<ul>
+					<li style="font-family:Arial">Arial</li>
+					<li style="font-family:Times">Times</li>
+					<li style="font-family:Courier">Courier</li>
+					<li style="font-family:Impact">Impact</li>
+					<li style="font-family:Geneva">Geneva</li>
+					<li style="font-family:Optima">Optima</li>
+				</ul>
 				<div class="lf-own-name">
 					<input type="text" placeholder="Font Name">
 					<button>Ok</button>
@@ -38,32 +49,40 @@ LiveForum.start = function() {
 		<div class="lf-dropdown">
 			<button id="lfSize" class="lf-dropbtn">T</button>
 			<div class="lf-dropdown-content">
-				<div>1 S</div>
-				<div>2</div>
-				<div>3</div>
-				<div>4 M</div>
-				<div>5</div>
-				<div>6</div>
-				<div>7 L</div>
-				<div>8</div>
-				<div>9</div>
-				<div>10</div>
-				<div>11</div>
-				<div>12</div>
-				<div>13</div>
-				<div>14 XL</div>
+				<ul>
+					<li>1 S</li>
+					<li>2</li>
+					<li>3</li>
+					<li>4 M</li>
+					<li>5</li>
+					<li>6</li>
+					<li>7 L</li>
+					<li>8</li>
+					<li>9</li>
+					<li>10</li>
+					<li>11</li>
+					<li>12</li>
+					<li>13</li>
+					<li>14 XL</li>
+				</ul>
 			</div>
 		</div>
 		<div class="lf-dropdown">
 			<button id="lfColor" class="lf-dropbtn">C</button>
 			<div class="lf-dropdown-content">
-				<div style="color:blue">Blue</div>
-				<div style="color:red">Red</div>
-				<div style="color:purple">Purple</div>
-				<div style="color:orange">Orange</div>
-				<div style="color:yellow">Yellow</div>
-				<div style="color:gray">Gray</div>
-				<div style="color:green">Green</div>
+				<div class="lf-color-palette">
+					<span data-color="blue" style="background:blue"></span>
+					<span data-color="red" style="background:red"></span>
+					<span data-color="purple" style="background:purple"></span>
+					<span data-color="orange" style="background:orange"></span>
+					<span data-color="yellow" style="background:yellow"></span>
+					<span data-color="gray" style="background:gray"></span>
+					<span data-color="green" style="background:green"></span>
+				</div>
+				<div class="lf-own-name">
+					<input type="text" placeholder="Color Name">
+					<button>Ok</button>
+				</div>
 			</div>
 		</div>
 		</div>
@@ -77,17 +96,22 @@ LiveForum.start = function() {
 	this.events();
 }
 
+LiveForum.closeDropdown = function() {
+	document.querySelectorAll('.lf-dropdown-content').forEach(el => {
+		if(el.classList.contains('show'))
+			el.classList.remove('show');
+	});
+}
+
+LiveForum.lastId = null;
+
 LiveForum.events = function() {
 	var self = this;
 
 	document.addEventListener('click', function(e) {
-		console.log(e.target.parentNode);
-		// if(!e.target.matches('.lf-dropdown .lf-dropbtn')) {
-		// 	document.querySelectorAll('.lf-dropdown-content').forEach(el => {
-		// 		if(el.classList.contains('show'))
-		// 			el.classList.remove('show');
-		// 	});
-		// }
+		if(!e.target.matches('.lf-dropdown *')) {
+			self.closeDropdown();
+		}
 	});
 
 	document.getElementById('lfBold').addEventListener('click', function(e) {
@@ -106,18 +130,38 @@ LiveForum.events = function() {
 	document.getElementById('lfStrikethrough').addEventListener('click', function(e) {
 		e.preventDefault();
 		self.wrapper(this.dataset.bbcode);
+	});
+	document.getElementById('lfImg').addEventListener('click', function(e) {
+		e.preventDefault();
+		if(self.lastId !== null && self.lastId !== this.id) {
+			self.closeDropdown();
+		}
+		this.nextElementSibling.classList.toggle('show');
+		self.lastId = this.id;
 	});	
 	document.getElementById('lfFont').addEventListener('click', function(e) {
 		e.preventDefault();
+		if(self.lastId !== null && self.lastId !== this.id) {
+			self.closeDropdown();
+		}
 		this.nextElementSibling.classList.toggle('show');
+		self.lastId = this.id;
 	});
 	document.getElementById('lfSize').addEventListener('click', function(e) {
 		e.preventDefault();
+		if(self.lastId !== null && self.lastId !== this.id) {
+			self.closeDropdown();
+		}
 		this.nextElementSibling.classList.toggle('show');
+		self.lastId = this.id;
 	});
 	document.getElementById('lfColor').addEventListener('click', function(e) {
 		e.preventDefault();
+		if(self.lastId !== null && self.lastId !== this.id) {
+			self.closeDropdown();
+		}
 		this.nextElementSibling.classList.toggle('show');
+		self.lastId = this.id;
 	});
 	// document.getElementById('lfUrlBtn').addEventListener('click', function() {
 	// 	this.nextElementSibling.classList.toggle('show');

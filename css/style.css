@@ -1,15 +1,17 @@
 @import url('https://fonts.googleapis.com/css?family=Noto+Serif');
 
 .lf-box {
-	background:#E65100;
-	border-radius: 5px;
+	background:#FFF;
+	border:1px solid rgba(0,0,0,.2);
+	border-radius: 7px;
 }
 
 .lf-box textarea[name="Post"] {
-	width:calc(100% - 4px);
+	width:100%;
 	min-height:200px;
 	margin:auto;
 	border:none;
+	box-sizing: border-box;
 	outline:none;
 }
 
@@ -18,14 +20,15 @@
 }
 
 #lfStandardToolbox {
-	border-bottom:1px solid rgba(0,0,0,.1);
+	border-bottom:1px solid rgba(0,0,0,.2);
 }
 
 #lfCustomToolbox {
-	border-top:1px solid rgba(0,0,0,.1);
+	border-top:1px solid rgba(0,0,0,.2);
 }
 
 #lfStandardToolbox, #lfCustomToolbox {
+	height:30px;
 	padding-left:5px;
 }
 
@@ -35,12 +38,12 @@
 
 .lf-text-tools button, .lf-dropdown > button {
 	font-family: 'Noto Serif', serif;
-	font-size:18px;
-	color:#FFF;
+	font-size:15px;
+	color:#000;
 	background:transparent;
 	border:none;
-	width:40px;
-	height:40px;
+	width:30px;
+	height:30px;
 	text-align: center;
 	position:relative;
 	outline:none;
@@ -51,12 +54,24 @@
 	cursor:pointer;
 }
 
-.lf-dropdown > button {
+#lfFont, #lfSize, #lfColor {
 	background:url('chrome-extension://__MSG_@@extension_id__/icons/menu-down.svg') no-repeat center right;
 }
 
-.lf-dropdown > button:hover {
+#lfFont:hover, #lfSize:hover, #lfColor:hover {
 	background:url('chrome-extension://__MSG_@@extension_id__/icons/menu-down.svg') no-repeat center right rgba(0,0,0,.1);
+}
+
+.lf-color-palette > span {
+	display:inline-block;
+	width:32px;
+	height:32px;
+	position: relative;
+	box-sizing:border-box;
+}
+
+.lf-color-palette > span:hover {
+	border:1px solid #000;
 }
 
 
@@ -100,8 +115,8 @@
 	left:-2px;
 }
 
-#lfImg {
-	background: url('chrome-extension://__MSG_@@extension_id__/icons/img.svg') no-repeat;
+#lfImg::before {
+	content: url('chrome-extension://__MSG_@@extension_id__/icons/img.svg');
 }
 
 .lf-dropdown {
@@ -134,8 +149,8 @@
 
 #lfGeoContainer label {
 	font-family: 'Arial', sans-serif;
-	font-size:11px;
-	color:#FFF;
+	font-size:9px;
+	color:#000;
 	background:transparent;
 	text-align: center;
 	display: block;
@@ -146,40 +161,6 @@
 	cursor:pointer;
 }
 
-/*#lfGeoContainer {
-	position:relative;
-	background:transparent;
-	border:1px solid rgba(0,0,0,1);
-	width:40px;
-	height:25px;
-}
-
-#lfGeoContainer::before {
-	content:'GE';
-}
-
-#lfGeoContainer::after {
-	content:'EN';
-}
-
-#lfGeoContainer input {
-	display:none;
-}
-
-#lfGeoContainer label {
-  position:absolute;
-  left:0px;
-  background:#000;
-  display:inline-block;
-  width:20px;
-  height:25px;
-  transition:left ease .5s;
-}
-
-#lfGeoContainer input {
-	display: none;
-}
-
-#lfGeoContainer input:checked + label {
-	left:20px;
+/*.lf-box * {
+	border:1px solid black;
 }*/
