@@ -8,97 +8,97 @@ LiveForum.sibling = LiveForum.parent.previousElementSibling;
 
 LiveForum.start = function() {
 	this.parent.innerHTML = `
-<div id="lfEditor" class="lf-box">
-	<div id="lfStandardToolbox" class="lf-standard-toolbox">
-		<div id="lfGeoContainer">
-			<input id="lfGeo" type="checkbox" name="geo" checked>
-			<label for="lfGeo"></label>
-		</div>
-		<div class="lf-text-tools">
-			<button accesskey="b" data-bbcode="b" data-tooltip="Bold (Alt+B)" id="lfBold"  style="font-weight:bold">B</button>
-			<button accesskey="i" data-bbcode="i" data-tooltip="Italic (Alt+I)" id="lfItalic" style="font-style:italic">I</button>
-			<button accesskey="u" data-bbcode="u" data-tooltip="Underline (Alt+U)" id="lfUnderline" style="text-decoration:underline">U</button>
-			<button accesskey="s" data-bbcode="s" data-tooltip="Strike" id="lfStrikethrough"  style="text-decoration:line-through">S</button>
-		</div>
-		<div class="lf-family2">
-			<div class="lf-dropdown">
-				<button id="lfUrl" class="lf-dropbtn"></button>
-				<div class="lf-dropdown-content">
-					<input id="lfUrlText" type="text" placeholder="Enter Text...">
-					<input id="lfUrlLink" type="text" placeholder="Enter URL...">
-					<button id="lfUrlSubmit">Ok</button>
+		<div id="lfEditor" class="lf-box">
+			<div id="lfStandardToolbox" class="lf-standard-toolbox">
+				<div id="lfGeoContainer">
+					<input id="lfGeo" type="checkbox" name="geo" checked>
+					<label for="lfGeo"></label>
 				</div>
-			</div>
-			<div class="lf-dropdown">
-				<button id="lfImg" class="lf-dropbtn"></button>
-				<div class="lf-dropdown-content">
-					<input type="text" placeholder="Image URL...">
-					<button accesskey="g" onclick="fgModalRun()">Upload</button>
-					<button>Ok</button>
+				<div class="lf-text-tools">
+					<button accesskey="b" data-bbcode="b" data-tooltip="Bold (Ctrl+B)" id="lfBold"  style="font-weight:bold">B</button>
+					<button accesskey="i" data-bbcode="i" data-tooltip="Italic (Ctrl+I)" id="lfItalic" style="font-style:italic">I</button>
+					<button accesskey="u" data-bbcode="u" data-tooltip="Underline (Ctrl+U)" id="lfUnderline" style="text-decoration:underline">U</button>
+					<button accesskey="s" data-bbcode="s" data-tooltip="Strike (Ctrl+S)" id="lfStrikethrough"  style="text-decoration:line-through">S</button>
 				</div>
-			</div>
-			<div class="lf-dropdown">
-				<button id="lfFont" class="lf-dropbtn">A</button>
-				<div class="lf-dropdown-content">
-					<ul>
-						<li style="font-family:Arial">Arial</li>
-						<li style="font-family:Times">Times</li>
-						<li style="font-family:Courier">Courier</li>
-						<li style="font-family:Impact">Impact</li>
-						<li style="font-family:Geneva">Geneva</li>
-						<li style="font-family:Optima">Optima</li>
-					</ul>
-					<div class="lf-own-name">
-						<input type="text" placeholder="Or Enter Font Name">
-						<button>Ok</button>
+				<div class="lf-family2">
+					<div class="lf-dropdown">
+						<button id="lfUrl" class="lf-dropbtn"></button>
+						<div class="lf-dropdown-content">
+							<input id="lfUrlText" type="text" placeholder="Enter Text...">
+							<input id="lfUrlLink" type="text" placeholder="Enter URL...">
+							<button id="lfUrlSubmit">Ok</button>
+						</div>
+					</div>
+					<div class="lf-dropdown">
+						<button id="lfImg" class="lf-dropbtn"></button>
+						<div class="lf-dropdown-content">
+							<input id="lfImgLink" type="text" placeholder="Image URL...">
+							<button id="lfImgUpload" accesskey="g">Upload</button>
+							<button id="lfImgSubmit">Ok</button>
+						</div>
+					</div>
+					<div class="lf-dropdown">
+						<button id="lfFont" class="lf-dropbtn">A</button>
+						<div class="lf-dropdown-content">
+							<ul>
+								<li style="font-family:Arial">Arial</li>
+								<li style="font-family:Times">Times</li>
+								<li style="font-family:Courier">Courier</li>
+								<li style="font-family:Impact">Impact</li>
+								<li style="font-family:Geneva">Geneva</li>
+								<li style="font-family:Optima">Optima</li>
+							</ul>
+							<div class="lf-own-name">
+								<input type="text" placeholder="Or Enter Font Name">
+								<button>Ok</button>
+							</div>
+						</div>
+					</div>
+					<div class="lf-dropdown">
+						<button id="lfSize" class="lf-dropbtn">T</button>
+						<div class="lf-dropdown-content">
+							<ul>
+								<li>1 S</li>
+								<li>2</li>
+								<li>3</li>
+								<li>4 M</li>
+								<li>5</li>
+								<li>6</li>
+								<li>7 L</li>
+								<li>8</li>
+								<li>9</li>
+								<li>10</li>
+								<li>11</li>
+								<li>12</li>
+								<li>13</li>
+								<li>14 XL</li>
+							</ul>
+						</div>
+					</div>
+					<div class="lf-dropdown">
+						<button id="lfColor" class="lf-dropbtn">C</button>
+						<div class="lf-dropdown-content">
+							<div class="lf-color-palette">
+								<span data-color="blue" style="background:blue"></span>
+								<span data-color="red" style="background:red"></span>
+								<span data-color="purple" style="background:purple"></span>
+								<span data-color="orange" style="background:orange"></span>
+								<span data-color="yellow" style="background:yellow"></span>
+								<span data-color="gray" style="background:gray"></span>
+								<span data-color="green" style="background:green"></span>
+							</div>
+							<div class="lf-own-name">
+								<input type="text" placeholder="Or Enter Color Name">
+								<button>Ok</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="lf-dropdown">
-				<button id="lfSize" class="lf-dropbtn">T</button>
-				<div class="lf-dropdown-content">
-					<ul>
-						<li>1 S</li>
-						<li>2</li>
-						<li>3</li>
-						<li>4 M</li>
-						<li>5</li>
-						<li>6</li>
-						<li>7 L</li>
-						<li>8</li>
-						<li>9</li>
-						<li>10</li>
-						<li>11</li>
-						<li>12</li>
-						<li>13</li>
-						<li>14 XL</li>
-					</ul>
-				</div>
-			</div>
-			<div class="lf-dropdown">
-				<button id="lfColor" class="lf-dropbtn">C</button>
-				<div class="lf-dropdown-content">
-					<div class="lf-color-palette">
-						<span data-color="blue" style="background:blue"></span>
-						<span data-color="red" style="background:red"></span>
-						<span data-color="purple" style="background:purple"></span>
-						<span data-color="orange" style="background:orange"></span>
-						<span data-color="yellow" style="background:yellow"></span>
-						<span data-color="gray" style="background:gray"></span>
-						<span data-color="green" style="background:green"></span>
-					</div>
-					<div class="lf-own-name">
-						<input type="text" placeholder="Or Enter Color Name">
-						<button>Ok</button>
-					</div>
-				</div>
-			</div>
+			<textarea name="Post" onkeypress="changeVal()"></textarea>
+			<div id="lfCustomToolbox">+</div>
 		</div>
-	</div>
-	<textarea name="Post" onkeypress="changeVal()"></textarea>
-	<div id="lfCustomToolbox">+</div>
-</div>
-`;
+	`;
 
 	this.sibling.innerHTML = `<div id="quickOptions"></div>`;
 
@@ -150,27 +150,14 @@ LiveForum.events = function() {
 		e.preventDefault();
 		self.wrapper(this.dataset.bbcode);
 	});
-	document.getElementById('lfImg').addEventListener('click', function(e) {
-		e.preventDefault();
-		self.toggle(self, this);
-	});	
-	document.getElementById('lfFont').addEventListener('click', function(e) {
-		e.preventDefault();
-		self.toggle(self, this);
-	});
-	document.getElementById('lfSize').addEventListener('click', function(e) {
-		e.preventDefault();
-		self.toggle(self, this);
-	});
-	document.getElementById('lfColor').addEventListener('click', function(e) {
-		e.preventDefault();
-		self.toggle(self, this);
-	})
+	// URL
 	document.getElementById('lfUrl').addEventListener('click', function(e) {
 		e.preventDefault();
 		document.getElementById('lfUrlText').value = self.dissect(document.querySelector(self.textarea)).two;
-		document.getElementById('lfUrlLink').value = '';
-		self.toggle(self, this);
+		var link = document.getElementById('lfUrlLink');
+			link.value = '';
+			self.toggle(self, this);
+			link.focus();
 	});	
 	document.getElementById('lfUrlLink').addEventListener('keypress', function(e) {
 		if(e.keyCode == 13) {
@@ -191,15 +178,61 @@ LiveForum.events = function() {
 		self.wrapper('url', document.getElementById('lfUrlLink').value, document.getElementById('lfUrlText').value);
 		self.closeDropdown();
 	});
-	document.querySelector(this.textarea).addEventListener('keydown', function(e) {
-		if(e.ctrlKey)
-			self.ctrlKeyPressed = true;
-		console.log(self.ctrlKeyPressed);
+	// IMG
+	document.getElementById('lfImg').addEventListener('click', function(e) {
+		e.preventDefault();
+		self.toggle(self, this);
+	});	
+	document.getElementById('lfFont').addEventListener('click', function(e) {
+		e.preventDefault();
+		self.toggle(self, this);
+	});
+	document.getElementById('lfSize').addEventListener('click', function(e) {
+		e.preventDefault();
+		self.toggle(self, this);
+	});
+	document.getElementById('lfColor').addEventListener('click', function(e) {
+		e.preventDefault();
+		self.toggle(self, this);
 	});
 	document.querySelector(this.textarea).addEventListener('keyup', function(e) {
-		if(e.ctrlKey)
-			self.ctrlKeyPressed = false;
-		console.log(self.ctrlKeyPressed);
+		if(e.ctrlKey) self.ctrlKeyPressed = false;
+	});
+	document.querySelector(this.textarea).addEventListener('keydown', function(e) {
+		if(e.ctrlKey) self.ctrlKeyPressed = true;
+		if(self.ctrlKeyPressed) {
+			switch(e.keyCode) {
+				case 66:
+					e.preventDefault();
+					self.wrapper('b');
+					self.ctrlKeyPressed = false;
+					break;
+				case 73:
+					e.preventDefault();
+					self.wrapper('i');
+					self.ctrlKeyPressed = false;
+					break;
+				case 85:
+					e.preventDefault();
+					self.wrapper('u');
+					self.ctrlKeyPressed = false;
+					break;
+				case 83:
+					e.preventDefault();
+					self.wrapper('s');
+					self.ctrlKeyPressed = false;
+					break;
+				case 72:
+					e.preventDefault();
+					document.getElementById('lfUrlText').value = self.dissect(document.querySelector(self.textarea)).two;
+					var link = document.getElementById('lfUrlLink');
+					link.value = '';
+					self.toggle(self, document.getElementById('lfUrl'));
+					link.focus();
+					self.ctrlKeyPressed = false;
+					break;
+			}
+		}
 	});
 }
 
