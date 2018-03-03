@@ -24,9 +24,9 @@ LiveForum.start = function() {
 			<div class="lf-dropdown">
 				<button id="lfUrl" class="lf-dropbtn"></button>
 				<div class="lf-dropdown-content">
-					<input type="text" placeholder="Image URL...">
-					<input type="text" placeholder="Image URL...">
-					<button>Ok</button>
+					<input id="lfUrlText" type="text" placeholder="Enter Text...">
+					<input id="lfUrlLink" type="text" placeholder="Enter URL...">
+					<button id="lfUrlSubmit">Ok</button>
 				</div>
 			</div>
 			<div class="lf-dropdown">
@@ -49,7 +49,7 @@ LiveForum.start = function() {
 						<li style="font-family:Optima">Optima</li>
 					</ul>
 					<div class="lf-own-name">
-						<input type="text" placeholder="Font Name">
+						<input type="text" placeholder="Or Enter Font Name">
 						<button>Ok</button>
 					</div>
 				</div>
@@ -88,7 +88,7 @@ LiveForum.start = function() {
 						<span data-color="green" style="background:green"></span>
 					</div>
 					<div class="lf-own-name">
-						<input type="text" placeholder="Color Name">
+						<input type="text" placeholder="Or Enter Color Name">
 						<button>Ok</button>
 					</div>
 				</div>
@@ -112,7 +112,17 @@ LiveForum.closeDropdown = function() {
 	});
 }
 
+LiveForum.toggle = function(self, el) {
+	if(self.lastId !== null && self.lastId !== el.id) {
+		self.closeDropdown();
+	}
+	el.nextElementSibling.classList.toggle('show');
+	self.lastId = el.id;
+}
+
 LiveForum.lastId = null;
+
+LiveForum.ctrlKeyPressed = false;
 
 LiveForum.events = function() {
 	var self = this;
@@ -142,43 +152,54 @@ LiveForum.events = function() {
 	});
 	document.getElementById('lfImg').addEventListener('click', function(e) {
 		e.preventDefault();
-		if(self.lastId !== null && self.lastId !== this.id) {
-			self.closeDropdown();
-		}
-		this.nextElementSibling.classList.toggle('show');
-		self.lastId = this.id;
+		self.toggle(self, this);
 	});	
 	document.getElementById('lfFont').addEventListener('click', function(e) {
 		e.preventDefault();
-		if(self.lastId !== null && self.lastId !== this.id) {
-			self.closeDropdown();
-		}
-		this.nextElementSibling.classList.toggle('show');
-		self.lastId = this.id;
+		self.toggle(self, this);
 	});
 	document.getElementById('lfSize').addEventListener('click', function(e) {
 		e.preventDefault();
-		if(self.lastId !== null && self.lastId !== this.id) {
-			self.closeDropdown();
-		}
-		this.nextElementSibling.classList.toggle('show');
-		self.lastId = this.id;
+		self.toggle(self, this);
 	});
 	document.getElementById('lfColor').addEventListener('click', function(e) {
 		e.preventDefault();
-		if(self.lastId !== null && self.lastId !== this.id) {
-			self.closeDropdown();
-		}
-		this.nextElementSibling.classList.toggle('show');
-		self.lastId = this.id;
+		self.toggle(self, this);
 	})
 	document.getElementById('lfUrl').addEventListener('click', function(e) {
 		e.preventDefault();
-		if(self.lastId !== null && self.lastId !== this.id) {
+		document.getElementById('lfUrlText').value = self.dissect(document.querySelector(self.textarea)).two;
+		document.getElementById('lfUrlLink').value = '';
+		self.toggle(self, this);
+	});	
+	document.getElementById('lfUrlLink').addEventListener('keypress', function(e) {
+		if(e.keyCode == 13) {
+			e.preventDefault();
+			self.wrapper('url', document.getElementById('lfUrlLink').value, document.getElementById('lfUrlText').value);
 			self.closeDropdown();
 		}
-		this.nextElementSibling.classList.toggle('show');
-		self.lastId = this.id;
+	});
+	document.getElementById('lfUrlText').addEventListener('keypress', function(e) {
+		if(e.keyCode == 13) {
+			e.preventDefault();
+			self.wrapper('url', document.getElementById('lfUrlLink').value, document.getElementById('lfUrlText').value);
+			self.closeDropdown();
+		}
+	});
+	document.getElementById('lfUrlSubmit').addEventListener('click', function(e) {
+		e.preventDefault();
+		self.wrapper('url', document.getElementById('lfUrlLink').value, document.getElementById('lfUrlText').value);
+		self.closeDropdown();
+	});
+	document.querySelector(this.textarea).addEventListener('keydown', function(e) {
+		if(e.ctrlKey)
+			self.ctrlKeyPressed = true;
+		console.log(self.ctrlKeyPressed);
+	});
+	document.querySelector(this.textarea).addEventListener('keyup', function(e) {
+		if(e.ctrlKey)
+			self.ctrlKeyPressed = false;
+		console.log(self.ctrlKeyPressed);
 	});
 }
 

@@ -43,7 +43,7 @@
 
 .lf-text-tools button, .lf-dropdown > button {
 	font-family: 'Noto Serif', serif;
-	font-size:15px;
+	font-size:18px;
 	color:#000;
 	background:transparent;
 	border:none;
@@ -164,7 +164,7 @@
 
 #lfGeoContainer label {
 	font-family: 'Arial', sans-serif;
-	font-size:9px;
+	font-size:11px;
 	color:#000;
 	background:transparent;
 	display: flex;
@@ -175,7 +175,7 @@
 }
 
 #lfGeoContainer label:hover {
-	color:#FF5722;
+	color:#03A9F4;
 	cursor:pointer;
 }
 
