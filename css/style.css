@@ -8,7 +8,7 @@
 
 .lf-box textarea[name="Post"] {
 	width:100%;
-	min-height:200px;
+	min-height:220px;
 	margin:auto;
 	border:none;
 	box-sizing: border-box;
@@ -17,11 +17,12 @@
 
 #lfStandardToolbox > div {
 	float:left;
-	display:inline-block;
+	display:flex;
 }
 
 .lf-family2 > div{
 	float:left;
+	display:flex;
 }
 
 #lfStandardToolbox {
@@ -49,10 +50,11 @@
 	border:none;
 	width:30px;
 	height:30px;
-	text-align: center;
 	position:relative;
 	outline:none;
-	display:inline-block;
+	display:flex;
+	align-items: center;
+	justify-content: center;
 	vertical-align: top;
 }
 
@@ -61,20 +63,20 @@
 	cursor:pointer;
 }
 
-#lfFont, #lfSize, #lfColor {
+/*#lfFont, #lfSize, #lfColor {
 	background:url('chrome-extension://__MSG_@@extension_id__/icons/menu-down.svg') no-repeat center right;
 }
 
 #lfFont:hover, #lfSize:hover, #lfColor:hover {
 	background:url('chrome-extension://__MSG_@@extension_id__/icons/menu-down.svg') no-repeat center right rgba(0,0,0,.1);
-}
+}*/
 
 .lf-color-palette > span {
 	display:inline-block;
 	width:32px;
 	height:32px;
 	position: relative;
-	box-sizing:border-box;
+	box-sizing:content-box;
 }
 
 .lf-color-palette > span:hover {
@@ -122,13 +124,13 @@
 	left:-2px;
 }
 
-#lfImg::before {
+/*#lfImg::before {
 	content: url('chrome-extension://__MSG_@@extension_id__/icons/img.svg');
 }
 
 #lfUrl::before {
 	content: url('chrome-extension://__MSG_@@extension_id__/icons/link.svg');
-}
+}*/
 
 .lf-dropdown {
 	position: relative;
@@ -136,9 +138,64 @@
 
 .lf-dropdown-content {
 	position: absolute;
+	background: #FFF;
+	width:250px;
 	top: 100%;
+	left:-100%;
 	box-shadow: 0 2px 6px 0 rgba(0,0,0,.2);
 	display:none;
+}
+
+.lf-dropdown-content ul {
+	list-style-type: none;
+	margin:0;
+	padding:0;
+}
+
+.lf-dropdown-content ul li {
+	font-size:16px;
+	text-align: center;
+	padding:5px;
+}
+
+.lf-dropdown-content ul li:hover {
+	background: rgba(0,0,0,.1);
+	cursor:pointer;
+}
+
+.lf-dropdown-content input[type="text"] {
+	display:block;
+	font-size:14px;
+	width:90%;
+	margin:30px auto 10px auto;
+	border:none;
+	outline:none;
+	border-bottom:1px solid rgba(0,0,0,.2);
+}
+
+.lf-dropdown-content input[type="text"]:focus {
+	border-bottom:2px solid #03A9F4;
+}
+
+.lf-dropdown-content button {
+	margin:0 5% 5% 0;
+	background:transparent;
+	font-size:16px;
+	border:none;
+	outline:none;
+	color:#03A9F4;
+	float:right;
+	padding:5px 10px;
+}
+
+.lf-dropdown-content button:hover {
+	background:rgba(0,0,0,.05);
+	cursor:pointer;
+}
+
+#lfImgUpload {
+	float:left;
+	margin:0 0 5% 5%;
 }
 
 .show {
@@ -164,7 +221,7 @@
 
 #lfGeoContainer label {
 	font-family: 'Arial', sans-serif;
-	font-size:11px;
+	font-size:10px;
 	color:#000;
 	background:transparent;
 	display: flex;
