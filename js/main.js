@@ -15,10 +15,31 @@ LiveForum.start = function() {
 					<label for="lfGeo"></label>
 				</div>
 				<div class="lf-text-tools">
-					<button accesskey="b" data-bbcode="b" data-tooltip="Bold (Ctrl+B)" id="lfBold"  style="font-weight:bold">B</button>
-					<button accesskey="i" data-bbcode="i" data-tooltip="Italic (Ctrl+I)" id="lfItalic" style="font-style:italic">I</button>
-					<button accesskey="u" data-bbcode="u" data-tooltip="Underline (Ctrl+U)" id="lfUnderline" style="text-decoration:underline">U</button>
-					<button accesskey="s" data-bbcode="s" data-tooltip="Strike (Ctrl+S)" id="lfStrikethrough"  style="text-decoration:line-through">S</button>
+					<button data-bbcode="b" data-tooltip="Bold (Ctrl+B)" id="lfBold">
+						<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+							<path fill="#000000" d="M13.5,15.5H10V12.5H13.5A1.5,1.5 0 0,1 15,14A1.5,1.5 0 0,1 13.5,15.5M10,6.5H13A1.5,1.5 0 0,1 14.5,8A1.5,1.5 0 0,1 13,9.5H10M15.6,10.79C16.57,10.11 17.25,9 17.25,8C17.25,5.74 15.5,4 13.25,4H7V18H14.04C16.14,18 17.75,16.3 17.75,14.21C17.75,12.69 16.89,11.39 15.6,10.79Z" />
+						</svg>
+					</button>
+					<button data-bbcode="i" data-tooltip="Italic (Ctrl+I)" id="lfItalic">
+						<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+							<path fill="#000000" d="M10,4V7H12.21L8.79,15H6V18H14V15H11.79L15.21,7H18V4H10Z" />
+						</svg>
+					</button>
+					<button data-bbcode="u" data-tooltip="Underline (Ctrl+U)" id="lfUnderline">
+					<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+						<path fill="#000000" d="M5,21H19V19H5V21M12,17A6,6 0 0,0 18,11V3H15.5V11A3.5,3.5 0 0,1 12,14.5A3.5,3.5 0 0,1 8.5,11V3H6V11A6,6 0 0,0 12,17Z" />
+					</svg>
+					</button>
+					<button data-bbcode="s" data-tooltip="Strike (Ctrl+S)" id="lfStrikethrough">
+					<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+						<path fill="#000000" d="M23,12V14H18.61C19.61,16.14 19.56,22 12.38,22C4.05,22.05 4.37,15.5 4.37,15.5L8.34,15.55C8.37,18.92 11.5,18.92 12.12,18.88C12.76,18.83 15.15,18.84 15.34,16.5C15.42,15.41 14.32,14.58 13.12,14H1V12H23M19.41,7.89L15.43,7.86C15.43,7.86 15.6,5.09 12.15,5.08C8.7,5.06 9,7.28 9,7.56C9.04,7.84 9.34,9.22 12,9.88H5.71C5.71,9.88 2.22,3.15 10.74,2C19.45,0.8 19.43,7.91 19.41,7.89Z" />
+					</svg>
+					</button>
+					<button data-bbcode="quote" data-tooltip="Quote (Ctrl+Q)" id="lfQuote">
+						<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+							<path fill="#000000" d="M14,17H17L19,13V7H13V13H16M6,17H9L11,13V7H5V13H8L6,17Z" />
+						</svg>
+					</button>
 				</div>
 				<div class="lf-family2">
 					<div class="lf-dropdown">
@@ -46,7 +67,21 @@ LiveForum.start = function() {
 						</div>
 					</div>
 					<div class="lf-dropdown">
-						<button id="lfFont" class="lf-dropbtn">A</button>
+						<button id="lfVideo" class="lf-dropbtn">
+							<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+								<path fill="#000000" d="M17,10.5V7A1,1 0 0,0 16,6H4A1,1 0 0,0 3,7V17A1,1 0 0,0 4,18H16A1,1 0 0,0 17,17V13.5L21,17.5V6.5L17,10.5Z" />
+							</svg>
+						</button>
+						<div class="lf-dropdown-content">
+							
+						</div>
+					</div>
+					<div class="lf-dropdown">
+						<button id="lfFont" class="lf-dropbtn">
+						<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+							<path fill="#000000" d="M9.62,12L12,5.67L14.37,12M11,3L5.5,17H7.75L8.87,14H15.12L16.25,17H18.5L13,3H11Z" />
+						</svg>
+						</button>
 						<div class="lf-dropdown-content">
 							<ul id="lfFonts">
 								<li data-bbcode="font" data-font="Arial" style="font-family:Arial">Arial</li>
@@ -63,28 +98,40 @@ LiveForum.start = function() {
 						</div>
 					</div>
 					<div class="lf-dropdown">
-						<button id="lfSize" class="lf-dropbtn">T</button>
+						<button id="lfSize" class="lf-dropbtn">
+							<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+								<path fill="#000000" d="M3,12H6V19H9V12H12V9H3M9,4V7H14V19H17V7H22V4H9Z" />
+							</svg>
+						</button>
 						<div class="lf-dropdown-content">
 							<ul id="lfSizes">
-								<li data-bbcode="size" data-size="1">1 S</li>
+								<li data-bbcode="size" data-size="1">1</li>
 								<li data-bbcode="size" data-size="2">2</li>
 								<li data-bbcode="size" data-size="3">3</li>
-								<li data-bbcode="size" data-size="4">4 M</li>
+								<li data-bbcode="size" data-size="4" class="selected">4</li>
 								<li data-bbcode="size" data-size="5">5</li>
 								<li data-bbcode="size" data-size="6">6</li>
-								<li data-bbcode="size" data-size="7">7 L</li>
+								<li data-bbcode="size" data-size="7">7</li>
 								<li data-bbcode="size" data-size="8">8</li>
 								<li data-bbcode="size" data-size="9">9</li>
 								<li data-bbcode="size" data-size="10">10</li>
 								<li data-bbcode="size" data-size="11">11</li>
 								<li data-bbcode="size" data-size="12">12</li>
 								<li data-bbcode="size" data-size="13">13</li>
-								<li data-bbcode="size" data-size="14">14 XL</li>
+								<li data-bbcode="size" data-size="14">14</li>
 							</ul>
+							<div class="lf-own-name">
+								<input id="lfSizeInput" type="text" placeholder="Or Enter Size">
+								<button data-bbcode="size" id="lfSizeSubmit">Insert</button>
+							</div>
 						</div>
 					</div>
 					<div class="lf-dropdown">
-						<button id="lfColor" class="lf-dropbtn">C</button>
+						<button id="lfColor" class="lf-dropbtn">
+							<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+								<path fill="#000000" d="M17.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,9A1.5,1.5 0 0,1 19,10.5A1.5,1.5 0 0,1 17.5,12M14.5,8A1.5,1.5 0 0,1 13,6.5A1.5,1.5 0 0,1 14.5,5A1.5,1.5 0 0,1 16,6.5A1.5,1.5 0 0,1 14.5,8M9.5,8A1.5,1.5 0 0,1 8,6.5A1.5,1.5 0 0,1 9.5,5A1.5,1.5 0 0,1 11,6.5A1.5,1.5 0 0,1 9.5,8M6.5,12A1.5,1.5 0 0,1 5,10.5A1.5,1.5 0 0,1 6.5,9A1.5,1.5 0 0,1 8,10.5A1.5,1.5 0 0,1 6.5,12M12,3A9,9 0 0,0 3,12A9,9 0 0,0 12,21A1.5,1.5 0 0,0 13.5,19.5C13.5,19.11 13.35,18.76 13.11,18.5C12.88,18.23 12.73,17.88 12.73,17.5A1.5,1.5 0 0,1 14.23,16H16A5,5 0 0,0 21,11C21,6.58 16.97,3 12,3Z" />
+							</svg>
+						</button>
 						<div class="lf-dropdown-content">
 							<div id="lfColors" class="lf-color-palette">
 								<span data-bbcode="color" data-color="blue" style="background:blue"></span>
@@ -96,9 +143,18 @@ LiveForum.start = function() {
 								<span data-bbcode="color" data-color="green" style="background:green"></span>
 							</div>
 							<div class="lf-own-name">
-								<input type="text" placeholder="Or Enter Color Name">
-								<button>Insert</button>
+								<input id="lfColorInput" type="text" placeholder="Or Enter Color Name">
+								<button data-bbcode="color" id="lfColorSubmit">Insert</button>
 							</div>
+						</div>
+					</div>
+					<div class="lf-dropdown">
+						<button id="lfList" class="lf-dropbtn">
+						<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+							<path fill="#000000" d="M7,5H21V7H7V5M7,13V11H21V13H7M4,4.5A1.5,1.5 0 0,1 5.5,6A1.5,1.5 0 0,1 4,7.5A1.5,1.5 0 0,1 2.5,6A1.5,1.5 0 0,1 4,4.5M4,10.5A1.5,1.5 0 0,1 5.5,12A1.5,1.5 0 0,1 4,13.5A1.5,1.5 0 0,1 2.5,12A1.5,1.5 0 0,1 4,10.5M7,19V17H21V19H7M4,16.5A1.5,1.5 0 0,1 5.5,18A1.5,1.5 0 0,1 4,19.5A1.5,1.5 0 0,1 2.5,18A1.5,1.5 0 0,1 4,16.5Z" />
+						</svg>
+						</button>
+						<div class="lf-dropdown-content">
 						</div>
 					</div>
 				</div>
@@ -155,6 +211,10 @@ LiveForum.events = function() {
 		self.wrapper(this.dataset.bbcode);
 	});
 	document.getElementById('lfStrikethrough').addEventListener('click', function(e) {
+		e.preventDefault();
+		self.wrapper(this.dataset.bbcode);
+	});
+	document.getElementById('lfQuote').addEventListener('click', function(e) {
 		e.preventDefault();
 		self.wrapper(this.dataset.bbcode);
 	});
@@ -219,6 +279,7 @@ LiveForum.events = function() {
 	document.getElementById('lfFont').addEventListener('click', function(e) {
 		e.preventDefault();
 		self.toggle(self, this);
+		document.getElementById('lfFontInput').focus();
 	});
 	document.querySelectorAll('#lfFonts li').forEach(function(el) {
 		el.addEventListener('click', function() {
@@ -246,6 +307,7 @@ LiveForum.events = function() {
 	document.getElementById('lfSize').addEventListener('click', function(e) {
 		e.preventDefault();
 		self.toggle(self, this);
+		document.getElementById('lfSizeInput').focus();
 	});
 	document.querySelectorAll('#lfSizes li').forEach(function(el) {
 		el.addEventListener('click', function() {
@@ -253,16 +315,49 @@ LiveForum.events = function() {
 			self.closeDropdown();
 		})
 	});
+	document.getElementById('lfSizeSubmit').addEventListener('click', function(e) {
+		e.preventDefault();
+		var input = document.getElementById('lfSizeInput');
+		self.wrapper(this.dataset.bbcode, input.value);
+		self.closeDropdown();
+		input.value = '';
+	});
+	document.getElementById('lfSizeInput').addEventListener('keypress', function(e) {
+		if(e.keyCode == 13) {
+			e.preventDefault();
+			var input = document.getElementById('lfSizeInput');
+			self.wrapper('size', input.value);
+			self.closeDropdown();
+			input.value = '';
+		}
+	});
 	// COLOR
 	document.getElementById('lfColor').addEventListener('click', function(e) {
 		e.preventDefault();
 		self.toggle(self, this);
+		document.getElementById('lfColorInput').focus();
 	});
 	document.querySelectorAll('#lfColors span').forEach(function(el) {
 		el.addEventListener('click', function() {
 			self.wrapper(el.dataset.bbcode, el.dataset.color);
 			self.closeDropdown();
 		})
+	});
+	document.getElementById('lfColorSubmit').addEventListener('click', function(e) {
+		e.preventDefault();
+		var input = document.getElementById('lfColorInput');
+		self.wrapper(this.dataset.bbcode, input.value);
+		self.closeDropdown();
+		input.value = '';
+	});
+	document.getElementById('lfColorInput').addEventListener('keypress', function(e) {
+		if(e.keyCode == 13) {
+			e.preventDefault();
+			var input = document.getElementById('lfColorInput');
+			self.wrapper('color', input.value);
+			self.closeDropdown();
+			input.value = '';
+		}
 	});
 	// Ctrl + Key
 	document.querySelector(this.textarea).addEventListener('keyup', function(e) {

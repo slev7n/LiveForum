@@ -34,7 +34,7 @@
 }
 
 #lfStandardToolbox, #lfCustomToolbox {
-	height:30px;
+	height:33px;
 	padding-left:5px;
 }
 
@@ -43,13 +43,10 @@
 }
 
 .lf-text-tools button, .lf-dropdown > button {
-	font-family: 'Noto Serif', serif;
-	font-size:18px;
-	color:#000;
 	background:transparent;
 	border:none;
-	width:30px;
-	height:30px;
+	width:33px;
+	height:33px;
 	position:relative;
 	outline:none;
 	display:flex;
@@ -75,8 +72,9 @@
 	display:inline-block;
 	width:32px;
 	height:32px;
+	margin:10px;
 	position: relative;
-	box-sizing:content-box;
+	box-sizing:border-box;
 }
 
 .lf-color-palette > span:hover {
@@ -159,8 +157,22 @@
 }
 
 .lf-dropdown-content ul li:hover {
-	background: rgba(0,0,0,.1);
+	color:#03A9F4;
 	cursor:pointer;
+}
+
+#lfFonts li {
+	margin:5px;
+	text-align: initial;
+	width:50px;
+	float:left;
+}
+
+#lfSizes li {
+	width:30px;
+	height:30px;
+	margin:3px;
+	float:left;
 }
 
 .lf-dropdown-content input[type="text"] {
@@ -200,6 +212,10 @@
 
 .show {
 	display:inline-block;
+}
+
+.selected {
+	font-weight: 700;
 }
 
 #lfGeoContainer {
