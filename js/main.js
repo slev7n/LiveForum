@@ -61,7 +61,7 @@ LiveForum.start = function() {
 							</svg>
 						</button>
 						<div class="lf-dropdown-content">
-							<input id="lfImgLink" type="text" placeholder="Image URL...">
+							<input id="lfImgInput" type="text" placeholder="Image URL...">
 							<button id="lfImgUpload" accesskey="g" onclick="fgModalRun()">Upload</button>
 							<button data-bbcode="img" id="lfImgSubmit">Insert</button>
 						</div>
@@ -73,7 +73,28 @@ LiveForum.start = function() {
 							</svg>
 						</button>
 						<div class="lf-dropdown-content">
-							
+							<ul id="lfVideos">
+								<li id="lfYouTube" data-show="YouTubeTab" class="underline">Youtube</li>
+								<li id="lfFb" data-show="FbTab">Fb</li>
+								<li id="lfVimeo" data-show="VimeoTab">Vimeo</li>
+								<li id="lfMyVideo" data-show="MyVideoTab">MyVideo</li>
+								<li id="lfCoub" data-show="CoubTab">Coub</li>
+							</ul>
+							<div id="lfYouTubeTab" style="z-index:1">
+								YouTube
+							</div>
+							<div id="lfFbTab">
+								Fb
+							</div>
+							<div id="lfVimeoTab">
+								Vimeo
+							</div>
+							<div id="lfMyVideoTab">
+								MyVideo
+							</div>
+							<div id="lfCoubTab">
+								Coub
+							</div>
 						</div>
 					</div>
 					<div class="lf-dropdown">
@@ -157,6 +178,15 @@ LiveForum.start = function() {
 						<div class="lf-dropdown-content">
 						</div>
 					</div>
+					<div class="lf-dropdown">
+						<button id="lfOthers" class="lf-dropbtn">
+						<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+							<path fill="#000000" d="M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z" />
+						</svg>
+						</button>
+						<div class="lf-dropdown-content">
+						</div>
+					</div>
 				</div>
 			</div>
 			<textarea name="Post" onkeypress="changeVal()"></textarea>
@@ -186,7 +216,27 @@ LiveForum.toggle = function(self, el) {
 
 LiveForum.lastId = null;
 
+LiveForum.lastTab = null;
+
+LiveForum.lastTitle = 'lfYouTube';
+
 LiveForum.ctrlKeyPressed = false;
+
+LiveForum.capitalize = function(str) {
+	return str.slice(0, 1).toUpperCase() + str.slice(1).toLowerCase();
+}
+
+LiveForum.submitInputOnEnter = function(evt, tag) {
+	e = evt || window.event;
+	if(e.keyCode == 13) {
+		e.preventDefault();
+		var link = document.getElementById('lf' + this.capitalize(tag) + 'Input');
+		this.wrapper(tag, false, link.value);
+		this.closeDropdown();
+		link.value = '';
+	}
+
+}
 
 LiveForum.events = function() {
 	var self = this;
@@ -254,26 +304,44 @@ LiveForum.events = function() {
 	document.getElementById('lfImg').addEventListener('click', function(e) {
 		e.preventDefault();
 		self.toggle(self, this);
-		document.getElementById('lfImgLink').focus();
+		document.getElementById('lfImgInput').focus();
 	});
 	document.getElementById('lfImgUpload').addEventListener('click', function(e) {
 		e.preventDefault();
 	});
 	document.getElementById('lfImgSubmit').addEventListener('click', function(e) {
 		e.preventDefault();
-		var input = document.getElementById('lfImgLink');
+		var input = document.getElementById('lfImgInput');
 		self.wrapper(this.dataset.bbcode, false, input.value);
 		self.closeDropdown();
 		input.value = '';
 	});
-	document.getElementById('lfImgLink').addEventListener('keypress', function(e) {
-		if(e.keyCode == 13) {
-			e.preventDefault();
-			var link = document.getElementById('lfImgLink');
-			self.wrapper('img', false, link.value);
-			self.closeDropdown();
-			link.value = '';
-		}
+	document.getElementById('lfImgInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'img'));
+	// VIDEO
+	document.getElementById('lfVideo').addEventListener('click', function(e) {
+		e.preventDefault();
+		self.toggle(self, this);
+	});
+	document.querySelectorAll('#lfVideos li').forEach(function(el) {
+		el.addEventListener('click', function() {
+			if(self.lastTitle) {
+				document.getElementById(self.lastTitle).classList.remove("underline");
+				this.classList.add("underline");
+				self.lastTitle = this.id;
+			} else {
+				this.classList.add('underline');
+				self.lastTitle = this.id;
+			}
+
+			if(self.lastTab) {
+				document.getElementById('lf' + self.lastTab).style.zIndex = 0;
+				document.getElementById('lf' + this.dataset.show).style.zIndex = 1;
+				self.lastTab = this.dataset.show;
+			} else {
+				document.getElementById('lf' + this.dataset.show).style.zIndex = 1;
+				self.lastTab = this.dataset.show;
+			}
+		});
 	});
 	// FONT
 	document.getElementById('lfFont').addEventListener('click', function(e) {
@@ -402,7 +470,7 @@ LiveForum.events = function() {
 				case 71: // IMG
 					e.preventDefault();
 					self.toggle(self, document.getElementById('lfImg'));
-					document.getElementById('lfImgLink').focus();
+					document.getElementById('lfImgInput').focus();
 					self.ctrlKeyPressed = false;
 					break;
 			}
@@ -436,7 +504,7 @@ LiveForum.wrapper = function(tag, attr, input) {
 	var textarea  = document.querySelector(this.textarea),
 		dissected = this.dissect(textarea);
 
-		if(tag && attr && input) {
+		if(tag && attr && input) { // UrlType
 			textarea.value              = dissected.one + "[" + tag + "=" + attr + "]" + input + "[/" + tag + "]" + dissected.three;
 
 			var selStart                = dissected.selStart + 3 + tag.length + attr.length,
@@ -456,12 +524,12 @@ LiveForum.wrapper = function(tag, attr, input) {
 				textarea.selectionEnd   = selEnd
 				textarea.focus();
 			}
-		} else if(tag && attr) {
+		} else if(tag && attr) { // FontSizeColorType
 			textarea.value              = dissected.one + "[" + tag + "=" + attr + "]" + dissected.two + "[/" + tag + "]" + dissected.three;
 			textarea.selectionStart     = dissected.selStart + 3 + tag.length + attr.length;
 			textarea.selectionEnd       = dissected.selEnd + 3 + tag.length + attr.length;
 			textarea.focus();
-		} else if(tag && input) {
+		} else if(tag && input) { // ImgType
 			textarea.value              = dissected.one + "[" + tag + "]" + input + "[/" + tag + "]" + dissected.three;
 
 			var selStart                = dissected.selStart + 2 + tag.length,
@@ -481,7 +549,7 @@ LiveForum.wrapper = function(tag, attr, input) {
 				textarea.selectionEnd   = selEnd
 				textarea.focus();
 			}
-		} else {
+		} else { // BIUSType
 			textarea.value              = dissected.one + "[" + tag + "]" + dissected.two + "[/" + tag + "]" + dissected.three;
 			textarea.selectionStart     = dissected.selStart + 2 + tag.length;
 			textarea.selectionEnd       = dissected.selEnd + 2 + tag.length;

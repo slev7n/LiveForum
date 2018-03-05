@@ -161,6 +161,24 @@
 	cursor:pointer;
 }
 
+#lfVideo + .lf-dropdown-content {
+	width:270px;
+	height: 100px;
+}
+
+#lfVideo + .lf-dropdown-content > div {
+	position:absolute;
+	width:90%;
+	top:40px;
+	left:10px;
+	background:#FFF;
+}
+
+#lfVideo + .lf-dropdown-content > ul li {
+	display: inline-block;
+	float:left;
+}
+
 #lfFonts li {
 	margin:5px;
 	text-align: initial;
@@ -216,6 +234,11 @@
 
 .selected {
 	font-weight: 700;
+}
+
+.underline {
+	border:none;
+	border-bottom: 2px solid #03A9F4;
 }
 
 #lfGeoContainer {
