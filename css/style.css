@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Noto+Serif');
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif|Noto+Sans');
 
 .lf-box {
 	background:#FFF;
@@ -42,7 +42,9 @@
 	width:170px;
 }
 
-.lf-text-tools button, .lf-dropdown > button {
+.lf-family1 button, .lf-family2 button, .lf-family3 button, .lf-dropdown > button {
+	font-family: 'Noto Serif', serif;
+	font-size: 18px;
 	background:transparent;
 	border:none;
 	width:33px;
@@ -55,7 +57,26 @@
 	vertical-align: top;
 }
 
-.lf-text-tools button:hover, .lf-dropdown > button:hover {
+#lfBold {
+	font-weight: 700;
+}
+
+#lfItalic {
+	font-style: italic;
+	font-weight: 600;
+}
+
+#lfUnderline {
+	font-size: 16px;
+	font-weight: 500;
+	text-decoration: underline;
+}
+
+#lfStrikethrough {
+	text-decoration: line-through;
+}
+
+.lf-family1 button:hover, .lf-family2 button:hover, .lf-family3 button:hover, .lf-dropdown > button:hover {
 	background: rgba(0,0,0,.1);
 	cursor:pointer;
 }
@@ -72,17 +93,18 @@
 	display:inline-block;
 	width:32px;
 	height:32px;
-	margin:10px;
+	margin:10px 0px 0px 10px;
 	position: relative;
 	box-sizing:border-box;
 }
 
 .lf-color-palette > span:hover {
+	cursor: pointer;
 	border:1px solid #000;
 }
 
 
-.lf-text-tools button:hover::before {
+.lf-family1 button:hover::before {
 	content: attr(data-tooltip);
 	position:absolute;
 	bottom:115%;
@@ -145,6 +167,7 @@
 }
 
 .lf-dropdown-content ul {
+	font-family: 'Noto Sans', sans-serif;
 	list-style-type: none;
 	margin:0;
 	padding:0;
@@ -162,7 +185,7 @@
 }
 
 #lfVideo + .lf-dropdown-content {
-	width:270px;
+	width:280px;
 	height: 100px;
 }
 
