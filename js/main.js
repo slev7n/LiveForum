@@ -20,6 +20,27 @@ LiveForum.bius = `
 <button data-bbcode="s" data-tooltip="Strike (Ctrl+S)" id="lfStrikethrough">S</button>
 `;
 
+LiveForum.biusEvents = function() {
+	var self = this;
+	document.getElementById('lfBold').addEventListener('click', function(e) {
+		e.preventDefault();
+		self.wrapper(this.dataset.bbcode);
+	});
+
+	document.getElementById('lfItalic').addEventListener('click', function(e) {
+		e.preventDefault();
+		self.wrapper(this.dataset.bbcode);
+	});
+	document.getElementById('lfUnderline').addEventListener('click', function(e) {
+		e.preventDefault();
+		self.wrapper(this.dataset.bbcode);
+	});
+	document.getElementById('lfStrikethrough').addEventListener('click', function(e) {
+		e.preventDefault();
+		self.wrapper(this.dataset.bbcode);
+	});
+}
+
 LiveForum.url = `
 <div class="lf-dropdown">
 	<button id="lfUrl" class="lf-dropbtn">
@@ -35,6 +56,42 @@ LiveForum.url = `
 </div>
 `;
 
+LiveForum.urlEvents = function() {
+	var self = this;
+
+	document.getElementById('lfUrl').addEventListener('click', function(e) {
+		e.preventDefault();
+		document.getElementById('lfUrlText').value = self.dissect(document.querySelector(self.textarea)).two;
+			self.toggle(self, this);
+			document.getElementById('lfUrlLink').focus();
+	});	
+	document.getElementById('lfUrlLink').addEventListener('keypress', function(e) {
+		if(e.keyCode == 13) {
+			e.preventDefault();
+			var link = document.getElementById('lfUrlLink');
+			self.wrapper('url', link.value, document.getElementById('lfUrlText').value);
+			self.closeDropdown();
+			link.value = '';
+		}
+	});
+	document.getElementById('lfUrlText').addEventListener('keypress', function(e) {
+		if(e.keyCode == 13) {
+			e.preventDefault();
+			var link = document.getElementById('lfUrlLink');
+			self.wrapper('url', link.value, document.getElementById('lfUrlText').value);
+			self.closeDropdown();
+			link.value = '';
+		}
+	});
+	document.getElementById('lfUrlSubmit').addEventListener('click', function(e) {
+		e.preventDefault();
+		var link = document.getElementById('lfUrlLink');
+		self.wrapper(this.dataset.bbcode, link.value, document.getElementById('lfUrlText').value);
+		self.closeDropdown();
+		link.value = '';
+	});
+}
+
 LiveForum.img = `
 <div class="lf-dropdown">
 	<button id="lfImg" class="lf-dropbtn">
@@ -49,6 +106,27 @@ LiveForum.img = `
 	</div>
 </div>
 `;
+
+LiveForum.imgEvents = function() {
+	var self = this;
+
+	document.getElementById('lfImg').addEventListener('click', function(e) {
+		e.preventDefault();
+		self.toggle(self, this);
+		document.getElementById('lfImgInput').focus();
+	});
+	document.getElementById('lfImgUpload').addEventListener('click', function(e) {
+		e.preventDefault();
+	});
+	document.getElementById('lfImgSubmit').addEventListener('click', function(e) {
+		e.preventDefault();
+		var input = document.getElementById('lfImgInput');
+		self.wrapper(this.dataset.bbcode, false, input.value);
+		self.closeDropdown();
+		input.value = '';
+	});
+	document.getElementById('lfImgInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'img'));
+}
 
 LiveForum.video = `
 <div class="lf-dropdown">
@@ -84,6 +162,36 @@ LiveForum.video = `
 </div>
 `;
 
+LiveForum.videoEvents = function() {
+	var self = this;
+
+	document.getElementById('lfVideo').addEventListener('click', function(e) {
+		e.preventDefault();
+		self.toggle(self, this);
+	});
+	document.querySelectorAll('#lfVideos li').forEach(function(el) {
+		el.addEventListener('click', function() {
+			if(self.lastTitle) {
+				document.getElementById(self.lastTitle).classList.remove("underline");
+				this.classList.add("underline");
+				self.lastTitle = this.id;
+			} else {
+				this.classList.add('underline');
+				self.lastTitle = this.id;
+			}
+
+			if(self.lastTab) {
+				document.getElementById('lf' + self.lastTab).style.zIndex = 0;
+				document.getElementById('lf' + this.dataset.show).style.zIndex = 1;
+				self.lastTab = this.dataset.show;
+			} else {
+				document.getElementById('lf' + this.dataset.show).style.zIndex = 1;
+				self.lastTab = this.dataset.show;
+			}
+		});
+	});
+}
+
 LiveForum.font = `
 <div class="lf-dropdown">
 	<button id="lfFont" class="lf-dropbtn">
@@ -107,6 +215,38 @@ LiveForum.font = `
 	</div>
 </div>
 `;
+
+LiveForum.fontEvents = function() {
+	var self = this;
+
+	document.getElementById('lfFont').addEventListener('click', function(e) {
+		e.preventDefault();
+		self.toggle(self, this);
+		document.getElementById('lfFontInput').focus();
+	});
+	document.querySelectorAll('#lfFonts li').forEach(function(el) {
+		el.addEventListener('click', function() {
+			self.wrapper(el.dataset.bbcode, el.dataset.font);
+			self.closeDropdown();
+		})
+	});
+	document.getElementById('lfFontSubmit').addEventListener('click', function(e) {
+		e.preventDefault();
+		var input = document.getElementById('lfFontInput');
+		self.wrapper(this.dataset.bbcode, input.value);
+		self.closeDropdown();
+		input.value = '';
+	});
+	document.getElementById('lfFontInput').addEventListener('keypress', function(e) {
+		if(e.keyCode == 13) {
+			e.preventDefault();
+			var input = document.getElementById('lfFontInput');
+			self.wrapper('font', input.value);
+			self.closeDropdown();
+			input.value = '';
+		}
+	});
+}
 
 LiveForum.size = `
 <div class="lf-dropdown">
@@ -140,6 +280,38 @@ LiveForum.size = `
 </div>
 `;
 
+LiveForum.sizeEvents = function() {
+	var self = this;
+
+	document.getElementById('lfSize').addEventListener('click', function(e) {
+		e.preventDefault();
+		self.toggle(self, this);
+		document.getElementById('lfSizeInput').focus();
+	});
+	document.querySelectorAll('#lfSizes li').forEach(function(el) {
+		el.addEventListener('click', function() {
+			self.wrapper(el.dataset.bbcode, el.dataset.size);
+			self.closeDropdown();
+		})
+	});
+	document.getElementById('lfSizeSubmit').addEventListener('click', function(e) {
+		e.preventDefault();
+		var input = document.getElementById('lfSizeInput');
+		self.wrapper(this.dataset.bbcode, input.value);
+		self.closeDropdown();
+		input.value = '';
+	});
+	document.getElementById('lfSizeInput').addEventListener('keypress', function(e) {
+		if(e.keyCode == 13) {
+			e.preventDefault();
+			var input = document.getElementById('lfSizeInput');
+			self.wrapper('size', input.value);
+			self.closeDropdown();
+			input.value = '';
+		}
+	});
+}
+
 LiveForum.color = `
 <div class="lf-dropdown">
 	<button id="lfColor" class="lf-dropbtn">
@@ -165,6 +337,38 @@ LiveForum.color = `
 </div>
 `;
 
+LiveForum.colorEvents = function() {
+	var self = this;
+
+	document.getElementById('lfColor').addEventListener('click', function(e) {
+		e.preventDefault();
+		self.toggle(self, this);
+		document.getElementById('lfColorInput').focus();
+	});
+	document.querySelectorAll('#lfColors span').forEach(function(el) {
+		el.addEventListener('click', function() {
+			self.wrapper(el.dataset.bbcode, el.dataset.color);
+			self.closeDropdown();
+		})
+	});
+	document.getElementById('lfColorSubmit').addEventListener('click', function(e) {
+		e.preventDefault();
+		var input = document.getElementById('lfColorInput');
+		self.wrapper(this.dataset.bbcode, input.value);
+		self.closeDropdown();
+		input.value = '';
+	});
+	document.getElementById('lfColorInput').addEventListener('keypress', function(e) {
+		if(e.keyCode == 13) {
+			e.preventDefault();
+			var input = document.getElementById('lfColorInput');
+			self.wrapper('color', input.value);
+			self.closeDropdown();
+			input.value = '';
+		}
+	});
+}
+
 LiveForum.quote = `
 <button data-bbcode="quote" data-tooltip="Quote (Ctrl+Q)" id="lfQuote">
 	<svg style="width:24px;height:24px" viewBox="0 0 24 24">
@@ -172,6 +376,15 @@ LiveForum.quote = `
 	</svg>
 </button>
 `;
+
+LiveForum.quoteEvents = function() {
+	var self = this;
+
+	document.getElementById('lfQuote').addEventListener('click', function(e) {
+		e.preventDefault();
+		self.wrapper(this.dataset.bbcode);
+	});
+}
 
 LiveForum.list = `
 <div class="lf-dropdown">
@@ -181,9 +394,101 @@ LiveForum.list = `
 	</svg>
 	</button>
 	<div class="lf-dropdown-content">
+		<ul id="lfListItems">
+			<li>
+				<input type="text">
+				<button>+</button>
+			</li>
+		</ul>
+		<button id="lfListSubmit">Insert</button>
 	</div>
 </div>
 `;
+
+LiveForum.listEvents = function() {
+	var self = this;
+
+	function removeAllFields() {
+		var parent = document.getElementById('lfListItems');
+		fields = parent.children;
+		for(var i = 1; i < fields.length; i++) {
+			parent.removeChild(fields[i]);
+		}
+	}
+
+	function removeField() {
+		this.parentNode.parentNode.removeChild(this.parentNode);
+	}
+
+	function addField(value) {
+		var newField = document.createElement('li'),
+			fieldInput = document.createElement('input'),
+			removeButton = document.createElement('button'),
+			addButton = document.createElement('button');
+
+			fieldInput.setAttribute('type', 'text');
+			if(value) fieldInput.value = value;
+			removeButton.innerText = '-';
+			addButton.innerText = '+';
+
+			addButton.addEventListener('click', function(e) {
+				e.preventDefault();
+				addField.call(this);
+			});
+
+			removeButton.addEventListener('click', function(e) {
+				e.preventDefault();
+				removeField.call(this);
+				e.stopPropagation();
+			});
+
+
+			newField.appendChild(removeButton);
+			newField.appendChild(fieldInput);
+			newField.appendChild(addButton);
+
+		this.parentNode.parentNode.insertBefore(newField, this.parentNode.nextSibling);
+	}
+
+	function cleanInput() {
+		document.querySelector('#lfListItems li:first-child input').value = '';
+	}
+
+	document.querySelector('#lfListItems button').addEventListener('click', function(e) {
+		e.preventDefault();
+		addField.call(this);
+	});
+
+	document.getElementById('lfList').addEventListener('click', function(e) {
+		e.preventDefault();
+		removeAllFields();
+		var listItems = self.dissect(document.querySelector(self.textarea)).two.split('\n');
+		self.toggle(self, this);
+
+		if(listItems.length == 1) {
+			document.querySelector('#lfListItems li:first-child input').value = listItems[0];
+		} else {
+			document.querySelector('#lfListItems li:first-child input').value = listItems[0];
+			for(var i = 1; i < listItems.length; i++) {
+				addField.call(document.querySelector('#lfListItems li:last-child input'), listItems[i]);
+			}
+		}
+
+		document.querySelector('#lfListItems li:last-child input').focus();
+	});
+
+	document.getElementById('lfListSubmit').addEventListener('click', function(e) {
+		e.preventDefault();
+		var listItems = [];
+		document.querySelectorAll('#lfListItems li input[type="text"]').forEach(function(el) {
+			listItems.push('[*]' + el.value);
+		});
+		self.wrapper('list', false, '\n' + listItems.join('\n') + '\n');
+		self.closeDropdown();
+		removeAllFields();
+		cleanInput();
+	});
+}
 
 LiveForum.other = `
 <div class="lf-dropdown">
@@ -196,6 +501,14 @@ LiveForum.other = `
 	</div>
 </div>
 `;
+
+LiveForum.otherEvents = function() {
+	var self = this;
+
+	document.getElementById('lfOthers').addEventListener('click', function(e) {
+		e.preventDefault();
+	});
+}
 
 LiveForum.start = function() {
 	this.parent.innerHTML = `
@@ -277,187 +590,17 @@ LiveForum.events = function() {
 		}
 	});
 
-	document.getElementById('lfBold').addEventListener('click', function(e) {
-		e.preventDefault();
-		self.wrapper(this.dataset.bbcode);
-	});
+	this.biusEvents();
+	this.urlEvents();
+	this.imgEvents();
+	this.videoEvents();
+	this.quoteEvents();
+	this.listEvents();
+	this.fontEvents();
+	this.sizeEvents();
+	this.colorEvents();
+	this.otherEvents();
 
-	document.getElementById('lfItalic').addEventListener('click', function(e) {
-		e.preventDefault();
-		self.wrapper(this.dataset.bbcode);
-	});
-	document.getElementById('lfUnderline').addEventListener('click', function(e) {
-		e.preventDefault();
-		self.wrapper(this.dataset.bbcode);
-	});
-	document.getElementById('lfStrikethrough').addEventListener('click', function(e) {
-		e.preventDefault();
-		self.wrapper(this.dataset.bbcode);
-	});
-	document.getElementById('lfQuote').addEventListener('click', function(e) {
-		e.preventDefault();
-		self.wrapper(this.dataset.bbcode);
-	});
-	// URL
-	document.getElementById('lfUrl').addEventListener('click', function(e) {
-		e.preventDefault();
-		document.getElementById('lfUrlText').value = self.dissect(document.querySelector(self.textarea)).two;
-			self.toggle(self, this);
-			document.getElementById('lfUrlLink').focus();
-	});	
-	document.getElementById('lfUrlLink').addEventListener('keypress', function(e) {
-		if(e.keyCode == 13) {
-			e.preventDefault();
-			var link = document.getElementById('lfUrlLink');
-			self.wrapper('url', link.value, document.getElementById('lfUrlText').value);
-			self.closeDropdown();
-			link.value = '';
-		}
-	});
-	document.getElementById('lfUrlText').addEventListener('keypress', function(e) {
-		if(e.keyCode == 13) {
-			e.preventDefault();
-			var link = document.getElementById('lfUrlLink');
-			self.wrapper('url', link.value, document.getElementById('lfUrlText').value);
-			self.closeDropdown();
-			link.value = '';
-		}
-	});
-	document.getElementById('lfUrlSubmit').addEventListener('click', function(e) {
-		e.preventDefault();
-		var link = document.getElementById('lfUrlLink');
-		self.wrapper(this.dataset.bbcode, link.value, document.getElementById('lfUrlText').value);
-		self.closeDropdown();
-		link.value = '';
-	});
-	// IMG
-	document.getElementById('lfImg').addEventListener('click', function(e) {
-		e.preventDefault();
-		self.toggle(self, this);
-		document.getElementById('lfImgInput').focus();
-	});
-	document.getElementById('lfImgUpload').addEventListener('click', function(e) {
-		e.preventDefault();
-	});
-	document.getElementById('lfImgSubmit').addEventListener('click', function(e) {
-		e.preventDefault();
-		var input = document.getElementById('lfImgInput');
-		self.wrapper(this.dataset.bbcode, false, input.value);
-		self.closeDropdown();
-		input.value = '';
-	});
-	document.getElementById('lfImgInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'img'));
-	// VIDEO
-	document.getElementById('lfVideo').addEventListener('click', function(e) {
-		e.preventDefault();
-		self.toggle(self, this);
-	});
-	document.querySelectorAll('#lfVideos li').forEach(function(el) {
-		el.addEventListener('click', function() {
-			if(self.lastTitle) {
-				document.getElementById(self.lastTitle).classList.remove("underline");
-				this.classList.add("underline");
-				self.lastTitle = this.id;
-			} else {
-				this.classList.add('underline');
-				self.lastTitle = this.id;
-			}
-
-			if(self.lastTab) {
-				document.getElementById('lf' + self.lastTab).style.zIndex = 0;
-				document.getElementById('lf' + this.dataset.show).style.zIndex = 1;
-				self.lastTab = this.dataset.show;
-			} else {
-				document.getElementById('lf' + this.dataset.show).style.zIndex = 1;
-				self.lastTab = this.dataset.show;
-			}
-		});
-	});
-	// FONT
-	document.getElementById('lfFont').addEventListener('click', function(e) {
-		e.preventDefault();
-		self.toggle(self, this);
-		document.getElementById('lfFontInput').focus();
-	});
-	document.querySelectorAll('#lfFonts li').forEach(function(el) {
-		el.addEventListener('click', function() {
-			self.wrapper(el.dataset.bbcode, el.dataset.font);
-			self.closeDropdown();
-		})
-	});
-	document.getElementById('lfFontSubmit').addEventListener('click', function(e) {
-		e.preventDefault();
-		var input = document.getElementById('lfFontInput');
-		self.wrapper(this.dataset.bbcode, input.value);
-		self.closeDropdown();
-		input.value = '';
-	});
-	document.getElementById('lfFontInput').addEventListener('keypress', function(e) {
-		if(e.keyCode == 13) {
-			e.preventDefault();
-			var input = document.getElementById('lfFontInput');
-			self.wrapper('font', input.value);
-			self.closeDropdown();
-			input.value = '';
-		}
-	});
-	// SIZE
-	document.getElementById('lfSize').addEventListener('click', function(e) {
-		e.preventDefault();
-		self.toggle(self, this);
-		document.getElementById('lfSizeInput').focus();
-	});
-	document.querySelectorAll('#lfSizes li').forEach(function(el) {
-		el.addEventListener('click', function() {
-			self.wrapper(el.dataset.bbcode, el.dataset.size);
-			self.closeDropdown();
-		})
-	});
-	document.getElementById('lfSizeSubmit').addEventListener('click', function(e) {
-		e.preventDefault();
-		var input = document.getElementById('lfSizeInput');
-		self.wrapper(this.dataset.bbcode, input.value);
-		self.closeDropdown();
-		input.value = '';
-	});
-	document.getElementById('lfSizeInput').addEventListener('keypress', function(e) {
-		if(e.keyCode == 13) {
-			e.preventDefault();
-			var input = document.getElementById('lfSizeInput');
-			self.wrapper('size', input.value);
-			self.closeDropdown();
-			input.value = '';
-		}
-	});
-	// COLOR
-	document.getElementById('lfColor').addEventListener('click', function(e) {
-		e.preventDefault();
-		self.toggle(self, this);
-		document.getElementById('lfColorInput').focus();
-	});
-	document.querySelectorAll('#lfColors span').forEach(function(el) {
-		el.addEventListener('click', function() {
-			self.wrapper(el.dataset.bbcode, el.dataset.color);
-			self.closeDropdown();
-		})
-	});
-	document.getElementById('lfColorSubmit').addEventListener('click', function(e) {
-		e.preventDefault();
-		var input = document.getElementById('lfColorInput');
-		self.wrapper(this.dataset.bbcode, input.value);
-		self.closeDropdown();
-		input.value = '';
-	});
-	document.getElementById('lfColorInput').addEventListener('keypress', function(e) {
-		if(e.keyCode == 13) {
-			e.preventDefault();
-			var input = document.getElementById('lfColorInput');
-			self.wrapper('color', input.value);
-			self.closeDropdown();
-			input.value = '';
-		}
-	});
-	// Ctrl + Key
 	document.querySelector(this.textarea).addEventListener('keyup', function(e) {
 		if(e.ctrlKey) self.ctrlKeyPressed = false;
 	});

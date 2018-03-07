@@ -43,7 +43,6 @@
 }
 
 .lf-family1 button, .lf-family2 button, .lf-family3 button, .lf-dropdown > button {
-	font-family: 'Noto Serif', serif;
 	font-size: 18px;
 	background:transparent;
 	border:none;
@@ -55,6 +54,14 @@
 	align-items: center;
 	justify-content: center;
 	vertical-align: top;
+}
+
+.lf-family1 > button, .lf-family2 > button, .lf-family3 > button {
+	font-family: 'Noto Serif', serif;
+}
+
+.lf-dropdown > button {
+	font-family: 'Noto Sans', sans-serif;
 }
 
 #lfBold {
@@ -91,16 +98,16 @@
 
 .lf-color-palette > span {
 	display:inline-block;
+	border:1px solid #FFF;
 	width:32px;
 	height:32px;
 	margin:10px 0px 0px 10px;
 	position: relative;
-	box-sizing:border-box;
 }
 
 .lf-color-palette > span:hover {
 	cursor: pointer;
-	border:1px solid #000;
+	border:1px solid rgba(0,0,0,1);
 }
 
 
@@ -160,7 +167,7 @@
 	position: absolute;
 	background: #FFF;
 	width:250px;
-	top: 100%;
+	top: calc(100% + 1px);
 	left:-100%;
 	box-shadow: 0 2px 6px 0 rgba(0,0,0,.2);
 	display:none;
