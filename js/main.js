@@ -448,6 +448,7 @@ LiveForum.listEvents = function() {
 			newField.appendChild(addButton);
 
 		this.parentNode.parentNode.insertBefore(newField, this.parentNode.nextSibling);
+		fieldInput.focus();
 	}
 
 	function cleanInput() {
@@ -457,6 +458,29 @@ LiveForum.listEvents = function() {
 	document.querySelector('#lfListItems button').addEventListener('click', function(e) {
 		e.preventDefault();
 		addField.call(this);
+	});
+
+	document.querySelector('#lfListItems input').addEventListener('keyup', function(e) {
+		if(e.ctrlKey) self.ctrlKeyPressed = false;
+	});	
+
+	document.querySelector('#lfListItems input').addEventListener('keydown', function(e) {
+		if(e.ctrlKey) self.ctrlKeyPressed = true;
+		if(self.ctrlKeyPressed && e.keyCode == 13) {
+			e.preventDefault();
+			addField.call(this);
+			self.ctrlKeyPressed = false;
+		} else if(!self.ctrlKeyPressed && e.keyCode == 13) {
+			e.preventDefault();
+			var listItems = [];
+			document.querySelectorAll('#lfListItems li input[type="text"]').forEach(function(el) {
+				listItems.push('[*]' + el.value);
+			});
+			self.wrapper('list', false, '\n' + listItems.join('\n') + '\n');
+			self.closeDropdown();
+			removeAllFields();
+			cleanInput();
+		}
 	});
 
 	document.getElementById('lfList').addEventListener('click', function(e) {
@@ -544,8 +568,9 @@ LiveForum.start = function() {
 
 LiveForum.closeDropdown = function() {
 	document.querySelectorAll('.lf-dropdown-content').forEach(el => {
-		if(el.classList.contains('show'))
+		if(el.classList.contains('show')) {
 			el.classList.remove('show');
+		}
 	});
 }
 
