@@ -223,6 +223,17 @@
 	float:left;
 }
 
+ul#lfListItems li {
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr;
+    justify-items: left;
+    align-items: end;
+}
+
+ul#lfListItems li input {
+    grid-column: 2/3;
+}
+
 .lf-dropdown-content input[type="text"] {
 	display:block;
 	font-size:14px;
