@@ -226,12 +226,32 @@
 ul#lfListItems li {
     display: grid;
     grid-template-columns: 1fr 5fr 1fr;
-    justify-items: left;
-    align-items: end;
 }
 
 ul#lfListItems li input {
+    justify-self: center;
+    align-self: end;
+}
+
+ul#lfListItems li button:first-child {
+	justify-self: right;
+    align-self: end;
+}
+
+ul#lfListItems li button:last-child {
+	justify-self: left;
+    align-self: end;
+}
+
+ul#lfListItems li:first-of-type input {
     grid-column: 2/3;
+    justify-self: center;
+    align-self: end;
+}
+
+ul#lfListItems li:first-of-type button {
+	justify-self: left;
+    align-self: end;
 }
 
 .lf-dropdown-content input[type="text"] {
