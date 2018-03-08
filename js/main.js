@@ -1,5 +1,33 @@
 var LiveForum = LiveForum || {};
 
+LiveForum.listener = LiveForum.listener || {};
+
+LiveForum.listener.events = LiveForum.listener.events || {};
+
+LiveForum.listener.on = function(eventName, fn) {
+	this.events[eventName] = this.events[eventName] || [];
+	this.events[eventName].push(fn);
+}
+
+LiveForum.listener.off = function(eventName, fn) {
+	if(this.events[eventName]) {
+		for(var i = 0; i < this.events[eventName].length; i++) {
+			if(this.events[eventName][i] === fn) {
+				this.events[eventName].splice(i, 1);
+				break;
+			}
+		}
+	}
+}
+
+LiveForum.listener.emit = function(eventName, data) {
+	if(this.events[eventName]) {
+		this.events[eventName].forEach(function(fn) {
+			fn(data);
+		});
+	}
+}
+
 LiveForum.textarea = 'textarea[name="Post"]';
 
 LiveForum.parent = document.querySelector(LiveForum.textarea).parentNode;
@@ -421,6 +449,7 @@ LiveForum.listEvents = function() {
 	}
 
 	function addField(value) {
+		var self = LiveForum;
 		var newField = document.createElement('li'),
 			fieldInput = document.createElement('input'),
 			removeButton = document.createElement('button'),
@@ -442,6 +471,25 @@ LiveForum.listEvents = function() {
 				e.stopPropagation();
 			});
 
+			fieldInput.addEventListener('keypress', function(e) {
+				if(e.keyCode == 13) {
+					e.preventDefault();
+					var listItems = [];
+					document.querySelectorAll('#lfListItems li input[type="text"]').forEach(function(el) {
+						listItems.push('[*]' + el.value);
+					});
+					self.wrapper('list', false, '\n' + listItems.join('\n') + '\n');
+					self.closeDropdown();
+					removeAllFields();
+					cleanInput();
+				}
+			});
+
+			self.CtrlKeyCombo(fieldInput, {
+				CtrlEnter: function() {
+					addField.call(fieldInput);
+				}
+			});
 
 			newField.appendChild(removeButton);
 			newField.appendChild(fieldInput);
@@ -460,17 +508,14 @@ LiveForum.listEvents = function() {
 		addField.call(this);
 	});
 
-	document.querySelector('#lfListItems input').addEventListener('keyup', function(e) {
-		if(e.ctrlKey) self.ctrlKeyPressed = false;
-	});	
-
-	document.querySelector('#lfListItems input').addEventListener('keydown', function(e) {
-		if(e.ctrlKey) self.ctrlKeyPressed = true;
-		if(self.ctrlKeyPressed && e.keyCode == 13) {
-			e.preventDefault();
+	this.CtrlKeyCombo(document.querySelector('#lfListItems input'), {
+		CtrlEnter: function() {
 			addField.call(this);
-			self.ctrlKeyPressed = false;
-		} else if(!self.ctrlKeyPressed && e.keyCode == 13) {
+		}
+	});
+
+	document.querySelector('#lfListItems input').addEventListener('keypress', function(e) {
+		if(e.keyCode == 13) {
 			e.preventDefault();
 			var listItems = [];
 			document.querySelectorAll('#lfListItems li input[type="text"]').forEach(function(el) {
@@ -567,9 +612,11 @@ LiveForum.start = function() {
 }
 
 LiveForum.closeDropdown = function() {
-	document.querySelectorAll('.lf-dropdown-content').forEach(el => {
+	var self = this;
+	document.querySelectorAll('.lf-dropdown-content').forEach(function(el) {
 		if(el.classList.contains('show')) {
 			el.classList.remove('show');
+			self.listener.emit('dropDownClose', el.previousElementSibling.id);
 		}
 	});
 }
@@ -578,7 +625,11 @@ LiveForum.toggle = function(self, el) {
 	if(self.lastId !== null && self.lastId !== el.id) {
 		self.closeDropdown();
 	}
-	el.nextElementSibling.classList.toggle('show');
+	if(el.nextElementSibling.classList.toggle('show')) {
+		this.listener.emit('dropDownOpen', el.id);
+	} else {
+		this.listener.emit('dropDownClose', el.id);
+	}
 	self.lastId = el.id;
 }
 
@@ -589,6 +640,80 @@ LiveForum.lastTab = null;
 LiveForum.lastTitle = 'lfYouTube';
 
 LiveForum.ctrlKeyPressed = false;
+
+LiveForum.CtrlKeyCombo = function(el, keyObj) {
+	var self = this;
+	el.addEventListener('keyup', function(e) {
+		if(e.ctrlKey) {
+			self.ctrlKeyPressed = false;
+		}
+	});
+	el.addEventListener('keydown', function(e) {
+		if(e.ctrlKey) self.ctrlKeyPressed = true;
+		for(var key in keyObj) {
+			switch(key) {
+				case 'CtrlL':
+					if(self.ctrlKeyPressed && e.keyCode == 76) {
+						e.preventDefault();
+						keyObj[key]();
+						self.ctrlKeyPressed = false;
+					}
+					break;
+				case 'CtrlB':
+					if(self.ctrlKeyPressed && e.keyCode == 66) {
+						e.preventDefault();
+						keyObj[key]();
+						self.ctrlKeyPressed = false;
+					}
+					break;
+				case 'CtrlI':
+					if(self.ctrlKeyPressed && e.keyCode == 73) {
+						e.preventDefault();
+						keyObj[key]();
+						self.ctrlKeyPressed = false;
+					}
+					break;
+				case 'CtrlU':
+					if(self.ctrlKeyPressed && e.keyCode == 85) {
+						e.preventDefault();
+						keyObj[key]();
+						self.ctrlKeyPressed = false;
+					}
+					break;
+				case 'CtrlS':
+					if(self.ctrlKeyPressed && e.keyCode == 83) {
+						e.preventDefault();
+						keyObj[key]();
+						self.ctrlKeyPressed = false;
+					}
+					break;
+				case 'CtrlH':
+					if(self.ctrlKeyPressed && e.keyCode == 72) {
+						e.preventDefault();
+						keyObj[key]();
+						self.ctrlKeyPressed = false;
+					}
+					break;
+				case 'CtrlG':
+					if(self.ctrlKeyPressed && e.keyCode == 71) {
+						e.preventDefault();
+						keyObj[key]();
+						self.ctrlKeyPressed = false;
+					}
+					break;
+				case 'CtrlEnter':
+					if(self.ctrlKeyPressed && e.keyCode == 13) {
+						e.preventDefault();
+						keyObj[key].call(this);
+						self.ctrlKeyPressed = false;
+					}
+					break;
+			}
+		}
+	});
+
+
+}
 
 LiveForum.capitalize = function(str) {
 	return str.slice(0, 1).toUpperCase() + str.slice(1).toLowerCase();
@@ -609,6 +734,14 @@ LiveForum.submitInputOnEnter = function(evt, tag) {
 LiveForum.events = function() {
 	var self = this;
 
+	this.listener.on('dropDownClose', function(data) {
+		console.log(data, 'Closed');
+	});
+
+	this.listener.on('dropDownOpen', function(data) {
+		console.log(data, 'Opened');
+	});
+
 	document.addEventListener('click', function(e) {
 		if(!e.target.matches('.lf-dropdown *')) {
 			self.closeDropdown();
@@ -626,52 +759,31 @@ LiveForum.events = function() {
 	this.colorEvents();
 	this.otherEvents();
 
-	document.querySelector(this.textarea).addEventListener('keyup', function(e) {
-		if(e.ctrlKey) self.ctrlKeyPressed = false;
-	});
-	document.querySelector(this.textarea).addEventListener('keydown', function(e) {
-		if(e.ctrlKey) self.ctrlKeyPressed = true;
-		if(self.ctrlKeyPressed) {
-			switch(e.keyCode) {
-				case 76:
-					e.preventDefault();
-					var checkbox = document.getElementById('lfGeo');
-					checkbox.checked ? checkbox.checked = false : checkbox.checked = true;
-					break;
-				case 66:
-					e.preventDefault();
-					self.wrapper('b');
-					self.ctrlKeyPressed = false;
-					break;
-				case 73:
-					e.preventDefault();
-					self.wrapper('i');
-					self.ctrlKeyPressed = false;
-					break;
-				case 85:
-					e.preventDefault();
-					self.wrapper('u');
-					self.ctrlKeyPressed = false;
-					break;
-				case 83:
-					e.preventDefault();
-					self.wrapper('s');
-					self.ctrlKeyPressed = false;
-					break;
-				case 72: // URL
-					e.preventDefault();
-					document.getElementById('lfUrlText').value = self.dissect(document.querySelector(self.textarea)).two;
-					self.toggle(self, document.getElementById('lfUrl'));
-					document.getElementById('lfUrlLink').focus();
-					self.ctrlKeyPressed = false;
-					break;
-				case 71: // IMG
-					e.preventDefault();
-					self.toggle(self, document.getElementById('lfImg'));
-					document.getElementById('lfImgInput').focus();
-					self.ctrlKeyPressed = false;
-					break;
-			}
+	this.CtrlKeyCombo(document.querySelector(this.textarea), {
+		CtrlL: function() {
+			var checkbox = document.getElementById('lfGeo');
+			checkbox.checked ? checkbox.checked = false : checkbox.checked = true;
+		},
+		CtrlB: function() {
+			self.wrapper('b');
+		},
+		CtrlI: function() {
+			self.wrapper('i');
+		},
+		CtrlU: function() {
+			self.wrapper('u');
+		},
+		CtrlS: function() {
+			self.wrapper('s');
+		},
+		CtrlH: function() {
+			document.getElementById('lfUrlText').value = self.dissect(document.querySelector(self.textarea)).two;
+			self.toggle(self, document.getElementById('lfUrl'));
+			document.getElementById('lfUrlLink').focus();
+		},
+		CtrlG: function() {
+			self.toggle(self, document.getElementById('lfImg'));
+			document.getElementById('lfImgInput').focus();
 		}
 	});
 
