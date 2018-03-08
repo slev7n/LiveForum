@@ -41,6 +41,13 @@ LiveForum.geoObj = `
 </div>
 `;
 
+LiveForum.geoObjEvents = function() {
+	var self = this;
+	document.getElementById('lfGeoContainer').addEventListener('click', function() {
+		document.querySelector(self.textarea).focus();
+	});
+}
+
 LiveForum.bius = `
 <button data-bbcode="b" data-tooltip="Bold (Ctrl+B)" id="lfBold">B</button>
 <button data-bbcode="i" data-tooltip="Italic (Ctrl+I)" id="lfItalic">I</button>
@@ -748,6 +755,7 @@ LiveForum.events = function() {
 		}
 	});
 
+	this.geoObjEvents();
 	this.biusEvents();
 	this.urlEvents();
 	this.imgEvents();
@@ -787,7 +795,6 @@ LiveForum.events = function() {
 		}
 	});
 
-	document.querySelector(self.textarea).focus();
 }
 
 LiveForum.dissect = function(textarea) {
