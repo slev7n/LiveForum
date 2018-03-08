@@ -2,9 +2,9 @@ var LiveForum = LiveForum || {};
 	LiveForum.storage = LiveForum.storage || {};
 	LiveForum.storage.initConfig = LiveForum.storage.initConfig || {
 		"about": {
+			"author": "Neo",
 			"name": "LiveForum storage sync",
-			"description": "Please do not edit",
-			"author": "Neo"
+			"description": "Do not edit unless you know what you are doing"
 		},
 		"notifications_enabled": true,
 		"blocked_users": []
@@ -70,11 +70,13 @@ LiveForum.storage.set = function(obj, callback) {
 	xhr.send('act=UserCP&CODE=20&notes=' + JSON.stringify(obj));
 	xhr.onload = () => {
 		if(xhr.status == 200) {
-			callback.call(self, {message:"Storage saved", status: xhr.status});
+			if(callback)
+				callback.call(self, {message:"Storage saved", status: xhr.status});
 		} else {
-			callback.call(self, {message: "Storage saving failed", status: xhr.status});
+			if(callback)
+				callback.call(self, {message: "Storage saving failed", status: xhr.status});
 		}
 	}
 }
 
-LiveForum.storage.init();
+// LiveForum.storage.init();
