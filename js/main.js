@@ -609,7 +609,7 @@ LiveForum.start = function() {
 					${this.other}
 			</div>
 			<textarea name="Post" onkeypress="changeVal()"></textarea>
-			<div id="lfCustomToolbox">+</div>
+			<div id="lfCustomToolbox">+<div class="lf-custom-family"></div></div>
 		</div>
 	`;
 
@@ -617,6 +617,31 @@ LiveForum.start = function() {
 
 	this.events();
 }
+
+LiveForum.storage.get("custom_buttons", function(data) {
+	var html = ``;
+	data.forEach(function(el) {
+		if(el.dropdown) {
+			html += `
+				<div class="lf-dropdown">
+					<button class="lf-dropbtn">${el.button_name}</button>
+					<div class="lf-dropdown-content">
+						${el.dropdown.inputs.map(input => `<input class="lf-input" type="text" placeholder="${input.placeholder}">`).join('')}
+						<button class="lf-insbtn">Insert</button>
+					</div>
+				</div>
+			`;
+		} else {
+			html += `
+				<button class="lf-btn">${el.button_name}</button>
+			`;
+		}
+	});
+
+	document.querySelector('#lfCustomToolbox .lf-custom-family').innerHTML = html;
+
+	
+});
 
 LiveForum.closeDropdown = function() {
 	var self = this;

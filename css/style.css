@@ -15,7 +15,7 @@
 	outline:none;
 }
 
-#lfStandardToolbox > div {
+#lfStandardToolbox > div, #lfCustomToolbox > div {
 	float:left;
 	display:flex;
 }
@@ -334,6 +334,11 @@ ul#lfListItems li:first-of-type button {
 #lfGeoContainer label:hover {
 	color:#03A9F4;
 	cursor:pointer;
+}
+
+.lf-custom-family > button, .lf-custom-family .lf-dropdown > button {
+	position: relative;
+	font-family: 'Noto Sans', sans-serif;
 }
 
 /*.lf-box * {

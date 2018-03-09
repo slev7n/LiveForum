@@ -7,7 +7,28 @@ var LiveForum = LiveForum || {};
 			"description": "Do not edit unless you know what you are doing"
 		},
 		"notifications_enabled": true,
-		"blocked_users": []
+		"blocked_users": [],
+		"custom_buttons": [
+			{	
+				"button_name": "doodle",
+				"bbcode": "d",
+				"dropdown": false,
+			},
+			{
+				"button_name": "Foo",
+				"bbcode": "foo",
+				"dropdown": {
+					"inputs": [{"placeholder": "Input1"}]
+				}
+			},
+			{
+				"button_name": "Bar",
+				"bbcode": "bar",
+				"dropdown": {
+					"inputs": [{"placeholder": "Input1"}, {"placeholder": "Input2"}]
+				}
+			}
+		]
 	}
 
 LiveForum.storage.init = function() {
@@ -79,4 +100,4 @@ LiveForum.storage.set = function(obj, callback) {
 	}
 }
 
-// LiveForum.storage.init();
+LiveForum.storage.init();
