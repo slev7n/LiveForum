@@ -619,28 +619,34 @@ LiveForum.start = function() {
 }
 
 LiveForum.storage.get("custom_buttons", function(data) {
-	var html = ``;
+	var self = LiveForum;
 	data.forEach(function(el) {
 		if(el.dropdown) {
-			html += `
-				<div class="lf-dropdown">
-					<button class="lf-dropbtn">${el.button_name}</button>
-					<div class="lf-dropdown-content">
-						${el.dropdown.inputs.map(input => `<input class="lf-input" type="text" placeholder="${input.placeholder}">`).join('')}
-						<button class="lf-insbtn">Insert</button>
-					</div>
-				</div>
-			`;
+			var dropdown = document.createElement('div');
+				dropdown.setAttribute('class', 'lf-dropdown');
+			var dropdownContent = document.createElement('div');
+				dropdownContent.setAttribute('class', 'lf-dropdown-content');
+			var button = document.createElement('button');
+				button.innerText = el.button_name;
+				button.addEventListener('click', function(e) {
+					e.preventDefault();
+					dropdownContent.classList.toggle('show');
+				});
+
+				dropdown.appendChild(button);
+				dropdown.appendChild(dropdownContent);
+				document.querySelector('#lfCustomToolbox .lf-custom-family').appendChild(dropdown);
+
 		} else {
-			html += `
-				<button class="lf-btn">${el.button_name}</button>
-			`;
+			var button = document.createElement('button');
+				button.innerText = el.button_name;
+				button.addEventListener('click', function(e) {
+					e.preventDefault();
+					self.wrapper(el.bbcode);
+				});
+				document.querySelector('#lfCustomToolbox .lf-custom-family').appendChild(button);
 		}
 	});
-
-	document.querySelector('#lfCustomToolbox .lf-custom-family').innerHTML = html;
-
-	
 });
 
 LiveForum.closeDropdown = function() {
