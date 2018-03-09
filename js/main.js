@@ -631,8 +631,7 @@ LiveForum.factory = function(el) {
 			button.innerText = el.button_name;
 			button.addEventListener('click', function(e) {
 				e.preventDefault();
-				self.closeDropdown();
-				dropdownContent.classList.toggle('show');
+				self.toggle(self, button);
 			});
 
 		var insert = document.createElement('button');
@@ -701,7 +700,7 @@ LiveForum.closeDropdown = function() {
 }
 
 LiveForum.toggle = function(self, el) {
-	if(self.lastId !== null && self.lastId !== el.id) {
+	if(self.lastEl !== null && self.lastEl != el) {
 		self.closeDropdown();
 	}
 	if(el.nextElementSibling.classList.toggle('show')) {
@@ -709,10 +708,10 @@ LiveForum.toggle = function(self, el) {
 	} else {
 		this.listener.emit('dropDownClose', el.id);
 	}
-	self.lastId = el.id;
+	self.lastEl = el;
 }
 
-LiveForum.lastId = null;
+LiveForum.lastEl = null;
 
 LiveForum.lastTab = null;
 
