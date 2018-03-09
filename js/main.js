@@ -179,19 +179,24 @@ LiveForum.video = `
 			<li id="lfCoub" data-show="CoubTab">Coub</li>
 		</ul>
 		<div id="lfYouTubeTab" style="z-index:1">
-			YouTube
+			<input id="lfYouTubeInput" type="text" placeholder="YouTube video id...">
+			<button data-bbcode="youtube" id="lfYouTubeSubmit">Insert</button>
 		</div>
 		<div id="lfFbTab">
-			Fb
+			<input id="lfFbInput" type="text" placeholder="FB video id...">
+			<button data-bbcode="fb" id="lfFbSubmit">Insert</button>
 		</div>
 		<div id="lfVimeoTab">
-			Vimeo
+			<input id="lfYVimeoInput" type="text" placeholder="Vimeo id...">
+			<button data-bbcode="vimeo" id="lfVimeoSubmit">Insert</button>
 		</div>
 		<div id="lfMyVideoTab">
-			MyVideo
+			<input id="lfMyVideoInput" type="text" placeholder="MyVideo id...">
+			<button data-bbcode="myvideo" id="lfMyVideoSubmit">Insert</button>
 		</div>
 		<div id="lfCoubTab">
-			Coub
+			<input id="lfCoubInput" type="text" placeholder="Coub video id...">
+			<button data-bbcode="coub" id="lfCoubSubmit">Insert</button>
 		</div>
 	</div>
 </div>
@@ -431,7 +436,7 @@ LiveForum.list = `
 	<div class="lf-dropdown-content">
 		<ul id="lfListItems">
 			<li>
-				<input type="text">
+				<input type="text" placeholder="List item...">
 				<button>+</button>
 			</li>
 		</ul>
@@ -463,6 +468,7 @@ LiveForum.listEvents = function() {
 			addButton = document.createElement('button');
 
 			fieldInput.setAttribute('type', 'text');
+			fieldInput.setAttribute('placeholder', 'List item...');
 			if(value) fieldInput.value = value;
 			removeButton.innerText = '-';
 			addButton.innerText = '+';

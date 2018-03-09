@@ -191,36 +191,78 @@
 	cursor:pointer;
 }
 
-#lfVideo + .lf-dropdown-content {
-	width:280px;
-	height: 100px;
+button#lfVideo + .lf-dropdown-content {
+	width:260px;
+	height: 150px;
 }
 
-#lfVideo + .lf-dropdown-content > div {
+button#lfVideo + .lf-dropdown-content > div {
 	position:absolute;
-	width:90%;
-	top:40px;
-	left:10px;
+	width:100%;
+	top:50px;
 	background:#FFF;
 }
 
-#lfVideo + .lf-dropdown-content > ul li {
+ul#lfVideos {
+	margin:10px 0 0 10px;
+}
+
+
+button#lfVideo + .lf-dropdown-content > ul li {
+	margin-top:8px;
+	font-size: 15px;
 	display: inline-block;
 	float:left;
 }
 
-#lfFonts li {
+button#lfVideo + .lf-dropdown-content {
+	height: 160px;
+	width: 300px;
+}
+
+button#lfFont + .lf-dropdown-content {
+	height: 190px;
+	width:288px;
+}
+
+button#lfFont + .lf-dropdown-content .lf-own-name {
+	position: relative;
+	top: 25px;
+}
+
+ul#lfFonts {
+	margin: 10px 0 0 10px;
+}
+
+ul#lfFonts li {
 	margin:5px;
 	text-align: initial;
 	width:50px;
 	float:left;
 }
 
-#lfSizes li {
+button#lfSize + .lf-dropdown-content {
+	height: 235px;
+}
+
+button#lfSize + .lf-dropdown-content .lf-own-name {
+	position: relative;
+	top: 10px;
+}
+
+ul#lfSizes {
+	margin:10px 0 0 10px;
+}
+
+ul#lfSizes li {
 	width:30px;
 	height:30px;
 	margin:3px;
 	float:left;
+}
+
+button#lfList + .lf-dropdown-content {
+	width:300px;
 }
 
 ul#lfListItems li {
@@ -254,6 +296,10 @@ ul#lfListItems li:first-of-type button {
     align-self: end;
 }
 
+.lf-own-name {
+	clear:both;
+}
+
 .lf-dropdown-content input[type="text"] {
 	display:block;
 	font-size:14px;
@@ -276,7 +322,7 @@ ul#lfListItems li:first-of-type button {
 	outline:none;
 	color:#03A9F4;
 	float:right;
-	padding:5px 10px;
+	padding:5px 30px;
 }
 
 .lf-dropdown-content button:hover {
