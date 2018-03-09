@@ -618,34 +618,75 @@ LiveForum.start = function() {
 	this.events();
 }
 
+LiveForum.factory = function(el) {
+	var self = this;
+	if(el.dropdown) {
+		var dropdown = document.createElement('div');
+			dropdown.setAttribute('class', 'lf-dropdown');
+
+		var dropdownContent = document.createElement('div');
+			dropdownContent.setAttribute('class', 'lf-dropdown-content');
+
+		var button = document.createElement('button');
+			button.innerText = el.button_name;
+			button.addEventListener('click', function(e) {
+				e.preventDefault();
+				self.closeDropdown();
+				dropdownContent.classList.toggle('show');
+			});
+
+		var insert = document.createElement('button');
+			insert.innerText = 'Insert';
+
+			if(el.dropdown.inputs.length == 1) {
+				var input = document.createElement('input');
+					input.setAttribute('type', 'text');
+					input.setAttribute('placeholder', el.dropdown.inputs[0].placeholder);
+
+					dropdownContent.appendChild(input);
+
+					insert.addEventListener('click', function(e) {
+						e.preventDefault();
+						self.wrapper(el.bbcode, false, input.value);
+					});
+			} else if(el.dropdown.inputs.length == 2) {
+				var input1 = document.createElement('input');
+					input1.setAttribute('type', 'text');
+					input1.setAttribute('placeholder', el.dropdown.inputs[0].placeholder);
+
+				var input2 = document.createElement('input');
+					input2.setAttribute('type', 'text');
+					input2.setAttribute('placeholder', el.dropdown.inputs[1].placeholder);
+
+					dropdownContent.appendChild(input1);
+					dropdownContent.appendChild(input2);
+
+					insert.addEventListener('click', function(e) {
+						e.preventDefault();
+						self.wrapper(el.bbcode, input2.value, input1.value);
+					});
+			}
+
+			dropdown.appendChild(button);
+			dropdown.appendChild(dropdownContent);
+			dropdownContent.appendChild(insert);
+			document.querySelector('#lfCustomToolbox .lf-custom-family').appendChild(dropdown);
+
+	} else {
+		var button = document.createElement('button');
+			button.innerText = el.button_name;
+			button.addEventListener('click', function(e) {
+				e.preventDefault();
+				self.wrapper(el.bbcode);
+			});
+			document.querySelector('#lfCustomToolbox .lf-custom-family').appendChild(button);
+	}
+}
+
 LiveForum.storage.get("custom_buttons", function(data) {
-	var self = LiveForum;
+	var root = LiveForum;
 	data.forEach(function(el) {
-		if(el.dropdown) {
-			var dropdown = document.createElement('div');
-				dropdown.setAttribute('class', 'lf-dropdown');
-			var dropdownContent = document.createElement('div');
-				dropdownContent.setAttribute('class', 'lf-dropdown-content');
-			var button = document.createElement('button');
-				button.innerText = el.button_name;
-				button.addEventListener('click', function(e) {
-					e.preventDefault();
-					dropdownContent.classList.toggle('show');
-				});
-
-				dropdown.appendChild(button);
-				dropdown.appendChild(dropdownContent);
-				document.querySelector('#lfCustomToolbox .lf-custom-family').appendChild(dropdown);
-
-		} else {
-			var button = document.createElement('button');
-				button.innerText = el.button_name;
-				button.addEventListener('click', function(e) {
-					e.preventDefault();
-					self.wrapper(el.bbcode);
-				});
-				document.querySelector('#lfCustomToolbox .lf-custom-family').appendChild(button);
-		}
+		root.factory(el);
 	});
 });
 
