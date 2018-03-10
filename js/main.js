@@ -701,12 +701,29 @@ LiveForum.start = function() {
 						<li id="lfCBtnDropdown"  data-show="CBtnDropdownTab">Dropdown</li>
 						<li id="lfCBtnDropdown2"  data-show="CBtnDropdown2Tab">Dropdown2</li>
 					</ul>
-					<div id="lfCBtnSimpleTab">Simple</div>
-					<div id="lfCBtnDropdownTab">Dropdown</div>
-					<div id="lfCBtnDropdown2Tab">Dropdown2</div>
+					<div id="lfCBtnSimpleTab">
+						<div class="lf-create-button">
+							<input type="text" placeholder="Enter BBCode">
+							<input type="text" placeholder="Enter Name">
+						</div>
+						<div class="lf-preview">
+							<span>Preview</span>
+							<textarea></textarea>
+							<button></button>
+						</div>
+					</div>
+					<div id="lfCBtnDropdownTab">
+						<input type="text" placeholder="Button Name">
+						<input type="text" placeholder="BBCode">
+					</div>
+					<div id="lfCBtnDropdown2Tab">
+						<input type="text" placeholder="Button Name">
+						<input type="text" placeholder="BBCode">
+					</div>
 				</div>
 				<button data-tooltip="Add Button" id="addCustomButton">+</button>
 				<div class="lf-custom-family"></div>
+				<button data-tooltip="Remove Button" id="removeCustomButton">-</button>
 			</div>
 		</div>
 	`;
@@ -722,6 +739,10 @@ LiveForum.addCustomButtonEvents = function() {
 		e.preventDefault();
 		document.getElementById('lfCBtnInterface').style.display = "block";
 		document.querySelector(self.textarea).disabled = true;
+	});	
+
+	document.getElementById('removeCustomButton').addEventListener('click', function(e){
+		e.preventDefault();
 	});
 
 	document.getElementById('lfCBtnInterfaceClose').addEventListener('click', function(e) {
@@ -820,9 +841,12 @@ LiveForum.factory = function(el) {
 
 LiveForum.storage.get("custom_buttons", function(data) {
 	var root = LiveForum;
-	data.forEach(function(el) {
-		root.factory(el);
-	});
+	if(data.length > 0) {
+		data.forEach(function(el) {
+			root.factory(el);
+		});
+		document.getElementById('removeCustomButton').style.display = "block";
+	}
 });
 
 LiveForum.closeDropdown = function() {
