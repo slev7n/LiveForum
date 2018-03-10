@@ -8,7 +8,7 @@
 
 .lf-box textarea[name="Post"] {
 	width:100%;
-	min-height:220px;
+	min-height:250px;
 	margin:auto;
 	border:none;
 	box-sizing: border-box;
@@ -31,6 +31,7 @@
 
 #lfCustomToolbox {
 	border-top:1px solid rgba(0,0,0,.2);
+	position: relative;
 }
 
 #lfStandardToolbox, #lfCustomToolbox {
@@ -425,4 +426,68 @@ div#lfCustomToolbox .lf-custom-family > button:hover, div#lfCustomToolbox .lf-dr
 
 div#lfCustomToolbox, .lf-custom-family {
 
+}
+
+div#lfCBtnInterface {
+	display: none;
+	grid-template-columns: repeat(6, 1fr);
+	width: 450px;
+	height: 230px;
+	box-shadow: 0 2px 6px 0 rgba(0,0,0,.2);
+	position: absolute;
+	left:10px;
+	bottom: 45px;
+	background: #FFF;
+}
+
+#lfCBtnInterfaceClose {
+	font-family: 'Noto Sans', sans-serif;
+	font-size:17px;
+	position:absolute;
+	right:-25px;
+	top:0px;
+	background: rgba(0,0,0,.9);
+	color: #FFF;
+	border-radius: 15px;
+	width: 20px;
+	height: 20px;
+	text-align: center;
+	border: 1px solid #FFF;
+	box-shadow: 0 2px 6px 0 rgba(0,0,0,.2);
+}
+
+#lfCBtnInterfaceClose:hover {
+	cursor: pointer;
+}
+
+div#lfCBtnInterface > div {
+	clear:both;
+}
+
+div#lfCBtnInterface ul {
+	margin:0;
+	padding:0;
+	list-style-type: none;
+}
+
+div#lfCBtnInterface ul li {
+	float:left;
+	padding: 10px;
+	font-size: 17px;
+	width: 25%;
+	box-sizing: border-box;
+	text-align: center;
+}
+
+div#lfCBtnInterface ul li:hover {
+	cursor: pointer;
+	color:#03A9F4;
+}
+
+div#lfCBtnSimpleTab, div#lfCBtnDropdownTab, div#lfCBtnDropdown2Tab {
+	width: 100%;
+	box-sizing: border-box;
+	position:absolute;
+	top:50px;
+	background: #FFF;
 }

@@ -208,26 +208,26 @@ LiveForum.videoEvents = function() {
 	document.getElementById('lfVideo').addEventListener('click', function(e) {
 		e.preventDefault();
 		self.toggle(self, this);
-		document.getElementById(self.lastTitle + 'Input').focus();
+		document.getElementById(self.lastVideoTitle + 'Input').focus();
 	});
 	document.querySelectorAll('#lfVideos li').forEach(function(el) {
 		el.addEventListener('click', function() {
-			if(self.lastTitle) {
-				document.getElementById(self.lastTitle).classList.remove("underline");
+			if(self.lastVideoTitle) {
+				document.getElementById(self.lastVideoTitle).classList.remove("underline");
 				this.classList.add("underline");
-				self.lastTitle = this.id;
+				self.lastVideoTitle = this.id;
 			} else {
 				this.classList.add('underline');
-				self.lastTitle = this.id;
+				self.lastVideoTitle = this.id;
 			}
 
-			if(self.lastTab) {
-				document.getElementById('lf' + self.lastTab).style.zIndex = 0;
+			if(self.lastVideoTab) {
+				document.getElementById('lf' + self.lastVideoTab).style.zIndex = 0;
 				document.getElementById('lf' + this.dataset.show).style.zIndex = 1;
-				self.lastTab = this.dataset.show;
+				self.lastVideoTab = this.dataset.show;
 			} else {
 				document.getElementById('lf' + this.dataset.show).style.zIndex = 1;
-				self.lastTab = this.dataset.show;
+				self.lastVideoTab = this.dataset.show;
 			}
 			document.getElementById(this.id + 'Input').focus();
 		});
@@ -240,7 +240,43 @@ LiveForum.videoEvents = function() {
 		self.closeDropdown();
 		input.value = '';
 	});
-	document.getElementById('lfYouTubeInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'youtube'));
+	document.getElementById('lfFbInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'youtube'));
+
+	document.getElementById('lfFbSubmit').addEventListener('click', function(e) {
+		e.preventDefault();
+		var input = document.getElementById('lfFbInput');
+		self.wrapper(this.dataset.bbcode, false, input.value);
+		self.closeDropdown();
+		input.value = '';
+	});
+	document.getElementById('lfYouTubeInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'fb'));
+
+	document.getElementById('lfVimeoSubmit').addEventListener('click', function(e) {
+		e.preventDefault();
+		var input = document.getElementById('lfVimeoInput');
+		self.wrapper(this.dataset.bbcode, false, input.value);
+		self.closeDropdown();
+		input.value = '';
+	});
+	document.getElementById('lfMyVideoInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'vimeo'));
+
+	document.getElementById('lfMyVideoSubmit').addEventListener('click', function(e) {
+		e.preventDefault();
+		var input = document.getElementById('lfMyVideoInput');
+		self.wrapper(this.dataset.bbcode, false, input.value);
+		self.closeDropdown();
+		input.value = '';
+	});
+	document.getElementById('lfCoubInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'myvideo'));
+
+	document.getElementById('lfCoubSubmit').addEventListener('click', function(e) {
+		e.preventDefault();
+		var input = document.getElementById('lfCoubInput');
+		self.wrapper(this.dataset.bbcode, false, input.value);
+		self.closeDropdown();
+		input.value = '';
+	});
+	document.getElementById('lfVimeoInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'coub'));
 }
 
 LiveForum.font = `
@@ -657,13 +693,65 @@ LiveForum.start = function() {
 					${this.other}
 			</div>
 			<textarea name="Post" onkeypress="changeVal()"></textarea>
-			<div id="lfCustomToolbox"><button data-tooltip="Add Button" id="addCustomButton">+</button><div class="lf-custom-family"></div></div>
+			<div id="lfCustomToolbox">
+				<div id="lfCBtnInterface">
+					<span id="lfCBtnInterfaceClose">X</span>
+					<ul id="lfCBtns">
+						<li id="lfCBtnSimple"  data-show="CBtnSimpleTab">Simple</li>
+						<li id="lfCBtnDropdown"  data-show="CBtnDropdownTab">Dropdown</li>
+						<li id="lfCBtnDropdown2"  data-show="CBtnDropdown2Tab">Dropdown2</li>
+					</ul>
+					<div id="lfCBtnSimpleTab">Simple</div>
+					<div id="lfCBtnDropdownTab">Dropdown</div>
+					<div id="lfCBtnDropdown2Tab">Dropdown2</div>
+				</div>
+				<button data-tooltip="Add Button" id="addCustomButton">+</button>
+				<div class="lf-custom-family"></div>
+			</div>
 		</div>
 	`;
 
 	this.sibling.innerHTML = `<div id="quickOptions"></div>`;
 
 	this.events();
+}
+
+LiveForum.addCustomButtonEvents = function() {
+	var self = this;
+	document.getElementById('addCustomButton').addEventListener('click', function(e){
+		e.preventDefault();
+		document.getElementById('lfCBtnInterface').style.display = "block";
+		document.querySelector(self.textarea).disabled = true;
+	});
+
+	document.getElementById('lfCBtnInterfaceClose').addEventListener('click', function(e) {
+		e.preventDefault();
+		document.getElementById('lfCBtnInterface').style.display = "none";
+		document.querySelector(self.textarea).disabled = false;
+	});
+
+	document.querySelectorAll('#lfCBtns li').forEach(function(el) {
+		el.addEventListener('click', function() {
+			if(self.lastCustomBtnTitle) {
+				console.log(self.lastCustomBtnTitle);
+				document.getElementById(self.lastCustomBtnTitle).classList.remove("underline");
+				this.classList.add("underline");
+				self.lastCustomBtnTitle = this.id;
+			} else {
+				this.classList.add('underline');
+				self.lastCustomBtnTitle = this.id;
+			}
+
+			if(self.lastCustomBtnTab) {
+				document.getElementById('lf' + self.lastCustomBtnTab).style.zIndex = 0;
+				document.getElementById('lf' + this.dataset.show).style.zIndex = 1;
+				self.lastCustomBtnTab = this.dataset.show;
+			} else {
+				document.getElementById('lf' + this.dataset.show).style.zIndex = 1;
+				self.lastCustomBtnTab = this.dataset.show;
+			}
+		});
+	});
 }
 
 LiveForum.factory = function(el) {
@@ -761,9 +849,13 @@ LiveForum.toggle = function(self, el) {
 
 LiveForum.lastEl = null;
 
-LiveForum.lastTab = null;
+LiveForum.lastCustomBtnTab = null;
 
-LiveForum.lastTitle = 'lfYouTube';
+LiveForum.lastCustomBtnTitle = 'lfCBtnSimple';
+
+LiveForum.lastVideoTab = null;
+
+LiveForum.lastVideoTitle = 'lfYouTube';
 
 LiveForum.ctrlKeyPressed = false;
 
@@ -855,12 +947,6 @@ LiveForum.submitInputOnEnter = function(evt, tag) {
 		link.value = '';
 	}
 
-}
-
-LiveForum.addCustomButtonEvents = function() {
-	document.getElementById('addCustomButton').addEventListener('click', function(e){
-		e.preventDefault();
-	});
 }
 
 LiveForum.events = function() {
