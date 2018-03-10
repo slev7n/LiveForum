@@ -187,7 +187,7 @@ LiveForum.video = `
 			<button data-bbcode="fb" id="lfFbSubmit">Insert</button>
 		</div>
 		<div id="lfVimeoTab">
-			<input id="lfYVimeoInput" type="text" placeholder="Vimeo id...">
+			<input id="lfVimeoInput" type="text" placeholder="Vimeo id...">
 			<button data-bbcode="vimeo" id="lfVimeoSubmit">Insert</button>
 		</div>
 		<div id="lfMyVideoTab">
@@ -208,6 +208,7 @@ LiveForum.videoEvents = function() {
 	document.getElementById('lfVideo').addEventListener('click', function(e) {
 		e.preventDefault();
 		self.toggle(self, this);
+		document.getElementById(self.lastTitle + 'Input').focus();
 	});
 	document.querySelectorAll('#lfVideos li').forEach(function(el) {
 		el.addEventListener('click', function() {
@@ -228,8 +229,18 @@ LiveForum.videoEvents = function() {
 				document.getElementById('lf' + this.dataset.show).style.zIndex = 1;
 				self.lastTab = this.dataset.show;
 			}
+			document.getElementById(this.id + 'Input').focus();
 		});
 	});
+
+	document.getElementById('lfYouTubeSubmit').addEventListener('click', function(e) {
+		e.preventDefault();
+		var input = document.getElementById('lfYouTubeInput');
+		self.wrapper(this.dataset.bbcode, false, input.value);
+		self.closeDropdown();
+		input.value = '';
+	});
+	document.getElementById('lfYouTubeInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'youtube'));
 }
 
 LiveForum.font = `
@@ -457,6 +468,7 @@ LiveForum.listEvents = function() {
 	}
 
 	function removeField() {
+		this.parentNode.nextElementSibling.children[1].focus();
 		this.parentNode.parentNode.removeChild(this.parentNode);
 	}
 
@@ -572,6 +584,22 @@ LiveForum.listEvents = function() {
 	});
 }
 
+LiveForum.code = `
+<button data-bbcode="code" data-tooltip="Code" id="lfCode">
+	<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+		<path fill="#000000" d="M14.6,16.6L19.2,12L14.6,7.4L16,6L22,12L16,18L14.6,16.6M9.4,16.6L4.8,12L9.4,7.4L8,6L2,12L8,18L9.4,16.6Z" />
+	</svg>
+</button>
+`;
+
+LiveForum.codeEvents = function() {
+	var self = this;
+	document.getElementById('lfCode').addEventListener('click', function(e) {
+		e.preventDefault();
+		self.wrapper(this.dataset.bbcode);
+	});
+}
+
 LiveForum.other = `
 <div class="lf-dropdown">
 	<button id="lfOthers" class="lf-dropbtn">
@@ -580,6 +608,11 @@ LiveForum.other = `
 	</svg>
 	</button>
 	<div class="lf-dropdown-content">
+		<ul id="lfOthersList">
+			<li data-bbcode="spoiler">Spoiler</li>
+			<li data-bbcode="offtopic">Off Topic</li>
+			<li data-bbcode="w">Warn</li>
+		</ul>
 	</div>
 </div>
 `;
@@ -589,6 +622,14 @@ LiveForum.otherEvents = function() {
 
 	document.getElementById('lfOthers').addEventListener('click', function(e) {
 		e.preventDefault();
+		self.toggle(self, this);
+	});
+
+	document.querySelectorAll('#lfOthersList li').forEach(function(el) {
+		el.addEventListener('click', function() {
+			self.wrapper(this.dataset.bbcode);
+			self.closeDropdown();
+		});
 	});
 }
 
@@ -611,11 +652,12 @@ LiveForum.start = function() {
 					${this.font}
 					${this.size}
 					${this.color}
+					${this.code}
 				</div>
 					${this.other}
 			</div>
 			<textarea name="Post" onkeypress="changeVal()"></textarea>
-			<div id="lfCustomToolbox">+<div class="lf-custom-family"></div></div>
+			<div id="lfCustomToolbox"><button data-tooltip="Add Button" id="addCustomButton">+</button><div class="lf-custom-family"></div></div>
 		</div>
 	`;
 
@@ -815,6 +857,12 @@ LiveForum.submitInputOnEnter = function(evt, tag) {
 
 }
 
+LiveForum.addCustomButtonEvents = function() {
+	document.getElementById('addCustomButton').addEventListener('click', function(e){
+		e.preventDefault();
+	});
+}
+
 LiveForum.events = function() {
 	var self = this;
 
@@ -842,7 +890,9 @@ LiveForum.events = function() {
 	this.fontEvents();
 	this.sizeEvents();
 	this.colorEvents();
+	this.codeEvents();
 	this.otherEvents();
+	this.addCustomButtonEvents();
 
 	this.CtrlKeyCombo(document.querySelector(this.textarea), {
 		CtrlL: function() {

@@ -296,6 +296,14 @@ ul#lfListItems li:first-of-type button {
     align-self: end;
 }
 
+button#lfOthers + .lf-dropdown-content {
+	width:110px;
+}
+
+ul#lfOthersList {
+
+}
+
 .lf-own-name {
 	clear:both;
 }
@@ -311,7 +319,7 @@ ul#lfListItems li:first-of-type button {
 }
 
 .lf-dropdown-content input[type="text"]:focus {
-	border-bottom:2px solid #03A9F4;
+	border-bottom:1px solid #03A9F4;
 }
 
 .lf-dropdown-content button {
@@ -382,11 +390,39 @@ ul#lfListItems li:first-of-type button {
 	cursor:pointer;
 }
 
-.lf-custom-family > button, .lf-custom-family .lf-dropdown > button {
-	position: relative;
-	font-family: 'Noto Sans', sans-serif;
+div#lfCustomToolbox {
+	display: flex;
+	min-height: 30px;
 }
 
-/*.lf-box * {
-	border:1px solid black;
-}*/
+button#addCustomButton {
+	font-family: 'Noto Sans', sans-serif;
+	font-size: 20px;
+	border:none;
+	outline:none;
+	background: transparent;
+	float:left;
+	color:#000;
+}
+
+button#addCustomButton:hover {
+	color:#03A9F4;
+	cursor: pointer;
+}
+
+div#lfCustomToolbox .lf-custom-family > button, div#lfCustomToolbox .lf-dropdown > button {
+	font-family: 'Noto serif', serif;
+	font-size: 14px;
+	border:none;
+	outline:none;
+	background: transparent;
+}
+
+div#lfCustomToolbox .lf-custom-family > button:hover, div#lfCustomToolbox .lf-dropdown > button:hover {
+	background: rgba(0,0,0,.1);
+	cursor:pointer;
+}
+
+div#lfCustomToolbox, .lf-custom-family {
+
+}
