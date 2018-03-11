@@ -43,7 +43,7 @@
 	width:170px;
 }
 
-.lf-family1 button, .lf-family2 button, .lf-family3 button, .lf-dropdown > button {
+.lf-family1 button, .lf-family2 button, .lf-family3 button, .lf-family4 button, .lf-dropdown > button {
 	font-size: 18px;
 	background:transparent;
 	border:none;
@@ -84,7 +84,7 @@
 	text-decoration: line-through;
 }
 
-.lf-family1 button:hover, .lf-family2 button:hover, .lf-family3 button:hover, .lf-dropdown > button:hover {
+.lf-family1 button:hover, .lf-family2 button:hover, .lf-family3 button:hover, .lf-family4 button:hover, .lf-dropdown > button:hover {
 	background: rgba(0,0,0,.1);
 	cursor:pointer;
 }
@@ -535,4 +535,15 @@ div#lfCBtnSimpleTab, div#lfCBtnDropdownTab, div#lfCBtnDropdown2Tab {
 	border: none;
 	border-bottom: 1px solid #03A9F4;
 	outline: none;
+}
+
+ul#lfEmojiList li {
+	float: left;
+	width: 30px;
+	height: 30px;
+}
+
+button#lfEmoji + .lf-dropdown-content {
+	width:400px;
+	left:-180px;
 }

@@ -1,5 +1,7 @@
 var LiveForum = LiveForum || {};
 
+LiveForum.browser = typeof browser !== 'undefined' ? browser : chrome;
+
 LiveForum.listener = LiveForum.listener || {};
 
 LiveForum.listener.events = LiveForum.listener.events || {};
@@ -636,6 +638,92 @@ LiveForum.codeEvents = function() {
 	});
 }
 
+LiveForum.emoji = `
+<div class="lf-dropdown">
+	<button id="lfEmoji" class="lf-dropbtn">
+		<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+			<path fill="#000000" d="M12,17.5C14.33,17.5 16.3,16.04 17.11,14H6.89C7.69,16.04 9.67,17.5 12,17.5M8.5,11A1.5,1.5 0 0,0 10,9.5A1.5,1.5 0 0,0 8.5,8A1.5,1.5 0 0,0 7,9.5A1.5,1.5 0 0,0 8.5,11M15.5,11A1.5,1.5 0 0,0 17,9.5A1.5,1.5 0 0,0 15.5,8A1.5,1.5 0 0,0 14,9.5A1.5,1.5 0 0,0 15.5,11M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+		</svg>
+	</button>
+	<div class="lf-dropdown-content">
+		<ul id="lfEmojiList">
+			<li data-code=":bis:"><img src="html/emoticons/bis.gif"></li>
+			<li data-code=":aba:"><img src="html/emoticons/aba.gif"></li>
+			<li data-code=";)"><img src="html/emoticons/wink.gif"></li>
+			<li data-code=":p"><img src="html/emoticons/tongue.gif"></li>
+			<li data-code=":D"><img src="html/emoticons/biggrin.gif"></li>
+			<li data-code=":lol:"><img src="html/emoticons/lol.gif"></li>
+			<li data-code=":yes:"><img src="html/emoticons/yes.gif"></li>
+			<li data-code=":rolleyes:"><img src="html/emoticons/rolleyes.gif"></li>
+			<li data-code=":sleep:"><img src="html/emoticons/sleep.gif"></li>
+			<li data-code=":baby:"><img src="html/emoticons/baby.gif"></li>
+			<li data-code=":)"><img src="html/emoticons/smile.gif"></li>
+			<li data-code=":2kiss:"><img src="html/emoticons/2kiss.gif"></li>
+			<li data-code=":mad:"><img src="html/emoticons/mad.gif"></li>
+			<li data-code=":("><img src="html/emoticons/sad.gif"></li>
+			<li data-code=":no:"><img src="html/emoticons/no.gif"></li>
+			<li data-code=":alk:"><img src="html/emoticons/alk.gif"></li>
+			<li data-code=":maxati:"><img src="html/emoticons/maxati.gif"></li>
+			<li data-code=":offtopic:"><img src="html/emoticons/offtopic.gif"></li>
+			<li data-code=":boli:"><img src="html/emoticons/boli.gif"></li>
+			<li data-code=":chups:"><img src="html/emoticons/chups.gif"></li>
+			<li data-code=":cry:"><img src="html/emoticons/cry.gif"></li>
+			<li data-code=":down1:"><img src="html/emoticons/down1.gif"></li>
+			<li data-code=":drug:"><img src="html/emoticons/drug.gif"></li>
+			<li data-code=":du:"><img src="html/emoticons/du.gif"></li>
+			<li data-code=":eek:"><img src="html/emoticons/eek.gif"></li>
+			<li data-code=":fig:"><img src="html/emoticons/fig.gif"></li>
+			<li data-code=":fingal:"><img src="html/emoticons/fingal.gif"></li>
+			<li data-code=":gigi:"><img src="html/emoticons/gigi.gif"></li>
+			<li data-code=":help:"><img src="html/emoticons/help.gif"></li>
+			<li data-code=":idea:"><img src="html/emoticons/idea.gif"></li>
+			<li data-code=":jump:"><img src="html/emoticons/jump.gif"></li>
+			<li data-code=":kar:"><img src="html/emoticons/kar.gif"></li>
+			<li data-code=":kiss:"><img src="html/emoticons/kiss.gif"></li>
+			<li data-code=":lam:"><img src="html/emoticons/lam.gif"></li>
+			<li data-code=":love:"><img src="html/emoticons/love.gif"></li>
+			<li data-code=":mo:"><img src="html/emoticons/mo.gif"></li>
+			<li data-code=":pop:"><img src="html/emoticons/pop.gif"></li>
+			<li data-code=":punch:"><img src="html/emoticons/punch.gif"></li>
+			<li data-code=":sa:"><img src="html/emoticons/sa.gif"></li>
+			<li data-code=":spy:"><img src="html/emoticons/spy.gif"></li>
+			<li data-code=":tan:"><img src="html/emoticons/tan.gif"></li>
+			<li data-code=":tom:"><img src="html/emoticons/tom.gif"></li>
+			<li data-code=":tuk:"><img src="html/emoticons/tuk.gif"></li>
+			<li data-code=":up:"><img src="html/emoticons/up.gif"></li>
+			<li data-code=":ups:"><img src="html/emoticons/ups.gif"></li>
+			<li data-code=":user:"><img src="html/emoticons/user.gif"></li>
+			<li data-code=":vik:"><img src="html/emoticons/vik.gif"></li>
+			<li data-code=":vis:"><img src="html/emoticons/vis.gif"></li>
+			<li data-code=":war:"><img src="html/emoticons/war.gif"></li>
+			<li data-code=":weep:"><img src="html/emoticons/weep.gif"></li>
+			<li data-code=":wow:"><img src="html/emoticons/wow.gif"></li>
+			<li data-code=":yawn:"><img src="html/emoticons/yawn.gif"></li>
+			<li data-code=":chest:"><img src="html/emoticons/chest.gif"></li>
+			<li data-code=":givi:"><img src="html/emoticons/givi.gif"></li>
+			<li data-code=":facepalm:"><img src="html/emoticons/facepalm.gif"></li>
+			<li data-code=":old:"><img src="html/emoticons/old.gif"></li>
+			<li data-code=":popcorn:"><img src="html/emoticons/popcorn.gif"></li>
+			<li data-code=":mus:"><img src="html/emoticons/mus.gif"></li>
+		</ul>
+	</div>
+</div>
+`;
+
+LiveForum.emojiEvents = function() {
+	var self = this;
+	document.getElementById('lfEmoji').addEventListener('click', function(e) {
+		e.preventDefault();
+		self.toggle(self, this);
+	});
+
+	document.querySelectorAll('#lfEmojiList li').forEach(function(el) {
+		el.addEventListener('click', function() {
+			console.log(this.dataset.code);
+		});
+	});
+}
+
 LiveForum.other = `
 <div class="lf-dropdown">
 	<button id="lfOthers" class="lf-dropbtn">
@@ -669,6 +757,22 @@ LiveForum.otherEvents = function() {
 	});
 }
 
+LiveForum.userSettings = `
+<button data-tooltip="Settings" id="lfSettings">
+	<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+		<path fill="#000000" d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" />
+	</svg>
+</button>
+`;
+
+LiveForum.userSettingsEvents = function() {
+	var self = this;
+	document.getElementById('lfSettings').addEventListener('click', function(e) {
+		e.preventDefault();
+		window.open(self.browser.runtime.getURL('html/options.html'));
+	});
+}
+
 LiveForum.start = function() {
 	this.parent.innerHTML = `
 		<div id="lfEditor" class="lf-box">
@@ -689,19 +793,23 @@ LiveForum.start = function() {
 					${this.size}
 					${this.color}
 					${this.code}
+					${this.emoji}
 				</div>
+				<div class="lf-family4">
 					${this.other}
+					${this.userSettings}
+				</div>
 			</div>
 			<textarea name="Post" onkeypress="changeVal()"></textarea>
 			<div id="lfCustomToolbox">
 				<div id="lfCBtnInterface">
 					<span id="lfCBtnInterfaceClose">X</span>
 					<ul id="lfCBtns">
-						<li id="lfCBtnSimple"  data-show="CBtnSimpleTab">Simple</li>
+						<li id="lfCBtnSimple"  data-show="CBtnSimpleTab" class="underline">Simple</li>
 						<li id="lfCBtnDropdown"  data-show="CBtnDropdownTab">Dropdown</li>
 						<li id="lfCBtnDropdown2"  data-show="CBtnDropdown2Tab">Dropdown2</li>
 					</ul>
-					<div id="lfCBtnSimpleTab">
+					<div id="lfCBtnSimpleTab" style="z-index:1">
 						<div class="lf-create-button">
 							<input type="text" placeholder="Enter BBCode">
 							<input type="text" placeholder="Enter Name">
@@ -713,12 +821,26 @@ LiveForum.start = function() {
 						</div>
 					</div>
 					<div id="lfCBtnDropdownTab">
-						<input type="text" placeholder="Button Name">
-						<input type="text" placeholder="BBCode">
+						<div class="lf-create-button">
+							<input type="text" placeholder="Enter BBCode">
+							<input type="text" placeholder="Enter Name">
+						</div>
+						<div class="lf-preview">
+							<span>Preview</span>
+							<textarea></textarea>
+							<button></button>
+						</div>
 					</div>
 					<div id="lfCBtnDropdown2Tab">
-						<input type="text" placeholder="Button Name">
-						<input type="text" placeholder="BBCode">
+						<div class="lf-create-button">
+							<input type="text" placeholder="Enter BBCode">
+							<input type="text" placeholder="Enter Name">
+						</div>
+						<div class="lf-preview">
+							<span>Preview</span>
+							<textarea></textarea>
+							<button></button>
+						</div>
 					</div>
 				</div>
 				<button data-tooltip="Add Button" id="addCustomButton">+</button>
@@ -728,7 +850,20 @@ LiveForum.start = function() {
 		</div>
 	`;
 
-	this.sibling.innerHTML = `<div id="quickOptions"></div>`;
+	this.sibling.innerHTML = `
+		<div id="quickOptions">
+			<div class="lf-quick-links">
+				<a href="javascript:Insert(selection)" onmousedown="get_selection()">
+					<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+						<path fill="#000000" d="M14,17H17L19,13V7H13V13H16M6,17H9L11,13V7H5V13H8L6,17Z" />
+					</svg>
+				</a>
+				<a href="javascript:GeoLang()">A > ა</a>
+				<a href="javascript:bbc_pop()">bbc</a>
+				<a href="javascript:CheckLength()">length</a>
+			</div>
+		</div>
+	`;
 
 	this.events();
 }
@@ -754,7 +889,6 @@ LiveForum.addCustomButtonEvents = function() {
 	document.querySelectorAll('#lfCBtns li').forEach(function(el) {
 		el.addEventListener('click', function() {
 			if(self.lastCustomBtnTitle) {
-				console.log(self.lastCustomBtnTitle);
 				document.getElementById(self.lastCustomBtnTitle).classList.remove("underline");
 				this.classList.add("underline");
 				self.lastCustomBtnTitle = this.id;
@@ -1003,6 +1137,8 @@ LiveForum.events = function() {
 	this.codeEvents();
 	this.otherEvents();
 	this.addCustomButtonEvents();
+	this.emojiEvents();
+	this.userSettingsEvents();
 
 	this.CtrlKeyCombo(document.querySelector(this.textarea), {
 		CtrlL: function() {
