@@ -712,6 +712,16 @@ LiveForum.emoji = `
 
 LiveForum.emojiEvents = function() {
 	var self = this;
+
+	function paste_emo(emo) {
+		var textarea = document.querySelector(self.textarea),
+			dissected = self.dissect(document.querySelector(self.textarea));
+			textarea.value = dissected.one + ' ' + emo + ' ' + dissected.three;
+			textarea.selectionStart = dissected.selStart + emo.length + 2;
+			textarea.selectionEnd = dissected.selStart + emo.length + 2;
+			textarea.focus();
+	}
+
 	document.getElementById('lfEmoji').addEventListener('click', function(e) {
 		e.preventDefault();
 		self.toggle(self, this);
@@ -719,7 +729,7 @@ LiveForum.emojiEvents = function() {
 
 	document.querySelectorAll('#lfEmojiList li').forEach(function(el) {
 		el.addEventListener('click', function() {
-			console.log(this.dataset.code);
+			paste_emo(this.dataset.code);
 		});
 	});
 }
@@ -811,13 +821,15 @@ LiveForum.start = function() {
 					</ul>
 					<div id="lfCBtnSimpleTab" style="z-index:1">
 						<div class="lf-create-button">
-							<input type="text" placeholder="Enter BBCode">
-							<input type="text" placeholder="Enter Name">
+							<input id="lfSimpleBBCode" type="text" placeholder="Enter BBCode">
+							<input id="lfSimpleText" type="text" placeholder="Enter Name">
+							<div id="lfSimpleMessage" class="lf-message"></div>
+							<button id="lfSimpleAddBtn">Add</button>
 						</div>
-						<div class="lf-preview">
+						<div id="lfSimplePreview" class="lf-preview">
 							<span>Preview</span>
-							<textarea></textarea>
-							<button></button>
+							<textarea>[]Text[/]</textarea>
+							<div><button></button></div>
 						</div>
 					</div>
 					<div id="lfCBtnDropdownTab">
@@ -906,6 +918,39 @@ LiveForum.addCustomButtonEvents = function() {
 				self.lastCustomBtnTab = this.dataset.show;
 			}
 		});
+	});
+
+	document.getElementById('lfSimpleBBCode').addEventListener('keyup', function(e) {
+		var textarea = document.querySelector('#lfSimplePreview textarea');
+			textarea.value = '[' + this.value + ']Text[/' + this.value + ']';
+
+	});
+	document.getElementById('lfSimpleText').addEventListener('keyup', function(e) {
+		document.querySelector('#lfSimplePreview button').innerText = this.value;
+	});
+
+	document.getElementById('lfSimpleAddBtn').addEventListener('click', function(e) {
+		e.preventDefault();
+		var root = LiveForum,
+			name = document.getElementById('lfSimpleText').value,
+			code = document.getElementById('lfSimpleBBCode').value,
+			obj = {button_name: name, bbcode: code, dropdown: false};
+		if(name.length >= 1 && code.length >= 1) {
+			self.storage.get(null, function(data) {
+				data.custom_buttons.push(obj);
+				self.storage.set(data, function(info) {
+					if(info.status == 200)
+						root.factory(obj);
+				});
+			});
+		} else {
+			var message = document.getElementById('lfSimpleMessage');
+				message.innerText = 'Empty Field';
+				message.style.color = '#E91E63';
+				setTimeout(function() {
+					message.style.color = 'transparent';
+				}, 3000);
+		}
 	});
 }
 
