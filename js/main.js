@@ -818,12 +818,13 @@ LiveForum.start = function() {
 						<li id="lfCBtnSimple"  data-show="CBtnSimpleTab" class="underline">Simple</li>
 						<li id="lfCBtnDropdown"  data-show="CBtnDropdownTab">Dropdown</li>
 						<li id="lfCBtnDropdown2"  data-show="CBtnDropdown2Tab">Dropdown2</li>
+						<li id="lfCBtnPaste"  data-show="CBtnPasteTab">Paste</li>
 					</ul>
 					<div id="lfCBtnSimpleTab" style="z-index:1">
 						<div class="lf-create-button">
 							<input id="lfSimpleBBCode" type="text" placeholder="Enter BBCode">
-							<input id="lfSimpleText" type="text" placeholder="Enter Name">
-							<div id="lfSimpleMessage" class="lf-message"></div>
+							<input id="lfSimpleText" type="text" placeholder="Button Name">
+							<span id="lfSimpleMessage" class="lf-message"></span>
 							<button id="lfSimpleAddBtn">Add</button>
 						</div>
 						<div id="lfSimplePreview" class="lf-preview">
@@ -832,26 +833,17 @@ LiveForum.start = function() {
 							<div><button></button></div>
 						</div>
 					</div>
-					<div id="lfCBtnDropdownTab">
+					<div id="lfCBtnDropdownTab" style="z-index:1">
 						<div class="lf-create-button">
-							<input type="text" placeholder="Enter BBCode">
-							<input type="text" placeholder="Enter Name">
+							<input id="lfDropdownBBCode" type="text" placeholder="Enter BBCode">
+							<input id="lfDropdownText" type="text" placeholder="Button Name">
+							<span id="lfDropdownMessage" class="lf-message"></span>
+							<button id="lfDropdownAddBtn">Add</button>
 						</div>
-						<div class="lf-preview">
+						<div id="lfDropdownPreview" class="lf-preview">
 							<span>Preview</span>
-							<textarea></textarea>
-							<button></button>
-						</div>
-					</div>
-					<div id="lfCBtnDropdown2Tab">
-						<div class="lf-create-button">
-							<input type="text" placeholder="Enter BBCode">
-							<input type="text" placeholder="Enter Name">
-						</div>
-						<div class="lf-preview">
-							<span>Preview</span>
-							<textarea></textarea>
-							<button></button>
+							<textarea>[]Input[/]</textarea>
+							<div><button></button></div>
 						</div>
 					</div>
 				</div>
@@ -882,6 +874,26 @@ LiveForum.start = function() {
 
 LiveForum.addCustomButtonEvents = function() {
 	var self = this;
+
+	function addButton(id) {
+		var root = LiveForum,
+			name = document.getElementById('lf' + id + 'Text'),
+			code = document.getElementById('lf' + id + 'BBCode'),
+			obj = {button_name: name.value, bbcode: code.value, dropdown: false};
+		if(name.value.length >= 1 && code.value.length >= 1) {
+			root.storage.get(null, function(data) {
+				data.custom_buttons.push(obj);
+				root.storage.set(data, function(info) {
+					if(info.status == 200)
+						root.factory(obj);
+						root.listener.emit('custom' + id + 'BtnAdd', {message: 'success', boxId: '#lf' + id + 'Message', color: '#00E676'});
+				});
+			});
+		} else {
+			root.listener.emit('emptyBtnAddField', {message: 'Empty Field', boxId: '#lf' + id + 'Message', color: '#E91E63'});
+		}
+	}
+
 	document.getElementById('addCustomButton').addEventListener('click', function(e){
 		e.preventDefault();
 		document.getElementById('lfCBtnInterface').style.display = "block";
@@ -925,32 +937,29 @@ LiveForum.addCustomButtonEvents = function() {
 			textarea.value = '[' + this.value + ']Text[/' + this.value + ']';
 
 	});
+
 	document.getElementById('lfSimpleText').addEventListener('keyup', function(e) {
 		document.querySelector('#lfSimplePreview button').innerText = this.value;
 	});
 
 	document.getElementById('lfSimpleAddBtn').addEventListener('click', function(e) {
 		e.preventDefault();
-		var root = LiveForum,
-			name = document.getElementById('lfSimpleText').value,
-			code = document.getElementById('lfSimpleBBCode').value,
-			obj = {button_name: name, bbcode: code, dropdown: false};
-		if(name.length >= 1 && code.length >= 1) {
-			self.storage.get(null, function(data) {
-				data.custom_buttons.push(obj);
-				self.storage.set(data, function(info) {
-					if(info.status == 200)
-						root.factory(obj);
-				});
-			});
-		} else {
-			var message = document.getElementById('lfSimpleMessage');
-				message.innerText = 'Empty Field';
-				message.style.color = '#E91E63';
-				setTimeout(function() {
-					message.style.color = 'transparent';
-				}, 3000);
-		}
+		addButton.call(this, 'Simple');
+	});
+
+	document.getElementById('lfDropdownText').addEventListener('keyup', function(e) {
+		document.querySelector('#lfDropdownPreview button').innerText = this.value;
+	});
+
+	document.getElementById('lfDropdownBBCode').addEventListener('keyup', function(e) {
+		var textarea = document.querySelector('#lfDropdownPreview textarea');
+			textarea.value = '[' + this.value + ']Input[/' + this.value + ']';
+
+	});
+
+	document.getElementById('lfDropdownAddBtn').addEventListener('click', function(e) {
+		e.preventDefault();
+		addButton.call(this, 'Dropdown');
 	});
 }
 
@@ -1162,6 +1171,19 @@ LiveForum.events = function() {
 	this.listener.on('dropDownOpen', function(data) {
 		console.log(data, 'Opened');
 	});
+
+	function messenger(data) {
+		var	message = document.querySelector(data.boxId);
+			message.innerText = data.message;
+			message.style.color = data.color;
+			setTimeout(function() {
+				message.style.color = 'transparent';
+			}, 1500);
+	}
+
+	this.listener.on('customSimpleBtnAdd', messenger);
+	this.listener.on('customDropdownBtnAdd', messenger);
+	this.listener.on('emptyBtnAddField', messenger);
 
 	document.addEventListener('click', function(e) {
 		if(!e.target.matches('.lf-dropdown *')) {
