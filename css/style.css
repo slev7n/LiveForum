@@ -489,7 +489,7 @@ div#lfCBtnInterface ul li:hover {
 	color:#03A9F4;
 }
 
-div#lfCBtnSimpleTab, div#lfCBtnDropdownTab, div#lfCBtnDropdown2Tab {
+div#lfCBtnSimpleTab, div#lfCBtnDropdownTab, div#lfCBtnDropdown2Tab, div#lfCBtnPasteTab {
 	width: 100%;
 	box-sizing: border-box;
 	position:absolute;
