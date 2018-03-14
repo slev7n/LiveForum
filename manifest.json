@@ -12,8 +12,13 @@
 	"content_scripts": [
 		{
 			"matches": ["*://forum.ge/*showtopic*", "*://*.forum.ge/*showtopic*"],
-			"js": ["js/storage.js", "js/main.js"],
+			"js": ["js/pubsub.js", "js/storage.js", "js/main.js"],
 			"css": ["css/style.css"]
+		},
+		{
+			"matches": ["*://forum.ge/*", "*://*.forum.ge/*"],
+			"js": ["js/pubsub.js", "js/storage.js", "js/notifications.js"],
+			"css": ["css/notifications.css"]
 		}
 	],
 

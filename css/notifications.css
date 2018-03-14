@@ -1,0 +1,52 @@
+div#lfNotifications {
+	border-radius: 50px;
+	width: 24px;
+	height: 24px;
+	position: fixed;
+	top: 144px;
+	right: 0px;
+}
+
+div#lfNotifications:hover {
+	cursor:pointer;
+}
+
+#lfBell {
+	position: absolute;
+	right:0px;
+}
+
+div#lfNotifContent {
+	display:none;
+	position: absolute;
+	right: 100%;
+	top:18px;
+	width: 450px;
+	height: 70vh;
+	overflow: auto;
+	box-shadow: 0 2px 6px 0 rgba(0,0,0,1);
+	border:5px solid #FFF;
+	background: #FFF;
+}
+
+div#lfNotifContent.show {
+	display:block;
+}
+
+div#lfNotifCount {
+	display:none;
+	color: #FFF;
+	font-family: 'Noto Sans', sans-serif;
+	font-size: 10px;
+	text-align: center;
+	font-weight: 700;
+	width: 14px;
+	height: 10px;
+	background: #D50000;
+	border-radius: 20px;
+	border: 1px solid #FFF;
+	box-shadow: 0 2px 6px 0 rgba(0,0,0,0.5);
+	position: absolute;
+	right: 15px;
+	top:0px;
+}

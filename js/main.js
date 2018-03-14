@@ -2,34 +2,6 @@ var LiveForum = LiveForum || {};
 
 LiveForum.browser = typeof browser !== 'undefined' ? browser : chrome;
 
-LiveForum.listener = LiveForum.listener || {};
-
-LiveForum.listener.events = LiveForum.listener.events || {};
-
-LiveForum.listener.on = function(eventName, fn) {
-	this.events[eventName] = this.events[eventName] || [];
-	this.events[eventName].push(fn);
-}
-
-LiveForum.listener.off = function(eventName, fn) {
-	if(this.events[eventName]) {
-		for(var i = 0; i < this.events[eventName].length; i++) {
-			if(this.events[eventName][i] === fn) {
-				this.events[eventName].splice(i, 1);
-				break;
-			}
-		}
-	}
-}
-
-LiveForum.listener.emit = function(eventName, data) {
-	if(this.events[eventName]) {
-		this.events[eventName].forEach(function(fn) {
-			fn(data);
-		});
-	}
-}
-
 LiveForum.textarea = 'textarea[name="Post"]';
 
 LiveForum.parent = document.querySelector(LiveForum.textarea).parentNode;
@@ -920,7 +892,7 @@ LiveForum.memberSuggestionEvents = function() {
 		var suggestionBox = document.getElementById('lfMemberSuggestion'),
 			input = document.getElementById('lfMemberSearch');
 
-		var xhr = new XMLHttpRequest();
+		var xhr = typeof content !== 'undefined' ? new content.XMLHttpRequest() : new XMLHttpRequest();
 		xhr.open('POST', 'index.php', true);
 		xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
 		xhr.send('act=Members&photoonly=0&name_box=begins&name=' + name + '&filter=ALL&sort_key=posts&sort_order=desc&max_results=10');

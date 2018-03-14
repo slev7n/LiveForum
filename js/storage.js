@@ -7,32 +7,15 @@ var LiveForum = LiveForum || {};
 			"description": "Do not edit unless you know what you are doing"
 		},
 		"notifications_enabled": true,
+		"last_checked": Date.now(),
 		"blocked_users": [],
-		"custom_buttons": [
-			{	
-				"button_name": "doodle",
-				"bbcode": "d",
-				"dropdown": false,
-			},
-			{
-				"button_name": "Foo",
-				"bbcode": "foo",
-				"dropdown": {
-					"inputs": [{"placeholder": "Input1"}]
-				}
-			},
-			{
-				"button_name": "Bar",
-				"bbcode": "bar",
-				"dropdown": {
-					"inputs": [{"placeholder": "Input1"}, {"placeholder": "Input2"}]
-				}
-			}
-		]
+		"custom_buttons": []
 	}
 
+LiveForum.storage.xhr = typeof content !== 'undefined' ?content.XMLHttpRequest : XMLHttpRequest;
+
 LiveForum.storage.init = function() {
-	// let notepad = document.querySelector('form[name="notepad"] input[type="submit"]');
+	// var notepad = document.querySelector('form[name="notepad"] input[type="submit"]');
 	// if(Object.prototype.toString.call(notepad) !== '[object Null]')
 	// 	notepad.disabled = true;
 	LiveForum.storage.get(null, function(data) {
@@ -46,12 +29,12 @@ LiveForum.storage.init = function() {
 
 LiveForum.storage.get = function(arg, callback) {
 	var self = this;
-	let xhr = typeof content !== 'undefined' ? new content.XMLHttpRequest() : new XMLHttpRequest();
+	var xhr = new this.xhr();
 	xhr.open('GET', 'index.php?act=UserCP&CODE=00', true);
 	xhr.send(null);
 	xhr.onload = function() {
 		if(xhr.status == 200) {
-			let div = document.createElement('div');
+			var div = document.createElement('div');
 			div.innerHTML = this.responseText;
 			try {
 				var data =  JSON.parse(div.querySelector('textarea').value);
@@ -67,7 +50,7 @@ LiveForum.storage.get = function(arg, callback) {
 						console.log('no such entry')
 					break;
 				case '[object Array]':
-					let result = arg.reduce((a, b) => {
+					var result = arg.reduce((a, b) => {
 						a[b] = data[b];
 						return a;
 					}, {});
@@ -85,7 +68,7 @@ LiveForum.storage.get = function(arg, callback) {
 
 LiveForum.storage.set = function(obj, callback) {
 	var self = this;
-	let xhr = typeof content !== 'undefined' ? new content.XMLHttpRequest() : new XMLHttpRequest();
+	var xhr = new this.xhr();
 	xhr.open('POST', 'index.php', true);
 	xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
 	xhr.send('act=UserCP&CODE=20&notes=' + JSON.stringify(obj));
