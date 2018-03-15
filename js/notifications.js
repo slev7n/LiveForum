@@ -3,7 +3,9 @@ var LiveForum = LiveForum || {};
 	LiveForum.notifications.xhr = typeof content !== 'undefined' ? content.XMLHttpRequest : XMLHttpRequest;
 
 LiveForum.notifications.start = function() {
-	var notifBox = document.createElement('div');
+	var root = LiveForum,
+		self = this,
+		notifBox = document.createElement('div');
 		notifBox.setAttribute('id', 'lfNotifications');
 		notifBox.innerHTML = `
 			<svg id="lfBell" style="width:24px;height:24px" viewBox="0 0 24 24">
@@ -14,53 +16,14 @@ LiveForum.notifications.start = function() {
 		`;
 		document.body.appendChild(notifBox);
 
-	var root = LiveForum,
-		self = this,
-		name = 'Neo',
-		xhr = new this.xhr();
-		xhr.open('GET', 'index.php?act=Search&CODE=01&keywords=' + name + '&exactname=1&joinname=1&cat_forum=forum&forums=all&searchsubs=1&search_in=posts&result_type=posts&prune=30&prune_type=newer&sort_key=last_post&sort_order=desc', true);
-		xhr.send(null);
-		xhr.onload = function() {
-			if(this.status == 200) {
-				var standBy = document.createElement('div');
-					standBy.innerHTML = this.response;
-					var searchLink = standBy.querySelector('a').href;
-					var searchResult = new self.xhr();
-						searchResult.open('GET', searchLink, true);
-						searchResult.send(null);
-						searchResult.onload = function() {
-							if(this.status == 200) {
-								var div = document.createElement('div');
-									div.innerHTML = this.response;
-								var contentBox = document.getElementById('lfNotifContent');
-								div.querySelectorAll('.tableborder').forEach(function(el) {
-									contentBox.appendChild(el);
-								});
-
-								root.storage.get('last_checked', function(data) {
-									var count = 0;
-									contentBox.querySelectorAll('.tablebasic tr td:nth-child(2) strong').forEach(function(el) {
-										if(new Date(el.innerText.slice(11)).getTime() > data) {
-											count++;
-										}
-									});
-									var notifCount = document.getElementById('lfNotifCount');
-										if(count > 0) {
-											notifCount.innerText = count;
-											notifCount.style.display = 'block';
-									}
-								});
-							}
-						}
-			}
-		}
+		this.fetch();
 
 		function seen(obj) {
 			var root = LiveForum;
 			root.storage.get(null, function(data) {
 				data.last_checked = Date.now();
 				root.storage.set(data, function(info) {
-					console.log(info);
+					console.log(info.message, info.status);
 				})
 			});
 		}
@@ -93,4 +56,61 @@ LiveForum.notifications.start = function() {
 		});
 }
 
-LiveForum.notifications.start();
+LiveForum.notifications.fetch = function() {
+	var root = LiveForum,
+		self = this,
+		name = 'Neo',
+		contentBox = document.getElementById('lfNotifContent'),
+		xhr = new this.xhr();
+		xhr.open('GET', 'index.php?act=Search&CODE=01&keywords=' + name + '&exactname=1&joinname=1&cat_forum=forum&forums=all&searchsubs=1&search_in=posts&result_type=posts&prune=30&prune_type=newer&sort_key=last_post&sort_order=desc', true);
+		xhr.send(null);
+		xhr.onload = function() {
+			if(this.status == 200) {
+				var standBy = document.createElement('div');
+					standBy.innerHTML = this.response;
+				if(standBy.querySelector('a').innerText == 'Or click here if you do not wish to wait') {		
+					var searchLink = standBy.querySelector('a').href;
+					var searchResult = new self.xhr();
+						searchResult.open('GET', searchLink, true);
+						searchResult.send(null);
+						searchResult.onload = function() {
+							if(this.status == 200) {
+								var div = document.createElement('div');
+									div.innerHTML = this.response;
+									contentBox.innerHTML = ``;
+								div.querySelectorAll('.tableborder').forEach(function(el) {
+									contentBox.appendChild(el);
+								});
+
+								root.storage.get('last_checked', function(data) {
+									var count = 0;
+									contentBox.querySelectorAll('.tablebasic tr td:nth-child(2) strong').forEach(function(el) {
+										if(new Date(el.innerText.slice(11)).getTime() > data) {
+											count++;
+										}
+									});
+									var notifCount = document.getElementById('lfNotifCount');
+										if(count > 0) {
+											notifCount.innerText = count;
+											notifCount.style.display = 'block';
+
+									}
+								});
+							}
+						}
+				} else {
+					contentBox.innerHTML = '<span id="lfNotifSomethgingWrong">Something went wrong... Click here to retry</span>';
+					document.getElementById('lfNotifSomethgingWrong').addEventListener('click', function() {
+						self.fetch();
+					});
+				}
+			}
+		}
+}
+
+LiveForum.storage.get(null, function(data) {
+	if(data.notifications_enabled) {
+		LiveForum.notifications.start();
+		setInterval(LiveForum.notifications.fetch.bind(LiveForum.notifications), 60000);
+	}
+});

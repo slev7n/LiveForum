@@ -578,3 +578,23 @@ button#lfEmoji + .lf-dropdown-content {
 	color:transparent;
 	transition: color .5s ease;
 }
+
+div#lfQuotePopup {
+	display:none;
+	opacity:0;
+	font-family: 'Noto Sans', sans-serif;
+	font-size: 18px;
+	padding: 7px 17px;
+	background: rgba(0,0,0,.9);
+	color: #FFF;
+	position: absolute;
+	border: 2px solid #FFF;
+	border-radius: 5px;
+	box-shadow: 0 2px 6px 0 rgba(0,0,0,.2);
+	transition: opacity 1s ease;
+}
+
+div#lfQuotePopup:hover {
+	cursor: pointer;
+	color:#FF9100;
+}

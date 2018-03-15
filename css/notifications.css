@@ -1,5 +1,4 @@
 div#lfNotifications {
-	border-radius: 50px;
 	width: 24px;
 	height: 24px;
 	position: fixed;
@@ -7,7 +6,7 @@ div#lfNotifications {
 	right: 0px;
 }
 
-div#lfNotifications:hover {
+svg#lfBell:hover {
 	cursor:pointer;
 }
 
@@ -49,4 +48,16 @@ div#lfNotifCount {
 	position: absolute;
 	right: 15px;
 	top:0px;
+}
+
+span#lfNotifSomethgingWrong {
+	display: block;
+	top: 30%;
+	position: relative;
+	font-size: 18px;
+}
+
+span#lfNotifSomethgingWrong:hover {
+	cursor:pointer;
+	color:#03A9F4;
 }

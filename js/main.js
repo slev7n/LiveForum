@@ -8,6 +8,47 @@ LiveForum.parent = document.querySelector(LiveForum.textarea).parentNode;
 
 LiveForum.sibling = LiveForum.parent.previousElementSibling;
 
+LiveForum.quotePopupEvents = function() {
+	var self = this,
+		quotePopup = document.createElement('div');
+		quotePopup.setAttribute('id', 'lfQuotePopup');
+		quotePopup.innerText = 'Quote';
+		document.body.appendChild(quotePopup);
+	var css = quotePopup.style;
+
+	document.body.addEventListener('mousedown', function(e) {
+		if(e.which == 1) {
+			css.opacity = 0;
+			css.display = 'none';
+		}
+	});
+
+	document.querySelectorAll('.postcolor').forEach(function(el) {
+		el.parentNode.addEventListener('mouseup', function(e) {
+			console.log(window.getSelection());
+			if(window.getSelection().isCollapsed) {
+				css.opacity = 0;
+				css.dipslay = 'none';
+			} else {
+				css.top = e.pageY + 'px';
+				css.left = e.pageX + 'px';
+				css.display = 'inline';
+				setTimeout(function() {
+					css.opacity = 1;
+				}, 0);
+			}	
+		});
+	});
+
+	quotePopup.addEventListener('mousedown', function(e) {
+		var rawSelection = window.getSelection().getRangeAt(0).toString();
+			this.style.opacity = 0;
+			this.style.display = 'none';
+			self.wrapper('quote', false, rawSelection);
+			window.getSelection().removeAllRanges();
+	});
+}
+
 LiveForum.geoObj = `
 <div id="lfGeoContainer">
 	<input id="lfGeo" type="checkbox" name="geo" checked>
@@ -843,7 +884,7 @@ LiveForum.start = function() {
 					</div>
 					<div id="lfCBtnPasteTab">
 						<div class="lf-create-button">
-							<input id="lfPastePaste" type="text" placeholder="Enter Text">
+							<input id="lfPasteBBCode" type="text" placeholder="Enter Text">
 							<input id="lfPasteText" type="text" placeholder="Button Name">
 							<span id="lfPasteMessage" class="lf-message"></span>
 							<button id="lfPasteAddBtn">Add</button>
@@ -924,11 +965,15 @@ LiveForum.memberSuggestionEvents = function() {
 LiveForum.addCustomButtonEvents = function() {
 	var self = this;
 
-	function addButton(id, placeholder) {
+	function addButton(id, placeholder, paste) {
 		var root = LiveForum,
 			name = document.getElementById('lf' + id + 'Text'),
-			code = document.getElementById('lf' + id + 'BBCode'),
-			obj = {button_name: name.value, bbcode: code.value, dropdown: placeholder};
+			code = document.getElementById('lf' + id + 'BBCode');
+			if(paste) {
+				var obj = {button_name: name.value, paste: code.value, dropdown: placeholder};
+			} else {
+				var obj = {button_name: name.value, bbcode: code.value, dropdown: placeholder};
+			}
 		if(name.value.length >= 1 && code.value.length >= 1) {
 			root.storage.get(null, function(data) {
 				data.custom_buttons.push(obj);
@@ -1025,11 +1070,26 @@ LiveForum.addCustomButtonEvents = function() {
 		e.preventDefault();
 		addButton.call(this, 'Dropdown2', {inputs: [{placeholder: 'Input1'}, {placeholder: 'Input2'}]});
 	});
+
+	document.getElementById('lfPasteText').addEventListener('keyup', function(e) {
+		document.querySelector('#lfPastePreview button').innerText = this.value;
+	});
+
+	document.getElementById('lfPasteBBCode').addEventListener('keyup', function(e) {
+		var textarea = document.querySelector('#lfPastePreview textarea');
+			textarea.value = this.value;
+
+	});
+
+	document.getElementById('lfPasteAddBtn').addEventListener('click', function(e) {
+		e.preventDefault();
+		addButton.call(this, 'Paste', false, true);
+	});
 }
 
 LiveForum.factory = function(el) {
 	var self = this;
-	if(el.dropdown) {
+	if(el.dropdown && el.bbcode) {
 		var dropdown = document.createElement('div');
 			dropdown.setAttribute('class', 'lf-dropdown');
 
@@ -1080,12 +1140,20 @@ LiveForum.factory = function(el) {
 			dropdownContent.appendChild(insert);
 			document.querySelector('#lfCustomToolbox .lf-custom-family').appendChild(dropdown);
 
-	} else {
+	} else if(el.bbcode && !el.dropdown) {
 		var button = document.createElement('button');
 			button.innerText = el.button_name;
 			button.addEventListener('click', function(e) {
 				e.preventDefault();
 				self.wrapper(el.bbcode);
+			});
+			document.querySelector('#lfCustomToolbox .lf-custom-family').appendChild(button);
+	} else if(el.paste && !el.dropdown) {
+		var button = document.createElement('button');
+			button.innerText = el.button_name;
+			button.addEventListener('click', function(e) {
+				e.preventDefault();
+				self.paste(el.paste);
 			});
 			document.querySelector('#lfCustomToolbox .lf-custom-family').appendChild(button);
 	}
@@ -1228,6 +1296,8 @@ LiveForum.submitInputOnEnter = function(evt, tag) {
 LiveForum.events = function() {
 	var self = this;
 
+	this.quotePopupEvents();
+
 	this.listener.on('dropDownClose', function(data) {
 		data.dropdown.querySelectorAll('input').forEach(function(el) {
 			el.value = '';
@@ -1322,13 +1392,6 @@ LiveForum.dissect = function(textarea) {
 		}
 }
 
-LiveForum.paste = function(text) {
-	var textarea  = document.querySelector(this.textarea),
-		dissected = this.dissect(textarea);
-
-		textarea.value = dissected.one + text + dissected.three;
-}
-
 LiveForum.wrapper = function(tag, attr, input) {
 	var textarea  = document.querySelector(this.textarea),
 		dissected = this.dissect(textarea);
@@ -1385,6 +1448,16 @@ LiveForum.wrapper = function(tag, attr, input) {
 			textarea.focus();
 		}
 
+}
+
+LiveForum.paste = function(selection) {
+	var textarea  = document.querySelector(this.textarea),
+		dissected = this.dissect(textarea);
+
+		textarea.value = dissected.one + selection + dissected.three;
+		textarea.selectionStart = dissected.selStart;
+		textarea.selectionEnd = dissected.selStart  + selection.length;
+		textarea.focus();
 }
 
 LiveForum.start();

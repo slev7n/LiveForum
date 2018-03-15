@@ -12,12 +12,9 @@ var LiveForum = LiveForum || {};
 		"custom_buttons": []
 	}
 
-LiveForum.storage.xhr = typeof content !== 'undefined' ?content.XMLHttpRequest : XMLHttpRequest;
+LiveForum.storage.xhr = typeof content !== 'undefined' ? content.XMLHttpRequest : XMLHttpRequest;
 
 LiveForum.storage.init = function() {
-	// var notepad = document.querySelector('form[name="notepad"] input[type="submit"]');
-	// if(Object.prototype.toString.call(notepad) !== '[object Null]')
-	// 	notepad.disabled = true;
 	LiveForum.storage.get(null, function(data) {
 		if(Object.prototype.toString.call(data) == '[object Error]')
 			this.set(LiveForum.storage.initConfig, function(info) {
@@ -33,7 +30,7 @@ LiveForum.storage.get = function(arg, callback) {
 	xhr.open('GET', 'index.php?act=UserCP&CODE=00', true);
 	xhr.send(null);
 	xhr.onload = function() {
-		if(xhr.status == 200) {
+		if(this.status == 200) {
 			var div = document.createElement('div');
 			div.innerHTML = this.responseText;
 			try {
@@ -72,13 +69,13 @@ LiveForum.storage.set = function(obj, callback) {
 	xhr.open('POST', 'index.php', true);
 	xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
 	xhr.send('act=UserCP&CODE=20&notes=' + JSON.stringify(obj));
-	xhr.onload = () => {
-		if(xhr.status == 200) {
+	xhr.onload = function() {
+		if(this.status == 200) {
 			if(callback)
-				callback.call(self, {message:"Storage saved", status: xhr.status});
+				callback.call(self, {message:"Storage saved", status: this.status});
 		} else {
 			if(callback)
-				callback.call(self, {message: "Storage saving failed", status: xhr.status});
+				callback.call(self, {message: "Storage saving failed", status: this.status});
 		}
 	}
 }
