@@ -503,7 +503,7 @@ LiveForum.listEvents = function() {
 	}
 
 	function removeField() {
-		this.parentNode.nextElementSibling.children[1].focus();
+		this.parentNode.previousElementSibling.querySelector('input[type="text"]').focus();
 		this.parentNode.parentNode.removeChild(this.parentNode);
 	}
 
@@ -595,9 +595,9 @@ LiveForum.listEvents = function() {
 		self.toggle(self, this);
 
 		if(listItems.length == 1) {
-			document.querySelector('#lfListItems li:first-child input').value = listItems[0];
+			document.querySelector('#lfListItems li input').value = listItems[0];
 		} else {
-			document.querySelector('#lfListItems li:first-child input').value = listItems[0];
+			document.querySelector('#lfListItems li input').value = listItems[0];
 			for(var i = 1; i < listItems.length; i++) {
 				addField.call(document.querySelector('#lfListItems li:last-child input'), listItems[i]);
 			}
@@ -741,6 +741,7 @@ LiveForum.blockUsers = `
 	<div class="lf-dropdown-content">
 		<input id="lfMemberSearch" type="text" placeholder="Enter Member Name">
 		<ul id="lfMemberSuggestion"></ul>
+		<button id="lfBlockUsersSubmit">Block</button>
 	</div>
 </div>
 `;
@@ -754,6 +755,20 @@ LiveForum.blockUsersEvents = function() {
 	});
 
 	this.memberSuggestionEvents();
+
+	document.getElementById('lfBlockUsersSubmit').addEventListener('click', function(e) {
+		e.preventDefault();
+		var input = document.getElementById('lfMemberSearch');
+		if(input.value.length > 1) {
+			self.storage.get(null, function(data) {
+				data.blocked_users.push(input.value);
+				self.storage.set(data, function(info) {
+					console.log(info.message, info.status);
+					self.closeDropdown();
+				});
+			});
+		}
+	});
 }
 
 LiveForum.other = `
@@ -898,7 +913,6 @@ LiveForum.start = function() {
 				</div>
 				<button data-tooltip="Add Button" id="addCustomButton">+</button>
 				<div class="lf-custom-family"></div>
-				<button data-tooltip="Remove Button" id="removeCustomButton">-</button>
 			</div>
 		</div>
 	`;
@@ -994,10 +1008,6 @@ LiveForum.addCustomButtonEvents = function() {
 		document.querySelector(self.textarea).disabled = true;
 	});	
 
-	document.getElementById('removeCustomButton').addEventListener('click', function(e){
-		e.preventDefault();
-	});
-
 	document.getElementById('lfCBtnInterfaceClose').addEventListener('click', function(e) {
 		e.preventDefault();
 		document.getElementById('lfCBtnInterface').style.display = "none";
@@ -1089,6 +1099,7 @@ LiveForum.addCustomButtonEvents = function() {
 
 LiveForum.factory = function(el) {
 	var self = this;
+
 	if(el.dropdown && el.bbcode) {
 		var dropdown = document.createElement('div');
 			dropdown.setAttribute('class', 'lf-dropdown');
@@ -1165,7 +1176,6 @@ LiveForum.storage.get("custom_buttons", function(data) {
 		data.forEach(function(el) {
 			root.factory(el);
 		});
-		document.getElementById('removeCustomButton').style.display = "block";
 	}
 });
 
@@ -1293,20 +1303,31 @@ LiveForum.submitInputOnEnter = function(evt, tag) {
 
 }
 
+LiveForum.hideBlockedUserContent = function() {
+	// document.querySelectorAll('.normalname a[href^="javascript:paste"]').forEach(el => console.log(el.parentNode.parentNode.parentNode.parentNode.parentNode))
+}
+
 LiveForum.events = function() {
 	var self = this;
 
 	this.quotePopupEvents();
 
-	this.listener.on('dropDownClose', function(data) {
+	function clearInputs(data) {
+		if(data.button.id == 'lfList') {
+			console.log('list');
+		}
 		data.dropdown.querySelectorAll('input').forEach(function(el) {
 			el.value = '';
 		});
-	});
+	}
 
-	this.listener.on('dropDownOpen', function(data) {
+	function focusInput(data) {
 		data.dropdown.querySelector('input').focus();
-	});
+	}
+
+	this.listener.on('dropDownClose', clearInputs);
+
+	this.listener.on('dropDownOpen', focusInput);
 
 	function messenger(data) {
 		var	message = document.querySelector(data.boxId);

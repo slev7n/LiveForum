@@ -205,7 +205,7 @@ button#lfVideo + .lf-dropdown-content > div {
 }
 
 ul#lfVideos {
-	margin:10px 0 0 10px;
+	/*margin:10px 0 0 10px;*/
 }
 
 
@@ -214,11 +214,13 @@ button#lfVideo + .lf-dropdown-content > ul li {
 	font-size: 15px;
 	display: inline-block;
 	float:left;
+	width:20%;
+	box-sizing:border-box;
 }
 
 button#lfVideo + .lf-dropdown-content {
 	height: 160px;
-	width: 300px;
+	width: 350px;
 }
 
 button#lfFont + .lf-dropdown-content {
@@ -238,7 +240,6 @@ ul#lfFonts {
 ul#lfFonts li {
 	margin:5px;
 	text-align: initial;
-	width:50px;
 	float:left;
 }
 
@@ -264,38 +265,28 @@ ul#lfSizes li {
 
 button#lfList + .lf-dropdown-content {
 	width:300px;
+	background: #FFF;
+}
+
+ul#lfListItems {
+	width: 100%;
 }
 
 ul#lfListItems li {
-    display: grid;
-    grid-template-columns: 1fr 5fr 1fr;
+	display: grid;
+	grid-template-columns: 20px 1fr 20px;
+	align-items: end;
+	justify-items: center;
 }
 
-ul#lfListItems li input {
-    justify-self: center;
-    align-self: end;
+ul#lfListItems li:first-child input {
+	grid-column: 2/3;
 }
 
-ul#lfListItems li button:first-child {
-	justify-self: right;
-    align-self: end;
+ul#lfListItems li button:hover {
+	background: none;
 }
 
-ul#lfListItems li button:last-child {
-	justify-self: left;
-    align-self: end;
-}
-
-ul#lfListItems li:first-of-type input {
-    grid-column: 2/3;
-    justify-self: center;
-    align-self: end;
-}
-
-ul#lfListItems li:first-of-type button {
-	justify-self: left;
-    align-self: end;
-}
 
 button#lfOthers + .lf-dropdown-content {
 	width:110px;
@@ -345,7 +336,7 @@ ul#lfOthersList {
 }
 
 .show {
-	display:inline-block;
+	display:block;
 }
 
 .selected {
@@ -463,6 +454,7 @@ div#lfCBtnInterface {
 
 #lfCBtnInterfaceClose:hover {
 	cursor: pointer;
+	color:#03A9F4;
 }
 
 div#lfCBtnInterface > div {
