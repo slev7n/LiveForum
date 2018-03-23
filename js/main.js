@@ -93,7 +93,7 @@ LiveForum.biusEvents = function() {
 
 LiveForum.url = `
 <div class="lf-dropdown">
-	<button id="lfUrl" class="lf-dropbtn">
+	<button id="lfUrl" class="lf-dropbtn" data-tooltip="HyperLink (Ctrl+H)">
 		<svg style="width:24px;height:24px;" viewBox="0 0 24 24">
 			<path fill="#000000" d="M16,6H13V7.9H16C18.26,7.9 20.1,9.73 20.1,12A4.1,4.1 0 0,1 16,16.1H13V18H16A6,6 0 0,0 22,12C22,8.68 19.31,6 16,6M3.9,12C3.9,9.73 5.74,7.9 8,7.9H11V6H8A6,6 0 0,0 2,12A6,6 0 0,0 8,18H11V16.1H8C5.74,16.1 3.9,14.26 3.9,12M8,13H16V11H8V13Z" />
 		</svg>
@@ -143,7 +143,7 @@ LiveForum.urlEvents = function() {
 
 LiveForum.img = `
 <div class="lf-dropdown">
-	<button id="lfImg" class="lf-dropbtn">
+	<button id="lfImg" class="lf-dropbtn" data-tooltip="Image (Ctrl+G)">
 		<svg style="width:24px;height:24px" viewBox="0 0 24 24">
 			<path fill="#000000" d="M8.5,13.5L11,16.5L14.5,12L19,18H5M21,19V5C21,3.89 20.1,3 19,3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19Z" />
 		</svg>
@@ -177,7 +177,7 @@ LiveForum.imgEvents = function() {
 
 LiveForum.video = `
 <div class="lf-dropdown">
-	<button id="lfVideo" class="lf-dropbtn">
+	<button id="lfVideo" class="lf-dropbtn" data-tooltip="Media (Ctrl+M)">
 		<svg style="width:24px;height:24px" viewBox="0 0 24 24">
 			<path fill="#000000" d="M17,10.5V7A1,1 0 0,0 16,6H4A1,1 0 0,0 3,7V17A1,1 0 0,0 4,18H16A1,1 0 0,0 17,17V13.5L21,17.5V6.5L17,10.5Z" />
 		</svg>
@@ -288,7 +288,7 @@ LiveForum.videoEvents = function() {
 
 LiveForum.font = `
 <div class="lf-dropdown">
-	<button id="lfFont" class="lf-dropbtn">
+	<button id="lfFont" class="lf-dropbtn" data-tooltip="Font (Ctrl+F)">
 	<svg style="width:24px;height:24px" viewBox="0 0 24 24">
 		<path fill="#000000" d="M9.62,12L12,5.67L14.37,12M11,3L5.5,17H7.75L8.87,14H15.12L16.25,17H18.5L13,3H11Z" />
 	</svg>
@@ -341,7 +341,7 @@ LiveForum.fontEvents = function() {
 
 LiveForum.size = `
 <div class="lf-dropdown">
-	<button id="lfSize" class="lf-dropbtn">
+	<button id="lfSize" class="lf-dropbtn" data-tooltip="Size (Ctrl+S)">
 		<svg style="width:24px;height:24px" viewBox="0 0 24 24">
 			<path fill="#000000" d="M3,12H6V19H9V12H12V9H3M9,4V7H14V19H17V7H22V4H9Z" />
 		</svg>
@@ -402,7 +402,7 @@ LiveForum.sizeEvents = function() {
 
 LiveForum.color = `
 <div class="lf-dropdown">
-	<button id="lfColor" class="lf-dropbtn">
+	<button id="lfColor" class="lf-dropbtn" data-tooltip="Color (Ctrl+R)">
 		<svg style="width:24px;height:24px" viewBox="0 0 24 24">
 			<path fill="#000000" d="M17.5,12A1.5,1.5 0 0,1 16,10.5A1.5,1.5 0 0,1 17.5,9A1.5,1.5 0 0,1 19,10.5A1.5,1.5 0 0,1 17.5,12M14.5,8A1.5,1.5 0 0,1 13,6.5A1.5,1.5 0 0,1 14.5,5A1.5,1.5 0 0,1 16,6.5A1.5,1.5 0 0,1 14.5,8M9.5,8A1.5,1.5 0 0,1 8,6.5A1.5,1.5 0 0,1 9.5,5A1.5,1.5 0 0,1 11,6.5A1.5,1.5 0 0,1 9.5,8M6.5,12A1.5,1.5 0 0,1 5,10.5A1.5,1.5 0 0,1 6.5,9A1.5,1.5 0 0,1 8,10.5A1.5,1.5 0 0,1 6.5,12M12,3A9,9 0 0,0 3,12A9,9 0 0,0 12,21A1.5,1.5 0 0,0 13.5,19.5C13.5,19.11 13.35,18.76 13.11,18.5C12.88,18.23 12.73,17.88 12.73,17.5A1.5,1.5 0 0,1 14.23,16H16A5,5 0 0,0 21,11C21,6.58 16.97,3 12,3Z" />
 		</svg>
@@ -474,12 +474,13 @@ LiveForum.quoteEvents = function() {
 
 LiveForum.list = `
 <div class="lf-dropdown">
-	<button id="lfList" class="lf-dropbtn">
+	<button id="lfList" class="lf-dropbtn" data-tooltip="List (Ctrl+L)">
 	<svg style="width:24px;height:24px" viewBox="0 0 24 24">
 		<path fill="#000000" d="M7,5H21V7H7V5M7,13V11H21V13H7M4,4.5A1.5,1.5 0 0,1 5.5,6A1.5,1.5 0 0,1 4,7.5A1.5,1.5 0 0,1 2.5,6A1.5,1.5 0 0,1 4,4.5M4,10.5A1.5,1.5 0 0,1 5.5,12A1.5,1.5 0 0,1 4,13.5A1.5,1.5 0 0,1 2.5,12A1.5,1.5 0 0,1 4,10.5M7,19V17H21V19H7M4,16.5A1.5,1.5 0 0,1 5.5,18A1.5,1.5 0 0,1 4,19.5A1.5,1.5 0 0,1 2.5,18A1.5,1.5 0 0,1 4,16.5Z" />
 	</svg>
 	</button>
 	<div class="lf-dropdown-content">
+		<label id="lfListType">&#8226;<input type="radio" name="type" checked="true" data-type="ul">1<input type="radio" name="type" data-type="ol">a<input type="radio" name="type" data-type="ola">i<input type="radio" name="type" data-type="oli"></label>
 		<ul id="lfListItems">
 			<li>
 				<input type="text" placeholder="List item...">
@@ -493,6 +494,24 @@ LiveForum.list = `
 
 LiveForum.listEvents = function() {
 	var self = this;
+
+	function wrapWithStyle(listItems) {
+		switch(document.querySelector('#lfListType input:checked').dataset.type) {
+			case 'ol':
+				self.wrapper('list', 1, '\n' + listItems.join('\n') + '\n');
+				break;
+			case 'ola':
+				self.wrapper('list', 'a', '\n' + listItems.join('\n') + '\n');
+				break;
+			case 'oli':
+				self.wrapper('list', 'i', '\n' + listItems.join('\n') + '\n');
+				break;
+			case 'ul':
+				self.wrapper('list', false, '\n' + listItems.join('\n') + '\n');
+				break;
+
+		}
+	}
 
 	function removeAllFields() {
 		var parent = document.getElementById('lfListItems');
@@ -538,7 +557,7 @@ LiveForum.listEvents = function() {
 					document.querySelectorAll('#lfListItems li input[type="text"]').forEach(function(el) {
 						listItems.push('[*]' + el.value);
 					});
-					self.wrapper('list', false, '\n' + listItems.join('\n') + '\n');
+					wrapWithStyle(listItems);
 					self.closeDropdown();
 					removeAllFields();
 					cleanInput();
@@ -581,7 +600,7 @@ LiveForum.listEvents = function() {
 			document.querySelectorAll('#lfListItems li input[type="text"]').forEach(function(el) {
 				listItems.push('[*]' + el.value);
 			});
-			self.wrapper('list', false, '\n' + listItems.join('\n') + '\n');
+			wrapWithStyle(listItems);
 			self.closeDropdown();
 			removeAllFields();
 			cleanInput();
@@ -612,7 +631,7 @@ LiveForum.listEvents = function() {
 		document.querySelectorAll('#lfListItems li input[type="text"]').forEach(function(el) {
 			listItems.push('[*]' + el.value);
 		});
-		self.wrapper('list', false, '\n' + listItems.join('\n') + '\n');
+		wrapWithStyle(listItems);
 		self.closeDropdown();
 		removeAllFields();
 		cleanInput();
@@ -637,7 +656,7 @@ LiveForum.codeEvents = function() {
 
 LiveForum.emoji = `
 <div class="lf-dropdown">
-	<button id="lfEmoji" class="lf-dropbtn">
+	<button id="lfEmoji" class="lf-dropbtn" data-tooltip="Smilies">
 		<svg style="width:24px;height:24px" viewBox="0 0 24 24">
 			<path fill="#000000" d="M12,17.5C14.33,17.5 16.3,16.04 17.11,14H6.89C7.69,16.04 9.67,17.5 12,17.5M8.5,11A1.5,1.5 0 0,0 10,9.5A1.5,1.5 0 0,0 8.5,8A1.5,1.5 0 0,0 7,9.5A1.5,1.5 0 0,0 8.5,11M15.5,11A1.5,1.5 0 0,0 17,9.5A1.5,1.5 0 0,0 15.5,8A1.5,1.5 0 0,0 14,9.5A1.5,1.5 0 0,0 15.5,11M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,2C6.47,2 2,6.5 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
 		</svg>
@@ -733,7 +752,7 @@ LiveForum.emojiEvents = function() {
 
 LiveForum.blockUsers = `
 <div class="lf-dropdown">
-	<button id="lfBlockUsers" class="lf-dropbtn">
+	<button id="lfBlockUsers" class="lf-dropbtn" data-tooltip="Block Users (Ctrl+)">
 	<svg style="width:24px;height:24px" viewBox="0 0 24 24">
 		<path fill="#000000" d="M23,16.06C23,16.29 23,16.5 22.96,16.7C22.78,14.14 20.64,12.11 18,12.11C17.63,12.11 17.27,12.16 16.92,12.23C16.96,12.5 17,12.73 17,13C17,15.35 15.31,17.32 13.07,17.81C13.42,20.05 15.31,21.79 17.65,21.96C17.43,22 17.22,22 17,22C14.92,22 13.07,20.94 12,19.34C10.93,20.94 9.09,22 7,22C6.78,22 6.57,22 6.35,21.96C8.69,21.79 10.57,20.06 10.93,17.81C8.68,17.32 7,15.35 7,13C7,12.73 7.04,12.5 7.07,12.23C6.73,12.16 6.37,12.11 6,12.11C3.36,12.11 1.22,14.14 1.03,16.7C1,16.5 1,16.29 1,16.06C1,12.85 3.59,10.24 6.81,10.14C6.3,9.27 6,8.25 6,7.17C6,4.94 7.23,3 9.06,2C7.81,2.9 7,4.34 7,6C7,7.35 7.56,8.59 8.47,9.5C9.38,8.59 10.62,8.04 12,8.04C13.37,8.04 14.62,8.59 15.5,9.5C16.43,8.59 17,7.35 17,6C17,4.34 16.18,2.9 14.94,2C16.77,3 18,4.94 18,7.17C18,8.25 17.7,9.27 17.19,10.14C20.42,10.24 23,12.85 23,16.06M9.27,10.11C10.05,10.62 11,10.92 12,10.92C13,10.92 13.95,10.62 14.73,10.11C14,9.45 13.06,9.03 12,9.03C10.94,9.03 10,9.45 9.27,10.11M12,14.47C12.82,14.47 13.5,13.8 13.5,13A1.5,1.5 0 0,0 12,11.5A1.5,1.5 0 0,0 10.5,13C10.5,13.8 11.17,14.47 12,14.47M10.97,16.79C10.87,14.9 9.71,13.29 8.05,12.55C8.03,12.7 8,12.84 8,13C8,14.82 9.27,16.34 10.97,16.79M15.96,12.55C14.29,13.29 13.12,14.9 13,16.79C14.73,16.34 16,14.82 16,13C16,12.84 15.97,12.7 15.96,12.55Z" />
 	</svg>
@@ -773,7 +792,7 @@ LiveForum.blockUsersEvents = function() {
 
 LiveForum.other = `
 <div class="lf-dropdown">
-	<button id="lfOthers" class="lf-dropbtn">
+	<button id="lfOthers" class="lf-dropbtn" data-tooltip="Other">
 	<svg style="width:24px;height:24px" viewBox="0 0 24 24">
 		<path fill="#000000" d="M16,12A2,2 0 0,1 18,10A2,2 0 0,1 20,12A2,2 0 0,1 18,14A2,2 0 0,1 16,12M10,12A2,2 0 0,1 12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12M4,12A2,2 0 0,1 6,10A2,2 0 0,1 8,12A2,2 0 0,1 6,14A2,2 0 0,1 4,12Z" />
 	</svg>
@@ -781,6 +800,8 @@ LiveForum.other = `
 	<div class="lf-dropdown-content">
 		<ul id="lfOthersList">
 			<li data-bbcode="spoiler">Spoiler</li>
+			<li data-bbcode="html">HTML</li>
+			<li data-bbcode="sql">SQL</li>
 			<li data-bbcode="offtopic">Off Topic</li>
 			<li data-bbcode="w">Warn</li>
 		</ul>
@@ -911,7 +932,7 @@ LiveForum.start = function() {
 						</div>
 					</div>
 				</div>
-				<button data-tooltip="Add Button" id="addCustomButton">+</button>
+				<button data-tooltip="Add Custom Button" id="addCustomButton">+</button>
 				<div class="lf-custom-family"></div>
 			</div>
 		</div>
@@ -1221,6 +1242,8 @@ LiveForum.CtrlKeyCombo = function(el, keyObj) {
 		}
 	});
 	el.addEventListener('keydown', function(e) {
+
+
 		if(e.ctrlKey) self.ctrlKeyPressed = true;
 		for(var key in keyObj) {
 			switch(key) {
@@ -1314,8 +1337,18 @@ LiveForum.events = function() {
 
 	function clearInputs(data) {
 		if(data.button.id == 'lfList') {
-			console.log('list');
+			var parent = document.getElementById('lfListItems'),
+				firstChild = document.querySelector('#lfListItems li');
+
+			while(firstChild.nextSibling) {
+				parent.removeChild(firstChild.nextSibling);
+			}
+		}		
+
+		if(data.button.id == 'lfBlockUsers') {
+			document.getElementById('lfMemberSuggestion').innerHTML = ``;
 		}
+
 		data.dropdown.querySelectorAll('input').forEach(function(el) {
 			el.value = '';
 		});
@@ -1482,3 +1515,7 @@ LiveForum.paste = function(selection) {
 }
 
 LiveForum.start();
+
+chrome.runtime.sendMessage({receiver: "Modified Settings"}, function(data) {
+	console.log(data);
+});

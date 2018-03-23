@@ -112,13 +112,14 @@
 }
 
 
-.lf-family1 button:hover::before {
+.lf-family1 > button:hover::before, .lf-family2 > button:hover::before, .lf-family3 > button:hover::before, .lf-family4 > button:hover::before, .lf-dropdown > button:hover::before, #addCustomButton:hover::before {
 	content: attr(data-tooltip);
 	position:absolute;
-	bottom:115%;
+	bottom:40px;
 	border-radius: 3px;
 	background:rgba(0,0,0,.85);
 	color:#FFF;
+	display: inline-block;
 	padding:5px 7px;
 	font-family:'Arial', sans-serif;
 	font-size:11px;
@@ -266,6 +267,12 @@ ul#lfSizes li {
 button#lfList + .lf-dropdown-content {
 	width:300px;
 	background: #FFF;
+}
+
+label#lfListType {
+	width: 110px;
+	display: block;
+	margin: 20px auto 0 auto;
 }
 
 ul#lfListItems {
