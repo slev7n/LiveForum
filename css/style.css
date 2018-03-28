@@ -112,7 +112,7 @@
 }
 
 
-.lf-family1 > button:hover::before, .lf-family2 > button:hover::before, .lf-family3 > button:hover::before, .lf-family4 > button:hover::before, .lf-dropdown > button:hover::before, #addCustomButton:hover::before {
+.lf-family1 > button:hover::before, .lf-family2 > button:hover::before, .lf-family3 > button:hover::before, .lf-family4 > button:hover::before, #lfStandardToolBox .lf-dropdown > button:hover::before, #addCustomButton:hover::before {
 	content: attr(data-tooltip);
 	position:absolute;
 	bottom:40px;
@@ -596,4 +596,28 @@ div#lfQuotePopup {
 div#lfQuotePopup:hover {
 	cursor: pointer;
 	color:#FF9100;
+}
+
+button {
+	position: relative;
+}
+
+.delete-button {
+	position:absolute;
+	bottom:120%;
+	left:calc(50% - 9px);
+	width: 18px;
+	height: 18px;
+	background: rgba(0,0,0,.9);
+	border-radius: 50%;
+}
+
+.delete-button:before {
+	content: 'x';
+	font-family: 'Noto Sans', sans-serif;
+	color:#FFF;
+}
+
+.delete-button:hover:before {
+	color:orange;
 }

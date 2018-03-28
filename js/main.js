@@ -1121,6 +1121,31 @@ LiveForum.addCustomButtonEvents = function() {
 LiveForum.factory = function(el) {
 	var self = this;
 
+	var deleteButton = document.createElement('div');
+		deleteButton.setAttribute('class', 'delete-button');
+		deleteButton.addEventListener('click', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			var parent = document.querySelector('#lfCustomToolbox .lf-custom-family');
+			if(this.parentElement.dataset.popup == 'yes') {
+				var index = Array.prototype.indexOf.call(parent.children, this.parentElement.parentElement);
+					self.storage.get(null, function(data) {
+						data.custom_buttons.splice(index, 1);
+						self.storage.set(data, function(info) {
+							parent.removeChild(parent.children[index]);
+						})
+					});
+			} else {
+				var index = Array.prototype.indexOf.call(parent.children, this.parentElement);
+					self.storage.get(null, function(data) {
+						data.custom_buttons.splice(index, 1);
+						self.storage.set(data, function(info) {
+							parent.removeChild(parent.children[index]);
+						})
+					});
+			}
+		});
+
 	if(el.dropdown && el.bbcode) {
 		var dropdown = document.createElement('div');
 			dropdown.setAttribute('class', 'lf-dropdown');
@@ -1130,10 +1155,13 @@ LiveForum.factory = function(el) {
 
 		var button = document.createElement('button');
 			button.innerText = el.button_name;
+			button.setAttribute('data-popup', 'yes');
 			button.addEventListener('click', function(e) {
 				e.preventDefault();
 				self.toggle(self, button);
 			});
+
+			button.appendChild(deleteButton);
 
 		var insert = document.createElement('button');
 			insert.innerText = 'Insert';
@@ -1179,6 +1207,7 @@ LiveForum.factory = function(el) {
 				e.preventDefault();
 				self.wrapper(el.bbcode);
 			});
+			button.appendChild(deleteButton);
 			document.querySelector('#lfCustomToolbox .lf-custom-family').appendChild(button);
 	} else if(el.paste && !el.dropdown) {
 		var button = document.createElement('button');
@@ -1187,6 +1216,7 @@ LiveForum.factory = function(el) {
 				e.preventDefault();
 				self.paste(el.paste);
 			});
+			button.appendChild(deleteButton);
 			document.querySelector('#lfCustomToolbox .lf-custom-family').appendChild(button);
 	}
 }
