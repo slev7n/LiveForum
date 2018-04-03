@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Noto+Serif|Noto+Sans');
 
+:root {
+	--custom-dropdown-height: 160px;
+}
+
 .lf-box {
 	background:#FFF;
 	border:1px solid rgba(0,0,0,.2);
@@ -342,10 +346,6 @@ ul#lfOthersList {
 	margin:0 0 5% 5%;
 }
 
-.show {
-	display:block;
-}
-
 .selected {
 	font-weight: 700;
 }
@@ -415,11 +415,17 @@ button#removeCustomButton {
 }
 
 div#lfCustomToolbox .lf-custom-family > button, div#lfCustomToolbox .lf-dropdown > button {
-	font-family: 'Noto serif', serif;
+	font-family: 'Noto Sans', sans-serif;
 	font-size: 14px;
 	border:none;
 	outline:none;
 	background: transparent;
+}
+
+div#lfCustomToolbox .lf-custom-family .lf-dropdown-content {
+	height: var(--custom-dropdown-height);
+	box-shadow: 0 0 6px 0 rgba(0,0,0,.2);
+	top:calc(var(--custom-dropdown-height) * -1);
 }
 
 div#lfCustomToolbox .lf-custom-family > button:hover, div#lfCustomToolbox .lf-dropdown > button:hover {
@@ -604,6 +610,7 @@ button {
 
 .delete-button {
 	position:absolute;
+	display:none;
 	bottom:120%;
 	left:calc(50% - 9px);
 	width: 18px;
@@ -620,4 +627,12 @@ button {
 
 .delete-button:hover:before {
 	color:orange;
+}
+
+.show {
+	display:block;
+}
+
+.hide {
+	display: none;
 }

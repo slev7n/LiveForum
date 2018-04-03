@@ -934,6 +934,7 @@ LiveForum.start = function() {
 				</div>
 				<button data-tooltip="Add Custom Button" id="addCustomButton">+</button>
 				<div class="lf-custom-family"></div>
+				<button data-tooltip="Remove Custom Button" id="removeCustomButton">-</button>
 			</div>
 		</div>
 	`;
@@ -1028,6 +1029,13 @@ LiveForum.addCustomButtonEvents = function() {
 		document.getElementById('lfCBtnInterface').style.display = "block";
 		document.querySelector(self.textarea).disabled = true;
 	});	
+
+	document.getElementById('removeCustomButton').addEventListener('click', function(e){
+		e.preventDefault();
+		document.querySelectorAll('.delete-button').forEach(function(el) {
+			el.classList.toggle('show');
+		});
+	});
 
 	document.getElementById('lfCBtnInterfaceClose').addEventListener('click', function(e) {
 		e.preventDefault();
@@ -1133,6 +1141,9 @@ LiveForum.factory = function(el) {
 						data.custom_buttons.splice(index, 1);
 						self.storage.set(data, function(info) {
 							parent.removeChild(parent.children[index]);
+							if(parent.children.length == 0) {
+								document.getElementById('removeCustomButton').style.display = 'none';
+							}
 						})
 					});
 			} else {
@@ -1141,6 +1152,9 @@ LiveForum.factory = function(el) {
 						data.custom_buttons.splice(index, 1);
 						self.storage.set(data, function(info) {
 							parent.removeChild(parent.children[index]);
+							if(parent.children.length == 0) {
+								document.getElementById('removeCustomButton').style.display = 'none';
+							}
 						})
 					});
 			}
@@ -1227,6 +1241,7 @@ LiveForum.storage.get("custom_buttons", function(data) {
 		data.forEach(function(el) {
 			root.factory(el);
 		});
+		document.getElementById('removeCustomButton').style.display = 'block';
 	}
 });
 
@@ -1399,6 +1414,7 @@ LiveForum.events = function() {
 			setTimeout(function() {
 				message.style.color = 'transparent';
 			}, 1500);
+			document.getElementById('removeCustomButton').style.display = 'block';
 	}
 
 	this.listener.on('customSimpleBtnAdd', messenger);
@@ -1408,6 +1424,12 @@ LiveForum.events = function() {
 	document.addEventListener('click', function(e) {
 		if(!e.target.matches('.lf-dropdown *')) {
 			self.closeDropdown();
+		}
+		if(!e.target.matches('.delete-button') && !e.target.matches('#removeCustomButton')) {
+			document.querySelectorAll('.delete-button').forEach(function(el) {
+				if(el.classList.contains('show'))
+					el.classList.remove('show');
+			});
 		}
 	});
 
