@@ -23,12 +23,14 @@ LiveForum.quotePopupEvents = function() {
 		}
 	});
 
+	var quoteAuthor = null;
+
 	document.querySelectorAll('.postcolor').forEach(function(el) {
 		el.parentNode.addEventListener('mouseup', function(e) {
-			console.log(window.getSelection());
 			if(window.getSelection().isCollapsed) {
 				css.opacity = 0;
 				css.dipslay = 'none';
+				quoteAuthor = null;
 			} else {
 				css.top = e.pageY + 'px';
 				css.left = e.pageX + 'px';
@@ -36,7 +38,8 @@ LiveForum.quotePopupEvents = function() {
 				setTimeout(function() {
 					css.opacity = 1;
 				}, 0);
-			}	
+				quoteAuthor = el.parentElement.previousElementSibling.querySelector('.normalname a').innerText;
+			}
 		});
 	});
 
@@ -44,7 +47,7 @@ LiveForum.quotePopupEvents = function() {
 		var rawSelection = window.getSelection().getRangeAt(0).toString();
 			this.style.opacity = 0;
 			this.style.display = 'none';
-			self.wrapper('quote', false, rawSelection);
+			self.wrapper('quote', quoteAuthor, rawSelection, true);
 			window.getSelection().removeAllRanges();
 	});
 }
@@ -169,10 +172,10 @@ LiveForum.imgEvents = function() {
 	document.getElementById('lfImgSubmit').addEventListener('click', function(e) {
 		e.preventDefault();
 		var input = document.getElementById('lfImgInput');
-		self.wrapper(this.dataset.bbcode, false, input.value);
+		self.wrapper(this.dataset.bbcode, false, input.value, true);
 		self.closeDropdown();
 	});
-	document.getElementById('lfImgInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'img'));
+	document.getElementById('lfImgInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'img', true));
 }
 
 LiveForum.video = `
@@ -191,7 +194,7 @@ LiveForum.video = `
 			<li id="lfCoub" data-show="CoubTab">Coub</li>
 		</ul>
 		<div id="lfYouTubeTab" style="z-index:1">
-			<input id="lfYouTubeInput" type="text" placeholder="YouTube video id...">
+			<input id="lfYoutubeInput" type="text" placeholder="YouTube video id...">
 			<button data-bbcode="youtube" id="lfYouTubeSubmit">Insert</button>
 		</div>
 		<div id="lfFbTab">
@@ -203,7 +206,7 @@ LiveForum.video = `
 			<button data-bbcode="vimeo" id="lfVimeoSubmit">Insert</button>
 		</div>
 		<div id="lfMyVideoTab">
-			<input id="lfMyVideoInput" type="text" placeholder="MyVideo id...">
+			<input id="lfMyvideoInput" type="text" placeholder="MyVideo id...">
 			<button data-bbcode="myvideo" id="lfMyVideoSubmit">Insert</button>
 		</div>
 		<div id="lfCoubTab">
@@ -247,43 +250,43 @@ LiveForum.videoEvents = function() {
 
 	document.getElementById('lfYouTubeSubmit').addEventListener('click', function(e) {
 		e.preventDefault();
-		var input = document.getElementById('lfYouTubeInput');
-		self.wrapper(this.dataset.bbcode, false, input.value);
+		var input = document.getElementById('lfYoutubeInput');
+		self.wrapper(this.dataset.bbcode, false, input.value, true);
 		self.closeDropdown();
 	});
-	document.getElementById('lfFbInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'youtube'));
+	document.getElementById('lfFbInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'fb'));
 
 	document.getElementById('lfFbSubmit').addEventListener('click', function(e) {
 		e.preventDefault();
 		var input = document.getElementById('lfFbInput');
-		self.wrapper(this.dataset.bbcode, false, input.value);
+		self.wrapper(this.dataset.bbcode, false, input.value, true);
 		self.closeDropdown();
 	});
-	document.getElementById('lfYouTubeInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'fb'));
+	document.getElementById('lfYoutubeInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'youtube'));
 
 	document.getElementById('lfVimeoSubmit').addEventListener('click', function(e) {
 		e.preventDefault();
 		var input = document.getElementById('lfVimeoInput');
-		self.wrapper(this.dataset.bbcode, false, input.value);
+		self.wrapper(this.dataset.bbcode, false, input.value, true);
 		self.closeDropdown();
 	});
-	document.getElementById('lfMyVideoInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'vimeo'));
+	document.getElementById('lfMyvideoInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'myvideo'));
 
 	document.getElementById('lfMyVideoSubmit').addEventListener('click', function(e) {
 		e.preventDefault();
-		var input = document.getElementById('lfMyVideoInput');
-		self.wrapper(this.dataset.bbcode, false, input.value);
+		var input = document.getElementById('lfMyvideoInput');
+		self.wrapper(this.dataset.bbcode, false, input.value, true);
 		self.closeDropdown();
 	});
-	document.getElementById('lfCoubInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'myvideo'));
+	document.getElementById('lfCoubInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'coub'));
 
 	document.getElementById('lfCoubSubmit').addEventListener('click', function(e) {
 		e.preventDefault();
 		var input = document.getElementById('lfCoubInput');
-		self.wrapper(this.dataset.bbcode, false, input.value);
+		self.wrapper(this.dataset.bbcode, false, input.value, true);
 		self.closeDropdown();
 	});
-	document.getElementById('lfVimeoInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'coub'));
+	document.getElementById('lfVimeoInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'vimeo'));
 }
 
 LiveForum.font = `
@@ -341,7 +344,7 @@ LiveForum.fontEvents = function() {
 
 LiveForum.size = `
 <div class="lf-dropdown">
-	<button id="lfSize" class="lf-dropbtn" data-tooltip="Size (Ctrl+S)">
+	<button id="lfSize" class="lf-dropbtn" data-tooltip="Size (Ctrl+T)">
 		<svg style="width:24px;height:24px" viewBox="0 0 24 24">
 			<path fill="#000000" d="M3,12H6V19H9V12H12V9H3M9,4V7H14V19H17V7H22V4H9Z" />
 		</svg>
@@ -484,7 +487,7 @@ LiveForum.list = `
 		<ul id="lfListItems">
 			<li>
 				<input type="text" placeholder="List item...">
-				<button>+</button>
+				<button data-tooltip="Add Field (Ctrl+Enter)">+</button>
 			</li>
 		</ul>
 		<button id="lfListSubmit">Insert</button>
@@ -535,6 +538,8 @@ LiveForum.listEvents = function() {
 
 			fieldInput.setAttribute('type', 'text');
 			fieldInput.setAttribute('placeholder', 'List item...');
+			removeButton.setAttribute('data-tooltip', 'Remove Field');
+			addButton.setAttribute('data-tooltip', 'Add Field (Ctrl+Enter');
 			if(value) fieldInput.value = value;
 			removeButton.innerText = '-';
 			addButton.innerText = '+';
@@ -639,7 +644,7 @@ LiveForum.listEvents = function() {
 }
 
 LiveForum.code = `
-<button data-bbcode="code" data-tooltip="Code" id="lfCode">
+<button data-bbcode="code" data-tooltip="Code (Ctrl+P)" id="lfCode">
 	<svg style="width:24px;height:24px" viewBox="0 0 24 24">
 		<path fill="#000000" d="M14.6,16.6L19.2,12L14.6,7.4L16,6L22,12L16,18L14.6,16.6M9.4,16.6L4.8,12L9.4,7.4L8,6L2,12L8,18L9.4,16.6Z" />
 	</svg>
@@ -752,7 +757,7 @@ LiveForum.emojiEvents = function() {
 
 LiveForum.blockUsers = `
 <div class="lf-dropdown">
-	<button id="lfBlockUsers" class="lf-dropbtn" data-tooltip="Block Users (Ctrl+)">
+	<button id="lfBlockUsers" class="lf-dropbtn" data-tooltip="Block Users">
 	<svg style="width:24px;height:24px" viewBox="0 0 24 24">
 		<path fill="#000000" d="M23,16.06C23,16.29 23,16.5 22.96,16.7C22.78,14.14 20.64,12.11 18,12.11C17.63,12.11 17.27,12.16 16.92,12.23C16.96,12.5 17,12.73 17,13C17,15.35 15.31,17.32 13.07,17.81C13.42,20.05 15.31,21.79 17.65,21.96C17.43,22 17.22,22 17,22C14.92,22 13.07,20.94 12,19.34C10.93,20.94 9.09,22 7,22C6.78,22 6.57,22 6.35,21.96C8.69,21.79 10.57,20.06 10.93,17.81C8.68,17.32 7,15.35 7,13C7,12.73 7.04,12.5 7.07,12.23C6.73,12.16 6.37,12.11 6,12.11C3.36,12.11 1.22,14.14 1.03,16.7C1,16.5 1,16.29 1,16.06C1,12.85 3.59,10.24 6.81,10.14C6.3,9.27 6,8.25 6,7.17C6,4.94 7.23,3 9.06,2C7.81,2.9 7,4.34 7,6C7,7.35 7.56,8.59 8.47,9.5C9.38,8.59 10.62,8.04 12,8.04C13.37,8.04 14.62,8.59 15.5,9.5C16.43,8.59 17,7.35 17,6C17,4.34 16.18,2.9 14.94,2C16.77,3 18,4.94 18,7.17C18,8.25 17.7,9.27 17.19,10.14C20.42,10.24 23,12.85 23,16.06M9.27,10.11C10.05,10.62 11,10.92 12,10.92C13,10.92 13.95,10.62 14.73,10.11C14,9.45 13.06,9.03 12,9.03C10.94,9.03 10,9.45 9.27,10.11M12,14.47C12.82,14.47 13.5,13.8 13.5,13A1.5,1.5 0 0,0 12,11.5A1.5,1.5 0 0,0 10.5,13C10.5,13.8 11.17,14.47 12,14.47M10.97,16.79C10.87,14.9 9.71,13.29 8.05,12.55C8.03,12.7 8,12.84 8,13C8,14.82 9.27,16.34 10.97,16.79M15.96,12.55C14.29,13.29 13.12,14.9 13,16.79C14.73,16.34 16,14.82 16,13C16,12.84 15.97,12.7 15.96,12.55Z" />
 	</svg>
@@ -887,9 +892,9 @@ LiveForum.start = function() {
 							<button id="lfSimpleAddBtn">Add</button>
 						</div>
 						<div id="lfSimplePreview" class="lf-preview">
-							<span>Preview</span>
+							<h3>Preview</h3>
 							<textarea>[]Text[/]</textarea>
-							<div><button></button></div>
+							<div><span></span></div>
 						</div>
 					</div>
 					<div id="lfCBtnDropdownTab">
@@ -900,10 +905,15 @@ LiveForum.start = function() {
 							<button id="lfDropdownAddBtn">Add</button>
 						</div>
 						<div id="lfDropdownPreview" class="lf-preview">
-							<span>Preview</span>
+							<h3>Preview</h3>
 							<textarea>[]Input[/]</textarea>
-							<div><button></button></div>
-						</div>
+							<div>
+								<div class="dropdown">
+									<input type="text" placeholder="Input" disabled>
+									<input type="button" value="Insert" disabled>
+								</div>
+								<span></span>
+							</div>						</div>
 					</div>
 					<div id="lfCBtnDropdown2Tab">
 						<div class="lf-create-button">
@@ -913,9 +923,16 @@ LiveForum.start = function() {
 							<button id="lfDropdown2AddBtn">Add</button>
 						</div>
 						<div id="lfDropdown2Preview" class="lf-preview">
-							<span>Preview</span>
+							<h3>Preview</h3>
 							<textarea>[=Input2]Input1[/]</textarea>
-							<div><button></button></div>
+							<div>
+								<div class="dropdown">
+									<input type="text" placeholder="Input1" disabled>
+									<input type="text" placeholder="input2" disabled>
+									<input type="button" value="Insert" disabled>
+								</div>
+								<span></span>
+							</div>
 						</div>
 					</div>
 					<div id="lfCBtnPasteTab">
@@ -926,9 +943,9 @@ LiveForum.start = function() {
 							<button id="lfPasteAddBtn">Add</button>
 						</div>
 						<div id="lfPastePreview" class="lf-preview">
-							<span>Preview</span>
+							<h3>Preview</h3>
 							<textarea></textarea>
-							<div><button></button></div>
+							<div><span></span></div>
 						</div>
 					</div>
 				</div>
@@ -1072,7 +1089,7 @@ LiveForum.addCustomButtonEvents = function() {
 	});
 
 	document.getElementById('lfSimpleText').addEventListener('keyup', function(e) {
-		document.querySelector('#lfSimplePreview button').innerText = this.value;
+		document.querySelector('#lfSimplePreview span').innerText = this.value;
 	});
 
 	document.getElementById('lfSimpleAddBtn').addEventListener('click', function(e) {
@@ -1081,7 +1098,7 @@ LiveForum.addCustomButtonEvents = function() {
 	});
 
 	document.getElementById('lfDropdownText').addEventListener('keyup', function(e) {
-		document.querySelector('#lfDropdownPreview button').innerText = this.value;
+		document.querySelector('#lfDropdownPreview span').innerText = this.value;
 	});
 
 	document.getElementById('lfDropdownBBCode').addEventListener('keyup', function(e) {
@@ -1096,7 +1113,7 @@ LiveForum.addCustomButtonEvents = function() {
 	});
 
 	document.getElementById('lfDropdown2Text').addEventListener('keyup', function(e) {
-		document.querySelector('#lfDropdown2Preview button').innerText = this.value;
+		document.querySelector('#lfDropdown2Preview span').innerText = this.value;
 	});
 
 	document.getElementById('lfDropdown2BBCode').addEventListener('keyup', function(e) {
@@ -1111,7 +1128,7 @@ LiveForum.addCustomButtonEvents = function() {
 	});
 
 	document.getElementById('lfPasteText').addEventListener('keyup', function(e) {
-		document.querySelector('#lfPastePreview button').innerText = this.value;
+		document.querySelector('#lfPastePreview span').innerText = this.value;
 	});
 
 	document.getElementById('lfPasteBBCode').addEventListener('keyup', function(e) {
@@ -1292,8 +1309,8 @@ LiveForum.CtrlKeyCombo = function(el, keyObj) {
 		if(e.ctrlKey) self.ctrlKeyPressed = true;
 		for(var key in keyObj) {
 			switch(key) {
-				case 'CtrlL':
-					if(self.ctrlKeyPressed && e.keyCode == 76) {
+				case 'CtrlK':
+					if(self.ctrlKeyPressed && e.keyCode == 75) {
 						e.preventDefault();
 						keyObj[key]();
 						self.ctrlKeyPressed = false;
@@ -1327,6 +1344,13 @@ LiveForum.CtrlKeyCombo = function(el, keyObj) {
 						self.ctrlKeyPressed = false;
 					}
 					break;
+				case 'CtrlQ':
+					if(self.ctrlKeyPressed && e.keyCode == 81) {
+						e.preventDefault();
+						keyObj[key]();
+						self.ctrlKeyPressed = false;
+					}
+					break;
 				case 'CtrlH':
 					if(self.ctrlKeyPressed && e.keyCode == 72) {
 						e.preventDefault();
@@ -1336,6 +1360,48 @@ LiveForum.CtrlKeyCombo = function(el, keyObj) {
 					break;
 				case 'CtrlG':
 					if(self.ctrlKeyPressed && e.keyCode == 71) {
+						e.preventDefault();
+						keyObj[key]();
+						self.ctrlKeyPressed = false;
+					}
+					break;
+				case 'CtrlM':
+					if(self.ctrlKeyPressed && e.keyCode == 77) {
+						e.preventDefault();
+						keyObj[key]();
+						self.ctrlKeyPressed = false;
+					}
+					break;
+				case 'CtrlL':
+					if(self.ctrlKeyPressed && e.keyCode == 76) {
+						e.preventDefault();
+						keyObj[key]();
+						self.ctrlKeyPressed = false;
+					}
+					break;
+				case 'CtrlF':
+					if(self.ctrlKeyPressed && e.keyCode == 70) {
+						e.preventDefault();
+						keyObj[key]();
+						self.ctrlKeyPressed = false;
+					}
+					break;
+				case 'CtrlT':
+					if(self.ctrlKeyPressed && e.keyCode == 84) {
+						e.preventDefault();
+						keyObj[key]();
+						self.ctrlKeyPressed = false;
+					}
+					break;
+				case 'CtrlR':
+					if(self.ctrlKeyPressed && e.keyCode == 82) {
+						e.preventDefault();
+						keyObj[key]();
+						self.ctrlKeyPressed = false;
+					}
+					break;
+				case 'CtrlP':
+					if(self.ctrlKeyPressed && e.keyCode == 80) {
 						e.preventDefault();
 						keyObj[key]();
 						self.ctrlKeyPressed = false;
@@ -1359,12 +1425,16 @@ LiveForum.capitalize = function(str) {
 	return str.slice(0, 1).toUpperCase() + str.slice(1).toLowerCase();
 }
 
-LiveForum.submitInputOnEnter = function(evt, tag) {
+LiveForum.submitInputOnEnter = function(evt, tag, atEnd) {
 	e = evt || window.event;
 	if(e.keyCode == 13) {
 		e.preventDefault();
 		var link = document.getElementById('lf' + this.capitalize(tag) + 'Input');
-		this.wrapper(tag, false, link.value);
+		if(atEnd) {
+			this.wrapper(tag, false, link.value, true);
+		} else {
+			this.wrapper(tag, false, link.value);
+		}
 		this.closeDropdown();
 		link.value = '';
 	}
@@ -1451,7 +1521,7 @@ LiveForum.events = function() {
 	this.blockUsersEvents();
 
 	this.CtrlKeyCombo(document.querySelector(this.textarea), {
-		CtrlL: function() {
+		CtrlK: function() {
 			var checkbox = document.getElementById('lfGeo');
 			checkbox.checked ? checkbox.checked = false : checkbox.checked = true;
 		},
@@ -1467,12 +1537,33 @@ LiveForum.events = function() {
 		CtrlS: function() {
 			self.wrapper('s');
 		},
+		CtrlP: function() {
+			self.wrapper('code');
+		},
+		CtrlQ: function() {
+			self.wrapper('quote');
+		},
 		CtrlH: function() {
 			document.getElementById('lfUrlText').value = self.dissect(document.querySelector(self.textarea)).two;
 			self.toggle(self, document.getElementById('lfUrl'));
 		},
 		CtrlG: function() {
 			self.toggle(self, document.getElementById('lfImg'));
+		},
+		CtrlM: function() {
+			self.toggle(self, document.getElementById('lfVideo'));
+		},
+		CtrlL: function() {
+			self.toggle(self, document.getElementById('lfList'));
+		},
+		CtrlF: function() {
+			self.toggle(self, document.getElementById('lfFont'));
+		},
+		CtrlT: function() {
+			self.toggle(self, document.getElementById('lfSize'));
+		},
+		CtrlR: function() {
+			self.toggle(self, document.getElementById('lfColor'));
 		}
 	});
 
@@ -1498,7 +1589,7 @@ LiveForum.dissect = function(textarea) {
 		}
 }
 
-LiveForum.wrapper = function(tag, attr, input) {
+LiveForum.wrapper = function(tag, attr, input, atEnd) {
 	var textarea  = document.querySelector(this.textarea),
 		dissected = this.dissect(textarea);
 
@@ -1519,7 +1610,7 @@ LiveForum.wrapper = function(tag, attr, input) {
 				textarea.focus();
 			} else {
 				textarea.selectionStart = selStart;
-				textarea.selectionEnd   = selEnd
+				textarea.selectionEnd   = selEnd;
 				textarea.focus();
 			}
 		} else if(tag && attr) { // FontSizeColorType
@@ -1554,6 +1645,11 @@ LiveForum.wrapper = function(tag, attr, input) {
 			textarea.focus();
 		}
 
+		if(atEnd) {
+			var end = textarea.selectionEnd + 3 + tag.length;
+			textarea.selectionStart = end;
+			textarea.selectionEnd   = end;
+		}
 }
 
 LiveForum.paste = function(selection) {

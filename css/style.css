@@ -115,11 +115,11 @@
 	border:1px solid rgba(0,0,0,1);
 }
 
-
-.lf-family1 > button:hover::before, .lf-family2 > button:hover::before, .lf-family3 > button:hover::before, .lf-family4 > button:hover::before, #lfStandardToolBox .lf-dropdown > button:hover::before, #addCustomButton:hover::before {
+div#lfStandardToolbox > div > button:hover:before, div#lfStandardToolbox > div > div > button:hover:before,  div#lfCustomToolbox > button:hover:before, #lfListItems li button:hover:before {
 	content: attr(data-tooltip);
 	position:absolute;
-	bottom:40px;
+	transform: translateX(0%) translateY(-150%);
+	width:max-content;
 	border-radius: 3px;
 	background:rgba(0,0,0,.85);
 	color:#FFF;
@@ -139,23 +139,24 @@
 	outline:none;
 }
 
-#lfBold:hover::before {
-	width:60px;
+div#lfStandardToolbox .lf-family1 > button:hover:before, div#lfCustomToolbox > button:hover:before, #lfListItems li button:hover:before {
+	transform: translateX(-40%) translateY(-150%);
+}
+
+/*#lfBold:hover::before {
 	left:-20px;
 }
 
 #lfItalic:hover::before {
-	width:60px;
 	left:-20px;
 }
 
 #lfUnderline:hover::before {
-	width:90px;
 	left:-30px;
 }
 #lfStrikethrough:hover::before {
-	left:-2px;
-}
+	left:-20px;
+}*/
 
 /*#lfImg::before {
 	content: url('chrome-extension://__MSG_@@extension_id__/icons/img.svg');
@@ -423,9 +424,11 @@ div#lfCustomToolbox .lf-custom-family > button, div#lfCustomToolbox .lf-dropdown
 }
 
 div#lfCustomToolbox .lf-custom-family .lf-dropdown-content {
-	height: var(--custom-dropdown-height);
+/*	height: var(--custom-dropdown-height);
+	top:calc(var(--custom-dropdown-height) * -1);*/
 	box-shadow: 0 0 6px 0 rgba(0,0,0,.2);
-	top:calc(var(--custom-dropdown-height) * -1);
+	transform: translateY(-100%);
+	top: -7%;
 }
 
 div#lfCustomToolbox .lf-custom-family > button:hover, div#lfCustomToolbox .lf-dropdown > button:hover {
@@ -524,6 +527,7 @@ div#lfCBtnSimpleTab, div#lfCBtnDropdownTab, div#lfCBtnDropdown2Tab, div#lfCBtnPa
 }
 
 .lf-preview div {
+	position:relative;
 	width:304px;
 	border:1px solid rgba(0,0,0,.2);
 	border-top:none;
@@ -531,14 +535,52 @@ div#lfCBtnSimpleTab, div#lfCBtnDropdownTab, div#lfCBtnDropdown2Tab, div#lfCBtnPa
 	border-bottom-right-radius: 5px;
 }
 
-.lf-preview button {
-	font-family: 'Noto Serif', serif;
+.lf-preview span {
+	font-family: 'Noto Sans', sans-serif;
 	min-width:20px;
 	height:20px;
-	border:none;
-	display: block;
+	display: inline-block;
 	background: rgba(0,0,0,.1);
 	margin-left:10px;
+	padding:0 5px;
+}
+
+.lf-preview h3 {
+	margin:5px;
+	font-size: 16px;
+}
+
+div#lfDropdownPreview .dropdown, div#lfDropdown2Preview .dropdown {
+	position: absolute;
+	left:5px;
+	bottom:calc(100% + 2px);
+	width:150px;
+	box-shadow: 0 0px 6px 0 rgba(0,0,0,.2);
+	border:none;
+	border-radius: unset;
+	padding:3px;
+}
+
+div#lfDropdownPreview .dropdown input[type="text"], div#lfDropdown2Preview .dropdown input[type="text"] {
+	width:90%;
+	display:block;
+	margin:5px auto;
+	background: #FFF;
+	border: none;
+	border-bottom: 1px solid #03A9F4;
+}
+
+div#lfDropdownPreview .dropdown input[type="button"], div#lfDropdown2Preview .dropdown input[type="button"] {
+	color: #03A9F4;
+	background: #FFF;
+	border: none;
+	float:right;
+	font-weight: 400;
+	margin-right:8px;
+}
+
+div#lfDropdownPreview .dropdown input[type="button"]:hover, div#lfDropdown2Preview .dropdown input[type="button"]:hover {
+	background: rgba(0,0,0,.1);
 }
 
 .lf-create-button input {
