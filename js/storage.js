@@ -9,7 +9,8 @@ var LiveForum = LiveForum || {};
 		"notifications_enabled": true,
 		"last_checked": Date.now(),
 		"blocked_users": [],
-		"custom_buttons": []
+		"custom_buttons": [],
+		"quote_author": true
 	}
 
 LiveForum.storage.xhr = typeof content !== 'undefined' ? content.XMLHttpRequest : XMLHttpRequest;

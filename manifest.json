@@ -7,12 +7,6 @@
 		"48": "icons/icon_48.png"
 	},
 
-	"background": {
-		"scripts": ["js/background.js"]
-	},
-
-	// "options_page": "html/options.html",
-
 	"options_ui": {
 		"open_in_tab": true, 
 		"page": "html/options.html"

@@ -55,7 +55,7 @@ LiveForum.quotePopupEvents = function() {
 LiveForum.geoObj = `
 <div id="lfGeoContainer">
 	<input id="lfGeo" type="checkbox" name="geo" checked>
-	<label for="lfGeo"></label>
+	<label for="lfGeo" data-tooltip="Keyboard (Ctrl+K)"></label>
 </div>
 `;
 
@@ -763,6 +763,7 @@ LiveForum.blockUsers = `
 	</svg>
 	</button>
 	<div class="lf-dropdown-content">
+		<div id="lfBlockedUsers"></div>
 		<input id="lfMemberSearch" type="text" placeholder="Enter Member Name">
 		<ul id="lfMemberSuggestion"></ul>
 		<button id="lfBlockUsersSubmit">Block</button>
@@ -772,6 +773,33 @@ LiveForum.blockUsers = `
 
 LiveForum.blockUsersEvents = function() {
 	var self = this;
+
+	function render_blocked(user) {
+		var el = document.createElement('span');
+			el.setAttribute('class', 'lf-blocked-user');
+			el.setAttribute('data-tooltip', 'Unblock');
+			el.addEventListener('click', function() {
+				var position = Array.prototype.indexOf.call(document.getElementById('lfBlockedUsers').children, el);
+				self.storage.get(null, function(data) {
+					data.blocked_users.splice(position, 1);
+					self.storage.set(data, function(info) {
+						remove_blocked(el);
+					});
+				});
+			});
+			el.innerText = user;
+		document.getElementById('lfBlockedUsers').appendChild(el);
+	}
+
+	function remove_blocked(user) {
+		document.getElementById('lfBlockedUsers').removeChild(user);
+	}
+
+	this.storage.get("blocked_users", function(data) {
+		data.forEach(function(el) {
+			render_blocked(el);
+		});
+	});
 
 	document.getElementById('lfBlockUsers').addEventListener('click', function(e) {
 		e.preventDefault();
@@ -785,11 +813,15 @@ LiveForum.blockUsersEvents = function() {
 		var input = document.getElementById('lfMemberSearch');
 		if(input.value.length > 1) {
 			self.storage.get(null, function(data) {
-				data.blocked_users.push(input.value);
-				self.storage.set(data, function(info) {
-					console.log(info.message, info.status);
-					self.closeDropdown();
-				});
+				if(data.blocked_users.indexOf(input.value) < 0) {
+					data.blocked_users.push(input.value);
+					self.storage.set(data, function(info) {
+						console.log(info.message, info.status);
+						render_blocked(input.value);
+					});
+				} else {
+					console.log('User already blocked');
+				}
 			});
 		}
 	});
@@ -831,18 +863,43 @@ LiveForum.otherEvents = function() {
 }
 
 LiveForum.userSettings = `
+<div class="lf-dropdown">
 <button data-tooltip="Settings" id="lfSettings">
 	<svg style="width:24px;height:24px" viewBox="0 0 24 24">
 		<path fill="#000000" d="M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z" />
 	</svg>
 </button>
+<div class="lf-dropdown-content">
+		<ul id="lfSettingsList">
+			<li>Notifications <label><input type="checkbox" id="lfSettingsNotifications"><span></span></label></li>
+		</ul>
+	</div>
+</div>
 `;
 
 LiveForum.userSettingsEvents = function() {
 	var self = this;
 	document.getElementById('lfSettings').addEventListener('click', function(e) {
 		e.preventDefault();
-		window.open(self.browser.runtime.getURL('html/options.html'));
+		self.toggle(self, document.getElementById('lfSettings'));
+		// window.open(self.browser.runtime.getURL('html/options.html'));
+	});
+
+	var notifications = document.getElementById('lfSettingsNotifications'),
+		quote = document.getElementById('lfSettingsQuoteAuthor');
+
+	this.storage.get(['notifications_enabled'], function(data) {
+		notifications.checked = data.notifications_enabled;
+	});
+
+	notifications.addEventListener('change', function() {
+		var checkbox = this;
+		self.storage.get(null, function(data) {
+			data.notifications_enabled = checkbox.checked;
+			self.storage.set(data, function(info) {
+				console.log('storage saved');
+			});
+		});
 	});
 }
 
@@ -956,27 +1013,27 @@ LiveForum.start = function() {
 		</div>
 	`;
 
-	this.sibling.innerHTML = `
-		<div id="quickOptions">
-			<div class="lf-quick-links">
-				<a href="javascript:Insert(selection)" onmousedown="get_selection()">
-					<svg style="width:24px;height:24px" viewBox="0 0 24 24">
-						<path fill="#000000" d="M14,17H17L19,13V7H13V13H16M6,17H9L11,13V7H5V13H8L6,17Z" />
-					</svg>
-				</a>
-				<!--
-				<div>
-					<input type=text id="lfMemberSearch" placeholder="Search Members">
-					<ul id="lfMemberSuggestion">
-					</ul>
-				</div>
-				-->
-				<a href="javascript:GeoLang()">A > ა</a>
-				<a href="javascript:bbc_pop()">bbc</a>
-				<a href="javascript:CheckLength()">length</a>
-			</div>
-		</div>
-	`;
+	// this.sibling.innerHTML = `
+	// 	<div id="quickOptions">
+	// 		<div class="lf-quick-links">
+	// 			<a href="javascript:Insert(selection)" onmousedown="get_selection()">
+	// 				<svg style="width:24px;height:24px" viewBox="0 0 24 24">
+	// 					<path fill="#000000" d="M14,17H17L19,13V7H13V13H16M6,17H9L11,13V7H5V13H8L6,17Z" />
+	// 				</svg>
+	// 			</a>
+	// 			<!--
+	// 			<div>
+	// 				<input type=text id="lfMemberSearch" placeholder="Search Members">
+	// 				<ul id="lfMemberSuggestion">
+	// 				</ul>
+	// 			</div>
+	// 			-->
+	// 			<a href="javascript:GeoLang()">A > ა</a>
+	// 			<a href="javascript:bbc_pop()">bbc</a>
+	// 			<a href="javascript:CheckLength()">length</a>
+	// 		</div>
+	// 	</div>
+	// `;
 
 	this.events();
 }
@@ -1442,7 +1499,22 @@ LiveForum.submitInputOnEnter = function(evt, tag, atEnd) {
 }
 
 LiveForum.hideBlockedUserContent = function() {
-	// document.querySelectorAll('.normalname a[href^="javascript:paste"]').forEach(el => console.log(el.parentNode.parentNode.parentNode.parentNode.parentNode))
+	this.storage.get('blocked_users', function(data) {
+		document.querySelectorAll('.normalname a[href^="javascript:paste"]').forEach(function(el) {
+			if(data.indexOf(el.innerText) > -1) {
+				var post = el.parentNode.parentNode.parentNode.parentNode.parentNode,
+					div = document.createElement('div');
+					div.setAttribute('class', 'lf-blocked');
+					div.innerText = 'Blocked User: ' + el.innerText;
+					div.addEventListener('click', function() {
+						post.classList.toggle('hide');
+					});
+
+					post.classList.add('hide');
+					post.parentElement.insertBefore(div, post);
+			}
+		});
+	});
 }
 
 LiveForum.events = function() {
@@ -1470,7 +1542,9 @@ LiveForum.events = function() {
 	}
 
 	function focusInput(data) {
-		data.dropdown.querySelector('input').focus();
+		var  input = data.dropdown.querySelector('input');
+
+		if(input) input.focus();
 	}
 
 	this.listener.on('dropDownClose', clearInputs);
@@ -1662,8 +1736,10 @@ LiveForum.paste = function(selection) {
 		textarea.focus();
 }
 
+LiveForum.hideBlockedUserContent();
+
 LiveForum.start();
 
-chrome.runtime.sendMessage({receiver: "Modified Settings"}, function(data) {
-	console.log(data);
-});
+// chrome.runtime.sendMessage({receiver: "Modified Settings"}, function(data) {
+// 	console.log(data);
+// });

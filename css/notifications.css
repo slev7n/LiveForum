@@ -1,9 +1,10 @@
 div#lfNotifications {
 	width: 24px;
 	height: 24px;
-	position: fixed;
-	top: 144px;
-	right: 0px;
+	position: relative;
+	float:right;
+/*	top: 120px;
+	right: 10px;*/
 }
 
 svg#lfBell:hover {

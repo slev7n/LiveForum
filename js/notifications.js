@@ -14,7 +14,7 @@ LiveForum.notifications.start = function() {
 			<div id="lfNotifCount"></div>
 			<div id="lfNotifContent"></div>
 		`;
-		document.body.appendChild(notifBox);
+		document.getElementById('navstrip').appendChild(notifBox);
 
 		this.fetch();
 
@@ -31,6 +31,7 @@ LiveForum.notifications.start = function() {
 		function removeNotif() {
 			var notifCount = document.getElementById('lfNotifCount');
 				notifCount.style.display = 'none';
+				document.title = self.title;
 		}
 
 
@@ -56,10 +57,12 @@ LiveForum.notifications.start = function() {
 		});
 }
 
+LiveForum.notifications.title = document.title;
+
 LiveForum.notifications.fetch = function() {
 	var root = LiveForum,
 		self = this,
-		name = 'Neo',
+		name = document.querySelector('#userlinks td strong a').innerText,
 		contentBox = document.getElementById('lfNotifContent'),
 		xhr = new this.xhr();
 		xhr.open('GET', 'index.php?act=Search&CODE=01&keywords=' + name + '&exactname=1&joinname=1&cat_forum=forum&forums=all&searchsubs=1&search_in=posts&result_type=posts&prune=30&prune_type=newer&sort_key=last_post&sort_order=desc', true);
@@ -78,6 +81,7 @@ LiveForum.notifications.fetch = function() {
 								var div = document.createElement('div');
 									div.innerHTML = this.response;
 									contentBox.innerHTML = ``;
+									document.title = self.title;
 								div.querySelectorAll('.tableborder').forEach(function(el) {
 									contentBox.appendChild(el);
 								});
@@ -93,7 +97,7 @@ LiveForum.notifications.fetch = function() {
 										if(count > 0) {
 											notifCount.innerText = count;
 											notifCount.style.display = 'block';
-
+											document.title = '(' + count + ') '.concat(self.title);
 									}
 								});
 							}
