@@ -25,7 +25,7 @@ LiveForum.quotePopupEvents = function() {
 
 	var quoteAuthor = null;
 
-	document.querySelectorAll('.postcolor').forEach(function(el) {
+	Array.prototype.slice.call(document.querySelectorAll('.postcolor')).forEach(function(el) {
 		el.parentNode.addEventListener('mouseup', function(e) {
 			if(window.getSelection().isCollapsed) {
 				css.opacity = 0;
@@ -225,7 +225,7 @@ LiveForum.videoEvents = function() {
 		self.toggle(self, this);
 		document.getElementById(self.lastVideoTitle + 'Input').focus
 	});
-	document.querySelectorAll('#lfVideos li').forEach(function(el) {
+	Array.prototype.slice.call(document.querySelectorAll('#lfVideos li')).forEach(function(el) {
 		el.addEventListener('click', function() {
 			if(self.lastVideoTitle) {
 				document.getElementById(self.lastVideoTitle).classList.remove("underline");
@@ -320,7 +320,7 @@ LiveForum.fontEvents = function() {
 		e.preventDefault();
 		self.toggle(self, this);
 	});
-	document.querySelectorAll('#lfFonts li').forEach(function(el) {
+	Array.prototype.slice.call(document.querySelectorAll('#lfFonts li')).forEach(function(el) {
 		el.addEventListener('click', function() {
 			self.wrapper(el.dataset.bbcode, el.dataset.font);
 			self.closeDropdown();
@@ -381,7 +381,7 @@ LiveForum.sizeEvents = function() {
 		e.preventDefault();
 		self.toggle(self, this);
 	});
-	document.querySelectorAll('#lfSizes li').forEach(function(el) {
+	Array.prototype.slice.call(document.querySelectorAll('#lfSizes li')).forEach(function(el) {
 		el.addEventListener('click', function() {
 			self.wrapper(el.dataset.bbcode, el.dataset.size);
 			self.closeDropdown();
@@ -436,7 +436,7 @@ LiveForum.colorEvents = function() {
 		self.toggle(self, this);
 		document.getElementById('lfColorInput').focus();
 	});
-	document.querySelectorAll('#lfColors span').forEach(function(el) {
+	Array.prototype.slice.call(document.querySelectorAll('#lfColors span')).forEach(function(el) {
 		el.addEventListener('click', function() {
 			self.wrapper(el.dataset.bbcode, el.dataset.color);
 			self.closeDropdown();
@@ -559,7 +559,7 @@ LiveForum.listEvents = function() {
 				if(e.keyCode == 13) {
 					e.preventDefault();
 					var listItems = [];
-					document.querySelectorAll('#lfListItems li input[type="text"]').forEach(function(el) {
+					Array.prototype.slice.call(document.querySelectorAll('#lfListItems li input[type="text"]')).forEach(function(el) {
 						listItems.push('[*]' + el.value);
 					});
 					wrapWithStyle(listItems);
@@ -602,7 +602,7 @@ LiveForum.listEvents = function() {
 		if(e.keyCode == 13) {
 			e.preventDefault();
 			var listItems = [];
-			document.querySelectorAll('#lfListItems li input[type="text"]').forEach(function(el) {
+			Array.prototype.slice.call(document.querySelectorAll('#lfListItems li input[type="text"]')).forEach(function(el) {
 				listItems.push('[*]' + el.value);
 			});
 			wrapWithStyle(listItems);
@@ -633,7 +633,7 @@ LiveForum.listEvents = function() {
 	document.getElementById('lfListSubmit').addEventListener('click', function(e) {
 		e.preventDefault();
 		var listItems = [];
-		document.querySelectorAll('#lfListItems li input[type="text"]').forEach(function(el) {
+		Array.prototype.slice.call(document.querySelectorAll('#lfListItems li input[type="text"]')).forEach(function(el) {
 			listItems.push('[*]' + el.value);
 		});
 		wrapWithStyle(listItems);
@@ -748,7 +748,7 @@ LiveForum.emojiEvents = function() {
 		self.toggle(self, this);
 	});
 
-	document.querySelectorAll('#lfEmojiList li').forEach(function(el) {
+	Array.prototype.slice.call(document.querySelectorAll('#lfEmojiList li')).forEach(function(el) {
 		el.addEventListener('click', function() {
 			paste_emo(this.dataset.code);
 		});
@@ -854,7 +854,7 @@ LiveForum.otherEvents = function() {
 		self.toggle(self, this);
 	});
 
-	document.querySelectorAll('#lfOthersList li').forEach(function(el) {
+	Array.prototype.slice.call(document.querySelectorAll('#lfOthersList li')).forEach(function(el) {
 		el.addEventListener('click', function() {
 			self.wrapper(this.dataset.bbcode);
 			self.closeDropdown();
@@ -1052,11 +1052,11 @@ LiveForum.memberSuggestionEvents = function() {
 				var html = ``;
 				var div = document.createElement('div');
 					div.innerHTML = this.response;
-					div.querySelectorAll('.row4 a').forEach(function(el) {
+					Array.prototype.slice.call(div.querySelectorAll('.row4 a')).forEach(function(el) {
 						 html += `<li>${el.innerText}</li>`;
 					});
 					suggestionBox.innerHTML = html;
-					suggestionBox.querySelectorAll('li').forEach(function(el) {
+					Array.prototype.slice.call(suggestionBox.querySelectorAll('li')).forEach(function(el) {
 						el.addEventListener('click', function(e) {
 							input.value = this.innerText;
 							suggestionBox.innerHTML = ``;
@@ -1106,7 +1106,7 @@ LiveForum.addCustomButtonEvents = function() {
 
 	document.getElementById('removeCustomButton').addEventListener('click', function(e){
 		e.preventDefault();
-		document.querySelectorAll('.delete-button').forEach(function(el) {
+		Array.prototype.slice.call(document.querySelectorAll('.delete-button')).forEach(function(el) {
 			el.classList.toggle('show');
 		});
 	});
@@ -1117,7 +1117,7 @@ LiveForum.addCustomButtonEvents = function() {
 		document.querySelector(self.textarea).disabled = false;
 	});
 
-	document.querySelectorAll('#lfCBtns li').forEach(function(el) {
+	Array.prototype.slice.call(document.querySelectorAll('#lfCBtns li')).forEach(function(el) {
 		el.addEventListener('click', function() {
 			if(self.lastCustomBtnTitle) {
 				document.getElementById(self.lastCustomBtnTitle).classList.remove("underline");
@@ -1321,7 +1321,7 @@ LiveForum.storage.get("custom_buttons", function(data) {
 
 LiveForum.closeDropdown = function() {
 	var self = this;
-	document.querySelectorAll('.lf-dropdown-content').forEach(function(el) {
+	Array.prototype.slice.call(document.querySelectorAll('.lf-dropdown-content')).forEach(function(el) {
 		if(el.classList.contains('show')) {
 			el.classList.remove('show');
 			self.listener.emit('dropDownClose', {button: el.previousElementSibling, dropdown: el});
@@ -1500,7 +1500,7 @@ LiveForum.submitInputOnEnter = function(evt, tag, atEnd) {
 
 LiveForum.hideBlockedUserContent = function() {
 	this.storage.get('blocked_users', function(data) {
-		document.querySelectorAll('.normalname a[href^="javascript:paste"]').forEach(function(el) {
+		Array.prototype.slice.call(document.querySelectorAll('.normalname a[href^="javascript:paste"]')).forEach(function(el) {
 			if(data.indexOf(el.innerText) > -1) {
 				var post = el.parentNode.parentNode.parentNode.parentNode.parentNode,
 					div = document.createElement('div');
@@ -1536,7 +1536,7 @@ LiveForum.events = function() {
 			document.getElementById('lfMemberSuggestion').innerHTML = ``;
 		}
 
-		data.dropdown.querySelectorAll('input').forEach(function(el) {
+		Array.prototype.slice.call(data.dropdown.querySelectorAll('input')).forEach(function(el) {
 			el.value = '';
 		});
 	}
@@ -1570,7 +1570,7 @@ LiveForum.events = function() {
 			self.closeDropdown();
 		}
 		if(!e.target.matches('.delete-button') && !e.target.matches('#removeCustomButton')) {
-			document.querySelectorAll('.delete-button').forEach(function(el) {
+			Array.prototype.slice.call(document.querySelectorAll('.delete-button')).forEach(function(el) {
 				if(el.classList.contains('show'))
 					el.classList.remove('show');
 			});

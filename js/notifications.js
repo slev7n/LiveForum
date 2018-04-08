@@ -82,13 +82,13 @@ LiveForum.notifications.fetch = function() {
 									div.innerHTML = this.response;
 									contentBox.innerHTML = ``;
 									document.title = self.title;
-								div.querySelectorAll('.tableborder').forEach(function(el) {
+								Array.prototype.slice.call(div.querySelectorAll('.tableborder')).forEach(function(el) {
 									contentBox.appendChild(el);
 								});
 
 								root.storage.get('last_checked', function(data) {
 									var count = 0;
-									contentBox.querySelectorAll('.tablebasic tr td:nth-child(2) strong').forEach(function(el) {
+									Array.prototype.slice.call(contentBox.querySelectorAll('.tablebasic tr td:nth-child(2) strong')).forEach(function(el) {
 										if(new Date(el.innerText.slice(11)).getTime() > data) {
 											count++;
 										}
