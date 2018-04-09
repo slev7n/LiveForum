@@ -872,6 +872,7 @@ LiveForum.userSettings = `
 <div class="lf-dropdown-content">
 		<ul id="lfSettingsList">
 			<li>Notifications <label><input type="checkbox" id="lfSettingsNotifications"><span></span></label></li>
+			<li>Avoid 30 Chars <label><input type="checkbox" id="lfAvoid30chars"><span></span></label></li>
 		</ul>
 	</div>
 </div>
@@ -886,16 +887,27 @@ LiveForum.userSettingsEvents = function() {
 	});
 
 	var notifications = document.getElementById('lfSettingsNotifications'),
-		quote = document.getElementById('lfSettingsQuoteAuthor');
+		avoid30chars = document.getElementById('lfAvoid30chars');
 
-	this.storage.get(['notifications_enabled'], function(data) {
+	this.storage.get(['notifications_enabled', 'avoid30chars'], function(data) {
 		notifications.checked = data.notifications_enabled;
+		avoid30chars.checked = data.avoid30chars;
 	});
 
 	notifications.addEventListener('change', function() {
 		var checkbox = this;
 		self.storage.get(null, function(data) {
 			data.notifications_enabled = checkbox.checked;
+			self.storage.set(data, function(info) {
+				console.log('storage saved');
+			});
+		});
+	});
+
+	avoid30chars.addEventListener('change', function() {
+		var checkbox = this;
+		self.storage.get(null, function(data) {
+			data.avoid30chars = checkbox.checked;
 			self.storage.set(data, function(info) {
 				console.log('storage saved');
 			});
@@ -1517,8 +1529,22 @@ LiveForum.hideBlockedUserContent = function() {
 	});
 }
 
+LiveForum.avoid30chars = function() {
+	var content = document.querySelector(LiveForum.textarea); 
+	if(content.value.length < 30) {
+		content.value +='[b]                       [/b]';
+	}
+}
+
 LiveForum.events = function() {
 	var self = this;
+
+	this.storage.get('avoid30chars', function(data) {
+		if(data) {
+			document.querySelector('form[name="REPLIER"] input[type="submit"]').addEventListener('click', self.avoid30chars);
+			document.querySelector('form[name="REPLIER"] input[name="preview"]').addEventListener('click', self.avoid30chars);
+		}
+	});
 
 	this.quotePopupEvents();
 
