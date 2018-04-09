@@ -10,6 +10,7 @@ var LiveForum = LiveForum || {};
 		"last_checked": Date.now(),
 		"blocked_users": [],
 		"custom_buttons": [],
+		"custom_emojis": [],
 		"quote_author": true,
 		"avoid30chars": true
 	}

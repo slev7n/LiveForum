@@ -521,6 +521,7 @@ div#lfCBtnSimpleTab, div#lfCBtnDropdownTab, div#lfCBtnDropdown2Tab, div#lfCBtnPa
 }
 
 .lf-preview textarea {
+	background: #FFF;
 	width:300px;
 	height: 100px;
 	border:1px solid rgba(0,0,0,.2);
@@ -748,6 +749,70 @@ button {
 
 #lfSettingsList li:hover {
 	color:unset;
+}
+
+div#lfCustomEmojis {
+	overflow: auto;
+	border-bottom: 1px dashed;
+	width:90%;
+	margin:auto;
+	padding:10px 0;
+}
+
+div#lfCustomEmojis div {
+	position: relative;
+	display: inline-block;
+	margin:2px;
+}
+
+div#lfCustomEmojis img {
+	max-width: 100px;
+	max-height: 100px;
+}
+
+div#lfCustomEmojis img:hover {
+	cursor: pointer;
+}
+
+div#lfCustomEmojis img:hover + span {
+	color:#000;
+}
+
+input#lfCustomEmojiInput {
+	width: 80%;
+	float: left;
+	margin: 18px 0 0 8px;
+}
+
+button#lfCustomEmojiSubmit {
+	float:right;
+	margin: 5px 8px 0 0;
+}
+
+span#lfCustomEmojiRemove {
+	color: rgba(0,0,0,0.4);
+}
+
+span#lfCustomEmojiRemove:hover {
+	cursor: pointer;
+}
+
+.delete-emoji {
+	display: none;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	background: rgba(0,0,0,.7);
+	color: #FFF;
+	width: 15px;
+	height: 19px;
+	font-family: sans-serif;
+	text-align: center;
+}
+
+.delete-emoji:hover {
+	cursor: pointer;
+	color:orange;
 }
 
 .show {

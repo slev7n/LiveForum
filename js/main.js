@@ -6,6 +6,9 @@ LiveForum.textarea = 'textarea[name="Post"]';
 
 LiveForum.parent = document.querySelector(LiveForum.textarea).parentNode;
 
+LiveForum.addReply = document.querySelector('form[name="REPLIER"] input[type="submit"]');
+LiveForum.previewReply = document.querySelector('form[name="REPLIER"] input[name="preview"]');
+
 LiveForum.sibling = LiveForum.parent.previousElementSibling;
 
 LiveForum.quotePopupEvents = function() {
@@ -667,6 +670,11 @@ LiveForum.emoji = `
 		</svg>
 	</button>
 	<div class="lf-dropdown-content">
+		<input type="text" id="lfCustomEmojiInput" placeholder="Enter Emoji URL...">
+		<button id="lfCustomEmojiSubmit">Add</button>
+		<span id="lfCustomEmojiRemove">Remove</span>
+		<div id="lfCustomEmojis">
+		</div>
 		<ul id="lfEmojiList">
 			<li data-code=":bis:"><img src="html/emoticons/bis.gif"></li>
 			<li data-code=":aba:"><img src="html/emoticons/aba.gif"></li>
@@ -733,6 +741,69 @@ LiveForum.emoji = `
 
 LiveForum.emojiEvents = function() {
 	var self = this;
+
+	function add_emoji(url) {
+		var div = document.createElement('div'),
+			span = document.createElement('span'),
+			img = document.createElement('img');
+
+			span.setAttribute('class', 'delete-emoji');
+			span.innerText = 'x';
+			span.addEventListener('click', function() {
+				var el = this.parentElement,
+					index = Array.prototype.indexOf.call(document.getElementById('lfCustomEmojis'), el);
+				self.storage.get(null, function(data) {
+					data.custom_emojis.splice(index, 1);
+					self.storage.set(data, function(info) {
+						if(info.status == 200) {
+							remove_emoji(el);
+							console.log('Emoji Removed', info.message, info.status);
+						}
+					});
+				});
+			});
+
+			img.setAttribute('src', url);
+			img.addEventListener('click', function() {
+				self.wrapper('img', false, this.src, true);
+			});
+			div.appendChild(img);
+			div.appendChild(span);
+			document.getElementById('lfCustomEmojis').appendChild(div);
+	}
+
+	function remove_emoji(el) {
+		document.getElementById('lfCustomEmojis').removeChild(el);
+	}
+
+	this.storage.get('custom_emojis', function(data) {
+		data.forEach(function(el) {
+			add_emoji(decodeURIComponent(el));
+		});
+	});
+
+	document.getElementById('lfCustomEmojiSubmit').addEventListener('click', function(e) {
+		e.preventDefault();
+		var emojiInput = document.getElementById('lfCustomEmojiInput');
+		self.storage.get(null, function(data) {
+			if(data.custom_emojis.indexOf(encodeURIComponent(emojiInput.value)) < 0) {
+				data.custom_emojis.push(encodeURIComponent(emojiInput.value));
+				self.storage.set(data, function(info) {
+					add_emoji(emojiInput.value);
+					emojiInput.value = '';
+					console.log(info.message, info.status);
+				});
+			} else {
+				console.log('Emoji already exists');
+			}
+		});
+	});
+
+	document.getElementById('lfCustomEmojiRemove').addEventListener('click', function() {
+		Array.prototype.slice.call(document.querySelectorAll('.delete-emoji')).forEach(function(el) {
+			el.classList.toggle('show');
+		});
+	});
 
 	function paste_emo(emo) {
 		var textarea = document.querySelector(self.textarea),
@@ -909,6 +980,13 @@ LiveForum.userSettingsEvents = function() {
 		self.storage.get(null, function(data) {
 			data.avoid30chars = checkbox.checked;
 			self.storage.set(data, function(info) {
+				if(checkbox.checked) {
+					self.addReply.addEventListener('click', LiveForum.avoid30chars);
+					self.previewReply.addEventListener('click', LiveForum.avoid30chars);
+				} else {
+					self.addReply.removeEventListener('click', LiveForum.avoid30chars);
+					self.previewReply.removeEventListener('click', LiveForum.avoid30chars);
+				}
 				console.log('storage saved');
 			});
 		});
@@ -962,7 +1040,7 @@ LiveForum.start = function() {
 						</div>
 						<div id="lfSimplePreview" class="lf-preview">
 							<h3>Preview</h3>
-							<textarea>[]Text[/]</textarea>
+							<textarea disabled="true">[]Text[/]</textarea>
 							<div><span></span></div>
 						</div>
 					</div>
@@ -975,7 +1053,7 @@ LiveForum.start = function() {
 						</div>
 						<div id="lfDropdownPreview" class="lf-preview">
 							<h3>Preview</h3>
-							<textarea>[]Input[/]</textarea>
+							<textarea disabled="true">[]Input[/]</textarea>
 							<div>
 								<div class="dropdown">
 									<input type="text" placeholder="Input" disabled>
@@ -993,7 +1071,7 @@ LiveForum.start = function() {
 						</div>
 						<div id="lfDropdown2Preview" class="lf-preview">
 							<h3>Preview</h3>
-							<textarea>[=Input2]Input1[/]</textarea>
+							<textarea disabled="true">[=Input2]Input1[/]</textarea>
 							<div>
 								<div class="dropdown">
 									<input type="text" placeholder="Input1" disabled>
@@ -1013,7 +1091,7 @@ LiveForum.start = function() {
 						</div>
 						<div id="lfPastePreview" class="lf-preview">
 							<h3>Preview</h3>
-							<textarea></textarea>
+							<textarea disabled="true"></textarea>
 							<div><span></span></div>
 						</div>
 					</div>
@@ -1541,8 +1619,8 @@ LiveForum.events = function() {
 
 	this.storage.get('avoid30chars', function(data) {
 		if(data) {
-			document.querySelector('form[name="REPLIER"] input[type="submit"]').addEventListener('click', self.avoid30chars);
-			document.querySelector('form[name="REPLIER"] input[name="preview"]').addEventListener('click', self.avoid30chars);
+			self.addReply.addEventListener('click', self.avoid30chars);
+			self.previewReply.addEventListener('click', self.avoid30chars);
 		}
 	});
 
@@ -1560,6 +1638,12 @@ LiveForum.events = function() {
 
 		if(data.button.id == 'lfBlockUsers') {
 			document.getElementById('lfMemberSuggestion').innerHTML = ``;
+		}
+
+		if(data.button.id == 'lfEmoji') {
+			Array.prototype.slice.call(document.querySelectorAll('.delete-emoji')).forEach(function(el) {
+				el.classList.remove('show');
+			})
 		}
 
 		Array.prototype.slice.call(data.dropdown.querySelectorAll('input')).forEach(function(el) {
