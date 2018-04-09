@@ -119,10 +119,12 @@
 	position: relative;
 }
 
-div#lfStandardToolbox > div > button:hover:before, div#lfStandardToolbox > div > div > button:hover:before,  div#lfCustomToolbox > button:hover:before, #lfListItems li button:hover:before, .lf-blocked-user:hover:before, #lfGeoContainer:hover:before {
+*[data-tooltip]:hover:before {
 	content: attr(data-tooltip);
 	position:absolute;
-	bottom: 100%;
+	bottom: calc(100% + 3px);
+	left:50%;
+	transform: translateX(-50%);
 	width:-webkit-max-content;
 	width:-moz-max-content;
 	border-radius: 3px;
@@ -142,11 +144,6 @@ div#lfStandardToolbox > div > button:hover:before, div#lfStandardToolbox > div >
 	height:40px;
 	border:none;
 	outline:none;
-}
-
-div#lfStandardToolbox .lf-family1 > button:hover:before, div#lfCustomToolbox > button:hover:before, #lfListItems li button:hover:before, .lf-blocked-user:hover:before,  #lfGeoContainer:hover:before {
-	left:50%;
-	transform: translateX(-50%);
 }
 
 /*#lfBold:hover::before {
@@ -370,11 +367,11 @@ ul#lfOthersList {
 	display:none;
 }
 
-#lfGeoContainer input:checked + label::before {
+#lfGeoContainer input:checked + label::after {
 	content:'KA';
 }
 
-#lfGeoContainer input:not(:checked) + label::before {
+#lfGeoContainer input:not(:checked) + label::after {
 	content:'EN';
 
 }
