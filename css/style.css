@@ -115,12 +115,16 @@
 	border:1px solid rgba(0,0,0,1);
 }
 
-div#lfStandardToolbox > div > button:hover:before, div#lfStandardToolbox > div > div > button:hover:before,  div#lfCustomToolbox > button:hover:before, #lfListItems li button:hover:before, .lf-blocked-user:hover:before {
+#lfGeoContainer {
+	position: relative;
+}
+
+div#lfStandardToolbox > div > button:hover:before, div#lfStandardToolbox > div > div > button:hover:before,  div#lfCustomToolbox > button:hover:before, #lfListItems li button:hover:before, .lf-blocked-user:hover:before, #lfGeoContainer:hover:before {
 	content: attr(data-tooltip);
 	position:absolute;
 	bottom: 100%;
-	transform: translateX(0%);
-	width:max-content;
+	width:-webkit-max-content;
+	width:-moz-max-content;
 	border-radius: 3px;
 	background:rgba(0,0,0,.85);
 	color:#FFF;
@@ -140,7 +144,8 @@ div#lfStandardToolbox > div > button:hover:before, div#lfStandardToolbox > div >
 	outline:none;
 }
 
-div#lfStandardToolbox .lf-family1 > button:hover:before, div#lfCustomToolbox > button:hover:before, #lfListItems li button:hover:before, .lf-blocked-user:hover:before {
+div#lfStandardToolbox .lf-family1 > button:hover:before, div#lfCustomToolbox > button:hover:before, #lfListItems li button:hover:before, .lf-blocked-user:hover:before,  #lfGeoContainer:hover:before {
+	left:50%;
 	transform: translateX(-50%);
 }
 

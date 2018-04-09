@@ -56,7 +56,7 @@ LiveForum.quotePopupEvents = function() {
 }
 
 LiveForum.geoObj = `
-<div id="lfGeoContainer">
+<div id="lfGeoContainer" data-tooltip="Keyboard (Ctrl+K)">
 	<input id="lfGeo" type="checkbox" name="geo" checked>
 	<label for="lfGeo" data-tooltip="Keyboard (Ctrl+K)"></label>
 </div>
