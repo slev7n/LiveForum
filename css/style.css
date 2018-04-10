@@ -708,7 +708,7 @@ button {
 }
 #lfSettingsList label {
 	width:50px;
-	height:25px;
+	height:20px;
 	display:inline-block;
 	cursor:pointer;
 	float:right;
@@ -716,7 +716,7 @@ button {
 
 #lfSettingsList label span {
 	width:51px;
-	height:24px;
+	height:19px;
 	position:absolute;
 	display:inline-block;
 	background:#ccc;
@@ -729,15 +729,15 @@ button {
 	position:absolute;
 	left:1px;
 	top:1px;
-	width:22px;
-	height:22px;
+	width:17px;
+	height:17px;
 	background:white;
 	border-radius:50%;
 	transition:.5s;
 }
 
 #lfSettingsList label input:checked + span:before {
-	transform:translateX(27px);
+	transform:translateX(33px);
 }
 
 #lfSettingsList label input:checked + span {

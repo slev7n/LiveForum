@@ -4,7 +4,9 @@
 	"version": "3.0.3",
 	"description": "Giving a glass of ice water to forum.ge users",
 	"icons": {
-		"48": "icons/icon_48.png"
+		"16": "icons/icon16.png",
+		"48": "icons/icon48.png",
+		"128": "icons/icon128.png"
 	},
 
 	"options_ui": {
