@@ -181,6 +181,7 @@
 	left:-100%;
 	box-shadow: 0 2px 6px 0 rgba(0,0,0,.2);
 	display:none;
+	z-index: 1;
 }
 
 .lf-dropdown-content ul {
@@ -675,6 +676,10 @@ button {
 	color:orange;
 }
 
+input#lfMemberSearch {
+    margin: 15px auto;
+}
+
 .lf-blocked {
 	background: #009688;
 	padding:0 10px;
@@ -692,6 +697,7 @@ button {
 
 .lf-blocked-user {
 	display:inline-block;
+	position: relative;
 	margin: 4px;
 	padding: 3px 7px;
 	color: #E91E63;

@@ -1,7 +1,7 @@
 {
 	"manifest_version": 2,
 	"name": "LiveForum",
-	"version": "3.0.3",
+	"version": "3.0.4",
 	"description": "Giving a glass of ice water to forum.ge users",
 	"icons": {
 		"16": "icons/icon16.png",
