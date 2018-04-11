@@ -765,7 +765,11 @@ LiveForum.emojiEvents = function() {
 
 			img.setAttribute('src', url);
 			img.addEventListener('click', function() {
-				self.wrapper('img', false, this.src, true);
+				if(this.src.substr(0,21) == 'https://img.forum.ge/') {
+					self.wrapper('img', false, this.src.substr(21).split('.')[0], true);
+				} else {
+					self.wrapper('img', false, this.src, true);
+				}
 			});
 			div.appendChild(img);
 			div.appendChild(span);
