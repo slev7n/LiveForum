@@ -190,27 +190,27 @@ LiveForum.video = `
 	</button>
 	<div class="lf-dropdown-content">
 		<ul id="lfVideos">
-			<li id="lfYouTube" data-show="YouTubeTab" class="underline">Youtube</li>
-			<li id="lfFb" data-show="FbTab">Fb</li>
+			<li id="lfYoutube" data-show="YoutubeTab" class="underline">YouTube</li>
+			<li id="lfFbv" data-show="FbvTab">Fb</li>
 			<li id="lfVimeo" data-show="VimeoTab">Vimeo</li>
-			<li id="lfMyVideo" data-show="MyVideoTab">MyVideo</li>
+			<li id="lfMyvideo" data-show="MyvideoTab">MyVideo</li>
 			<li id="lfCoub" data-show="CoubTab">Coub</li>
 		</ul>
-		<div id="lfYouTubeTab" style="z-index:1">
+		<div id="lfYoutubeTab" style="z-index:1">
 			<input id="lfYoutubeInput" type="text" placeholder="YouTube video id...">
-			<button data-bbcode="youtube" id="lfYouTubeSubmit">Insert</button>
+			<button data-bbcode="youtube" id="lfYoutubeSubmit">Insert</button>
 		</div>
-		<div id="lfFbTab">
-			<input id="lfFbInput" type="text" placeholder="FB video id...">
-			<button data-bbcode="fb" id="lfFbSubmit">Insert</button>
+		<div id="lfFbvTab">
+			<input id="lfFbvInput" type="text" placeholder="FB video id...">
+			<button data-bbcode="fbv" id="lfFbvSubmit">Insert</button>
 		</div>
 		<div id="lfVimeoTab">
 			<input id="lfVimeoInput" type="text" placeholder="Vimeo id...">
 			<button data-bbcode="vimeo" id="lfVimeoSubmit">Insert</button>
 		</div>
-		<div id="lfMyVideoTab">
+		<div id="lfMyvideoTab">
 			<input id="lfMyvideoInput" type="text" placeholder="MyVideo id...">
-			<button data-bbcode="myvideo" id="lfMyVideoSubmit">Insert</button>
+			<button data-bbcode="myvideo" id="lfMyvideoSubmit">Insert</button>
 		</div>
 		<div id="lfCoubTab">
 			<input id="lfCoubInput" type="text" placeholder="Coub video id...">
@@ -226,7 +226,10 @@ LiveForum.videoEvents = function() {
 	document.getElementById('lfVideo').addEventListener('click', function(e) {
 		e.preventDefault();
 		self.toggle(self, this);
-		document.getElementById(self.lastVideoTitle + 'Input').focus
+		var last = document.getElementById(self.lastVideoTitle + 'Input');
+		if(last) {
+			last.focus();
+		}
 	});
 	Array.prototype.slice.call(document.querySelectorAll('#lfVideos li')).forEach(function(el) {
 		el.addEventListener('click', function() {
@@ -251,17 +254,17 @@ LiveForum.videoEvents = function() {
 		});
 	});
 
-	document.getElementById('lfYouTubeSubmit').addEventListener('click', function(e) {
+	document.getElementById('lfYoutubeSubmit').addEventListener('click', function(e) {
 		e.preventDefault();
 		var input = document.getElementById('lfYoutubeInput');
 		self.wrapper(this.dataset.bbcode, false, input.value, true);
 		self.closeDropdown();
 	});
-	document.getElementById('lfFbInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'fb'));
+	document.getElementById('lfFbvInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'fbv'));
 
-	document.getElementById('lfFbSubmit').addEventListener('click', function(e) {
+	document.getElementById('lfFbvSubmit').addEventListener('click', function(e) {
 		e.preventDefault();
-		var input = document.getElementById('lfFbInput');
+		var input = document.getElementById('lfFbvInput');
 		self.wrapper(this.dataset.bbcode, false, input.value, true);
 		self.closeDropdown();
 	});
@@ -275,7 +278,7 @@ LiveForum.videoEvents = function() {
 	});
 	document.getElementById('lfMyvideoInput').addEventListener('keypress', this.submitInputOnEnter.bind(this, null, 'myvideo'));
 
-	document.getElementById('lfMyVideoSubmit').addEventListener('click', function(e) {
+	document.getElementById('lfMyvideoSubmit').addEventListener('click', function(e) {
 		e.preventDefault();
 		var input = document.getElementById('lfMyvideoInput');
 		self.wrapper(this.dataset.bbcode, false, input.value, true);
@@ -1443,7 +1446,7 @@ LiveForum.lastCustomBtnTitle = 'lfCBtnSimple';
 
 LiveForum.lastVideoTab = null;
 
-LiveForum.lastVideoTitle = 'lfYouTube';
+LiveForum.lastVideoTitle = 'lfYoutube';
 
 LiveForum.ctrlKeyPressed = false;
 
