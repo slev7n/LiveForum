@@ -50,7 +50,7 @@ LiveForum.quotePopupEvents = function() {
 		var rawSelection = window.getSelection().getRangeAt(0).toString();
 			this.style.opacity = 0;
 			this.style.display = 'none';
-			self.wrapper('quote', quoteAuthor, rawSelection, true);
+			self.wrapper('quote', quoteAuthor, rawSelection, true, true);
 			window.getSelection().removeAllRanges();
 	});
 }
@@ -1048,7 +1048,7 @@ LiveForum.start = function() {
 						<div id="lfSimplePreview" class="lf-preview">
 							<h3>Preview</h3>
 							<textarea disabled="true">[]Text[/]</textarea>
-							<div><span></span></div>
+							<div><a>+</a><span></span></div>
 						</div>
 					</div>
 					<div id="lfCBtnDropdownTab">
@@ -1066,8 +1066,9 @@ LiveForum.start = function() {
 									<input type="text" placeholder="Input" disabled>
 									<input type="button" value="Insert" disabled>
 								</div>
-								<span></span>
-							</div>						</div>
+							</div>
+							<div><a>+</a><span></span></div>
+						</div>
 					</div>
 					<div id="lfCBtnDropdown2Tab">
 						<div class="lf-create-button">
@@ -1085,8 +1086,8 @@ LiveForum.start = function() {
 									<input type="text" placeholder="input2" disabled>
 									<input type="button" value="Insert" disabled>
 								</div>
-								<span></span>
 							</div>
+							<div><a>+</a><span></span></div>
 						</div>
 					</div>
 					<div id="lfCBtnPasteTab">
@@ -1099,7 +1100,7 @@ LiveForum.start = function() {
 						<div id="lfPastePreview" class="lf-preview">
 							<h3>Preview</h3>
 							<textarea disabled="true"></textarea>
-							<div><span></span></div>
+							<div><a>+</a><span></span></div>
 						</div>
 					</div>
 				</div>
@@ -1780,7 +1781,7 @@ LiveForum.dissect = function(textarea) {
 		}
 }
 
-LiveForum.wrapper = function(tag, attr, input, atEnd) {
+LiveForum.wrapper = function(tag, attr, input, atEnd, newLine) {
 	var textarea  = document.querySelector(this.textarea),
 		dissected = this.dissect(textarea);
 
@@ -1803,6 +1804,9 @@ LiveForum.wrapper = function(tag, attr, input, atEnd) {
 				textarea.selectionStart = selStart;
 				textarea.selectionEnd   = selEnd;
 				textarea.focus();
+			}
+			if(newLine) {
+				textarea.value += '\n';
 			}
 		} else if(tag && attr) { // FontSizeColorType
 			textarea.value              = dissected.one + "[" + tag + "=" + attr + "]" + dissected.two + "[/" + tag + "]" + dissected.three;

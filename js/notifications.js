@@ -3,6 +3,7 @@ var LiveForum = LiveForum || {};
 	LiveForum.notifications.xhr = typeof content !== 'undefined' ? content.XMLHttpRequest : XMLHttpRequest;
 
 LiveForum.notifications.start = function() {
+	if(!document.getElementById('navstrip')) return
 	var root = LiveForum,
 		self = this,
 		notifBox = document.createElement('div');

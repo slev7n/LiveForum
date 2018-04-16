@@ -178,7 +178,8 @@
 	background: #FFF;
 	width:250px;
 	top: calc(100% + 1px);
-	left:-100%;
+	left:50%;
+	transform:translateX(-50%);
 	box-shadow: 0 2px 6px 0 rgba(0,0,0,.2);
 	display:none;
 	z-index: 1;
@@ -428,11 +429,10 @@ div#lfCustomToolbox .lf-custom-family > button, div#lfCustomToolbox .lf-dropdown
 }
 
 div#lfCustomToolbox .lf-custom-family .lf-dropdown-content {
-/*	height: var(--custom-dropdown-height);
-	top:calc(var(--custom-dropdown-height) * -1);*/
 	box-shadow: 0 0 6px 0 rgba(0,0,0,.2);
-	transform: translateY(-100%);
-	top: -7%;
+	top: calc(-100% + 32px);
+	left: 50%;
+	transform: translate3d(-50%, -100%, 0);
 }
 
 div#lfCustomToolbox .lf-custom-family > button:hover, div#lfCustomToolbox .lf-dropdown > button:hover {
@@ -520,6 +520,7 @@ div#lfCBtnSimpleTab, div#lfCBtnDropdownTab, div#lfCBtnDropdown2Tab, div#lfCBtnPa
 
 .lf-preview {
 	width:70%;
+	height: 170px;
 	float:right;
 }
 
@@ -540,13 +541,18 @@ div#lfCBtnSimpleTab, div#lfCBtnDropdownTab, div#lfCBtnDropdown2Tab, div#lfCBtnPa
 	border-bottom-right-radius: 5px;
 }
 
+.lf-preview a {
+	position: absolute;
+	left:4px;
+}
+
 .lf-preview span {
 	font-family: 'Noto Sans', sans-serif;
 	min-width:20px;
 	height:20px;
 	display: inline-block;
 	background: rgba(0,0,0,.1);
-	margin-left:10px;
+	margin-left:15px;
 	padding:0 5px;
 }
 
@@ -597,6 +603,13 @@ div#lfDropdownPreview .dropdown input[type="button"]:hover, div#lfDropdown2Previ
 	outline: none;
 }
 
+#lfCBtnSimpleTab,
+#lfCBtnDropdownTab,
+#lfCBtnDropdown2Tab,
+#lfCBtnPasteTab {
+	background: #FFF;
+}
+
 .lf-create-button button {
 	background: #03A9F4;
 	border: none;
@@ -618,7 +631,6 @@ ul#lfEmojiList li {
 
 button#lfEmoji + .lf-dropdown-content {
 	width:400px;
-	left:-180px;
 }
 
 .lf-message {
