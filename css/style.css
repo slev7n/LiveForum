@@ -101,6 +101,10 @@
 	background:url('chrome-extension://__MSG_@@extension_id__/icons/menu-down.svg') no-repeat center right rgba(0,0,0,.1);
 }*/
 
+button#lfColor + .lf-dropdown-content {
+    width: 300px;
+}
+
 .lf-color-palette > span {
 	display:inline-block;
 	border:1px solid #FFF;

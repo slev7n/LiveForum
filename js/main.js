@@ -418,13 +418,27 @@ LiveForum.color = `
 	</button>
 	<div class="lf-dropdown-content">
 		<div id="lfColors" class="lf-color-palette">
-			<span data-bbcode="color" data-color="blue" style="background:blue"></span>
-			<span data-bbcode="color" data-color="red" style="background:red"></span>
-			<span data-bbcode="color" data-color="purple" style="background:purple"></span>
-			<span data-bbcode="color" data-color="orange" style="background:orange"></span>
-			<span data-bbcode="color" data-color="yellow" style="background:yellow"></span>
-			<span data-bbcode="color" data-color="gray" style="background:gray"></span>
-			<span data-bbcode="color" data-color="green" style="background:green"></span>
+			<span data-bbcode="color" data-tooltip="red" data-color="red" style="background:red"></span>
+			<span data-bbcode="color" data-tooltip="orangered" data-color="orangered" style="background:orangered"></span>
+			<span data-bbcode="color" data-tooltip="orange" data-color="orange" style="background:orange"></span>
+			<span data-bbcode="color" data-tooltip="gold" data-color="gold" style="background:gold"></span>
+			<span data-bbcode="color" data-tooltip="yellow" data-color="yellow" style="background:yellow"></span>
+			<span data-bbcode="color" data-tooltip="goldenrod" data-color="goldenrod" style="background:goldenrod"></span>
+			<span data-bbcode="color" data-tooltip="brown" data-color="brown" style="background:brown"></span>
+			<span data-bbcode="color" data-tooltip="peru" data-color="peru" style="background:peru"></span>
+			<span data-bbcode="color" data-tooltip="burlywood" data-color="burlywood" style="background:burlywood"></span>
+			<span data-bbcode="color" data-tooltip="palegoldenrod" data-color="palegoldenrod" style="background:palegoldenrod"></span>
+			<span data-bbcode="color" data-tooltip="green" data-color="green" style="background:green"></span>
+			<span data-bbcode="color" data-tooltip="yellowgreen" data-color="yellowgreen" style="background:yellowgreen"></span>
+			<span data-bbcode="color" data-tooltip="lawngreen" data-color="lawngreen" style="background:lawngreen"></span>
+			<span data-bbcode="color" data-tooltip="greenyellow" data-color="greenyellow" style="background:greenyellow"></span>
+			<span data-bbcode="color" data-tooltip="palegreen" data-color="palegreen" style="background:palegreen"></span>
+			<span data-bbcode="color" data-tooltip="purple" data-color="purple" style="background:purple"></span>
+			<span data-bbcode="color" data-tooltip="blue" data-color="blue" style="background:blue"></span>
+			<span data-bbcode="color" data-tooltip="royalblue" data-color="royalblue" style="background:royalblue"></span>
+			<span data-bbcode="color" data-tooltip="dodgerblue" data-color="dodgerblue" style="background:dodgerblue"></span>
+			<span data-bbcode="color" data-tooltip="powderblue" data-color="powderblue" style="background:powderblue"></span>
+			<span data-bbcode="color" data-tooltip="gray" data-color="gray" style="background:gray"></span>
 		</div>
 		<div class="lf-own-name">
 			<input id="lfColorInput" type="text" placeholder="Or Enter Color Name">
