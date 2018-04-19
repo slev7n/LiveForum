@@ -47,7 +47,7 @@ LiveForum.quotePopupEvents = function() {
 	});
 
 	quotePopup.addEventListener('mousedown', function(e) {
-		var rawSelection = window.getSelection().getRangeAt(0).toString();
+		var rawSelection = window.getSelection().toString();
 			this.style.opacity = 0;
 			this.style.display = 'none';
 			self.wrapper('quote', quoteAuthor, rawSelection, true, true);
