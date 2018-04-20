@@ -11,6 +11,8 @@ LiveForum.previewReply = document.querySelector('form[name="REPLIER"] input[name
 
 LiveForum.sibling = LiveForum.parent.previousElementSibling;
 
+LiveForum.quoteAuthor = null;
+
 LiveForum.quotePopupEvents = function() {
 	var self = this,
 		quotePopup = document.createElement('div');
@@ -27,6 +29,12 @@ LiveForum.quotePopupEvents = function() {
 	});
 
 	var quoteAuthor = null;
+
+	Array.prototype.slice.call(document.querySelectorAll('.normalname a[href^="javascript"]')).forEach(function(el) {
+		el.addEventListener('click', function() {
+			self.quoteAuthor = this.innerText;
+		});
+	});
 
 	Array.prototype.slice.call(document.querySelectorAll('.postcolor')).forEach(function(el) {
 		el.parentNode.addEventListener('mouseup', function(e) {
@@ -50,7 +58,16 @@ LiveForum.quotePopupEvents = function() {
 		var rawSelection = window.getSelection().toString();
 			this.style.opacity = 0;
 			this.style.display = 'none';
-			self.wrapper('quote', quoteAuthor, rawSelection, true, true);
+			if(self.quoteAuthor == quoteAuthor) {
+				var textarea = document.querySelector(LiveForum.textarea),
+					extendSel = textarea.value.length;
+					textarea.selectionStart += extendSel;
+					textarea.selectionEnd += extendSel;
+				self.wrapper('quote', false, rawSelection, true, true);
+					textarea.value += '\n';
+			} else {
+				self.wrapper('quote', quoteAuthor, rawSelection, true, true);
+			}
 			window.getSelection().removeAllRanges();
 	});
 }
@@ -1014,7 +1031,10 @@ LiveForum.userSettingsEvents = function() {
 	});
 }
 
+LiveForum.textareaValue = null;
+
 LiveForum.start = function() {
+	this.textareaValue = document.querySelector(this.textarea).value;
 	this.parent.innerHTML = `
 		<div id="lfEditor" class="lf-box">
 			<div id="lfStandardToolbox" class="lf-standard-toolbox">
@@ -1638,6 +1658,9 @@ LiveForum.avoid30chars = function() {
 
 LiveForum.events = function() {
 	var self = this;
+
+	if(this.textareaValue)
+		document.querySelector(this.textarea).value = this.textareaValue;
 
 	this.storage.get('avoid30chars', function(data) {
 		if(data) {
