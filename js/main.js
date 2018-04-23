@@ -8,6 +8,37 @@ LiveForum.parent = document.querySelector(LiveForum.textarea).parentNode;
 
 LiveForum.addReply = document.querySelector('form[name="REPLIER"] input[type="submit"]');
 LiveForum.previewReply = document.querySelector('form[name="REPLIER"] input[name="preview"]');
+LiveForum.sendPost = function(e) {
+	e = e || window.event;
+	e.preventDefault();
+	this.disabled = true;
+	var root = LiveForum,
+		xhr = new root.storage.xhr(),
+		formdata = new FormData(),
+		post = document.querySelector(root.textarea).value;
+		if(post.length < 30) {
+			post += '[b]                        [/b]';
+		}
+		console.log(post);
+
+	Array.prototype.slice.call(document.querySelectorAll('form[name="REPLIER"] input[type="hidden"]')).forEach(function(el) {
+		formdata.append(el.name, el.value);
+	});
+	formdata.append('enableemo', 'yes');
+	formdata.append('enablesig', 'yes');
+	formdata.append('Post', post);
+
+	xhr.open('POST', 'index.php', true);
+	xhr.onload = function() {
+		if(this.status == 200) {
+			var div = document.createElement('div'),
+				mdel = null;
+				div.innerHTML = this.responseText;
+				window.location.href = div.querySelector('meta[http-equiv="refresh"]').content.split('; ')[1].split('url=')[1];
+		}
+	}
+	xhr.send(formdata);
+}
 
 LiveForum.sibling = LiveForum.parent.previousElementSibling;
 
@@ -982,6 +1013,7 @@ LiveForum.userSettings = `
 		<ul id="lfSettingsList">
 			<li>Notifications <label><input type="checkbox" id="lfSettingsNotifications"><span></span></label></li>
 			<li>Avoid 30 Chars <label><input type="checkbox" id="lfAvoid30chars"><span></span></label></li>
+			<li>Avoid Flood Control (Beta) <label><input type="checkbox" id="lfAvoidFlood"><span></span></label></li>
 		</ul>
 	</div>
 </div>
@@ -996,11 +1028,13 @@ LiveForum.userSettingsEvents = function() {
 	});
 
 	var notifications = document.getElementById('lfSettingsNotifications'),
-		avoid30chars = document.getElementById('lfAvoid30chars');
+		avoid30chars = document.getElementById('lfAvoid30chars'),
+		avoidFlood = document.getElementById('lfAvoidFlood');
 
-	this.storage.get(['notifications_enabled', 'avoid30chars'], function(data) {
+	this.storage.get(['notifications_enabled', 'avoid30chars', 'avoidFlood'], function(data) {
 		notifications.checked = data.notifications_enabled;
 		avoid30chars.checked = data.avoid30chars;
+		avoidFlood.checked = data.avoidFlood;
 	});
 
 	notifications.addEventListener('change', function() {
@@ -1024,6 +1058,21 @@ LiveForum.userSettingsEvents = function() {
 				} else {
 					self.addReply.removeEventListener('click', LiveForum.avoid30chars);
 					self.previewReply.removeEventListener('click', LiveForum.avoid30chars);
+				}
+				console.log('storage saved');
+			});
+		});
+	});
+
+	avoidFlood.addEventListener('change', function() {
+		var checkbox = this;
+		self.storage.get(null, function(data) {
+			data.avoidFlood = checkbox.checked;
+			self.storage.set(data, function(info) {
+				if(checkbox.checked) {
+					self.addReply.addEventListener('click', LiveForum.sendPost);
+				} else {
+					self.addReply.removeEventListener('click', LiveForum.sendPost);
 				}
 				console.log('storage saved');
 			});
@@ -1652,7 +1701,7 @@ LiveForum.hideBlockedUserContent = function() {
 LiveForum.avoid30chars = function() {
 	var content = document.querySelector(LiveForum.textarea); 
 	if(content.value.length < 30) {
-		content.value +='[b]                       [/b]';
+		content.value +='[b]                        [/b]';
 	}
 }
 

@@ -12,7 +12,8 @@ var LiveForum = LiveForum || {};
 		"custom_buttons": [],
 		"custom_emojis": [],
 		"quote_author": true,
-		"avoid30chars": true
+		"avoid30chars": true,
+		"avoidFlood": false
 	}
 
 LiveForum.storage.xhr = typeof content !== 'undefined' ? content.XMLHttpRequest : XMLHttpRequest;
