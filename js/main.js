@@ -13,13 +13,13 @@ LiveForum.sendPost = function(e) {
 	e.preventDefault();
 	this.disabled = true;
 	var root = LiveForum,
+		self = this,
 		xhr = new root.storage.xhr(),
 		formdata = new FormData(),
 		post = document.querySelector(root.textarea).value;
 		if(post.length < 30) {
 			post += '[b]                        [/b]';
 		}
-		console.log(post);
 
 	Array.prototype.slice.call(document.querySelectorAll('form[name="REPLIER"] input[type="hidden"]')).forEach(function(el) {
 		formdata.append(el.name, el.value);
@@ -30,11 +30,30 @@ LiveForum.sendPost = function(e) {
 
 	xhr.open('POST', 'index.php', true);
 	xhr.onload = function() {
+		self.disabled = false;
 		if(this.status == 200) {
-			var div = document.createElement('div'),
-				mdel = null;
+			// console.log(this.responseText);
+			var div = document.createElement('div');
 				div.innerHTML = this.responseText;
-				window.location.href = div.querySelector('meta[http-equiv="refresh"]').content.split('; ')[1].split('url=')[1];
+			var urlEl,
+				timer;
+
+				if(urlEl = div.querySelector('meta[http-equiv="refresh"]')) {
+					window.location.replace(urlEl.content.split('; ')[1].split('url=')[1]);
+				} else if(timer = div.querySelector('.postcolor script')) {
+					var time = parseInt(timer.innerText.split('=')[1].split(';')[0]);
+					if(!document.getElementById('lfCountDown')) {
+						var countdown = document.createElement('span');
+							countdown.setAttribute('id', 'lfCountDown');
+						var container = self.parentElement.parentElement.previousElementSibling.children[1];
+							container.style.position = 'relative';
+							container.appendChild(countdown);
+					}
+					var interval = setInterval(function() {
+						countdown.innerText = --time;
+						if(time <= 0) clearInterval(interval);
+					}, 1000);
+				}
 		}
 	}
 	xhr.send(formdata);
@@ -223,6 +242,9 @@ LiveForum.imgEvents = function() {
 	document.getElementById('lfImgSubmit').addEventListener('click', function(e) {
 		e.preventDefault();
 		var input = document.getElementById('lfImgInput');
+		if(input.value.slice(0, 21) == 'https://img.forum.ge/') {
+			input.value = input.value.slice(21).split('.')[0];
+		}
 		self.wrapper(this.dataset.bbcode, false, input.value, true);
 		self.closeDropdown();
 	});
@@ -245,7 +267,7 @@ LiveForum.video = `
 			<li id="lfCoub" data-show="CoubTab">Coub</li>
 		</ul>
 		<div id="lfYoutubeTab" style="z-index:1">
-			<input id="lfYoutubeInput" type="text" placeholder="YouTube video id...">
+			<input id="lfYoutubeInput" type="text" placeholder="YouTube video url or id...">
 			<button data-bbcode="youtube" id="lfYoutubeSubmit">Insert</button>
 		</div>
 		<div id="lfFbvTab">
@@ -305,6 +327,11 @@ LiveForum.videoEvents = function() {
 	document.getElementById('lfYoutubeSubmit').addEventListener('click', function(e) {
 		e.preventDefault();
 		var input = document.getElementById('lfYoutubeInput');
+		if(input.value.slice(0, 32) == 'https://www.youtube.com/watch?v=') {
+			input.value = input.value.slice(32).split('?')[0];
+		} else if(input.value.slice(0, 17) == 'https://youtu.be/') {
+			input.value = input.value.slice(17).split('?')[0];
+		}
 		self.wrapper(this.dataset.bbcode, false, input.value, true);
 		self.closeDropdown();
 	});
@@ -846,9 +873,12 @@ LiveForum.emojiEvents = function() {
 	}
 
 	this.storage.get('custom_emojis', function(data) {
-		data.forEach(function(el) {
-			add_emoji(decodeURIComponent(el));
-		});
+		if(data.length > 0) {
+			data.forEach(function(el) {
+				add_emoji(decodeURIComponent(el));
+			});
+			document.getElementById('lfCustomEmojiRemove').style.display = 'block';
+		}
 	});
 
 	document.getElementById('lfCustomEmojiSubmit').addEventListener('click', function(e) {
@@ -1013,7 +1043,7 @@ LiveForum.userSettings = `
 		<ul id="lfSettingsList">
 			<li>Notifications <label><input type="checkbox" id="lfSettingsNotifications"><span></span></label></li>
 			<li>Avoid 30 Chars <label><input type="checkbox" id="lfAvoid30chars"><span></span></label></li>
-			<li>Avoid Flood Control (Beta) <label><input type="checkbox" id="lfAvoidFlood"><span></span></label></li>
+			<li>Flood Control Timer (Beta) <label><input type="checkbox" id="lfAvoidFlood"><span></span></label></li>
 		</ul>
 	</div>
 </div>
@@ -1667,14 +1697,28 @@ LiveForum.submitInputOnEnter = function(evt, tag, atEnd) {
 	e = evt || window.event;
 	if(e.keyCode == 13) {
 		e.preventDefault();
-		var link = document.getElementById('lf' + this.capitalize(tag) + 'Input');
+		var input = document.getElementById('lf' + this.capitalize(tag) + 'Input');
+		switch(tag.toLowerCase()) {
+			case 'youtube':
+				if(input.value.slice(0, 32) == 'https://www.youtube.com/watch?v=') {
+					input.value = input.value.slice(32).split('?')[0];
+				} else if(input.value.slice(0, 17) == 'https://youtu.be/') {
+					input.value = input.value.slice(17).split('?')[0];
+				}
+				break;
+			case 'img':
+				if(input.value.slice(0, 21) == 'https://img.forum.ge/') {
+					input.value = input.value.slice(21).split('.')[0];
+				}
+				break;
+		}
 		if(atEnd) {
-			this.wrapper(tag, false, link.value, true);
+			this.wrapper(tag, false, input.value, true);
 		} else {
-			this.wrapper(tag, false, link.value);
+			this.wrapper(tag, false, input.value);
 		}
 		this.closeDropdown();
-		link.value = '';
+		input.value = '';
 	}
 
 }
@@ -1701,7 +1745,7 @@ LiveForum.hideBlockedUserContent = function() {
 LiveForum.avoid30chars = function() {
 	var content = document.querySelector(LiveForum.textarea); 
 	if(content.value.length < 30) {
-		content.value +='[b]                        [/b]';
+		content.value += '[b]                        [/b]';
 	}
 }
 
@@ -1711,10 +1755,14 @@ LiveForum.events = function() {
 	if(this.textareaValue)
 		document.querySelector(this.textarea).value = this.textareaValue;
 
-	this.storage.get('avoid30chars', function(data) {
-		if(data) {
+	this.storage.get(['avoid30chars', 'avoidFlood'], function(data) {
+		if(data.avoid30chars) {
 			self.addReply.addEventListener('click', self.avoid30chars);
 			self.previewReply.addEventListener('click', self.avoid30chars);
+		}
+
+		if(data.avoidFlood) {
+			self.addReply.addEventListener('click', self.sendPost);
 		}
 	});
 

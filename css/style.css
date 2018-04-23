@@ -814,6 +814,7 @@ button#lfCustomEmojiSubmit {
 }
 
 span#lfCustomEmojiRemove {
+	display:none;
 	color: rgba(0,0,0,0.4);
 }
 
@@ -837,6 +838,16 @@ span#lfCustomEmojiRemove:hover {
 .delete-emoji:hover {
 	cursor: pointer;
 	color:orange;
+}
+
+span#lfCountDown {
+    margin:auto;
+    width: 30px;
+    display: block;
+    font-size: 20px;
+    position: absolute;
+    top:17px;
+    left:37%;
 }
 
 .show {
