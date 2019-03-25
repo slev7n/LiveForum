@@ -1250,11 +1250,12 @@ LiveForum.start = function() {
 }
 
 LiveForum.memberSuggestionEvents = function() {
+	var self = this;
 	function suggestMember(name) {
 		var suggestionBox = document.getElementById('lfMemberSuggestion'),
 			input = document.getElementById('lfMemberSearch');
 
-		var xhr = typeof content !== 'undefined' ? new content.XMLHttpRequest() : new XMLHttpRequest();
+		var xhr = new self.storage.xhr();
 		xhr.open('POST', 'index.php', true);
 		xhr.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
 		xhr.send('act=Members&photoonly=0&name_box=begins&name=' + name + '&filter=ALL&sort_key=posts&sort_order=desc&max_results=10');
@@ -1264,7 +1265,7 @@ LiveForum.memberSuggestionEvents = function() {
 				var div = document.createElement('div');
 					div.innerHTML = this.response;
 					Array.prototype.slice.call(div.querySelectorAll('.row4 a')).forEach(function(el) {
-						 html += `<li>${el.innerText}</li>`;
+						 html += `<li><span style="color:#E91E63">${el.innerText.slice(0, input.value.length)}</span>${el.innerText.slice(input.value.length)}</li>`;
 					});
 					suggestionBox.innerHTML = html;
 					Array.prototype.slice.call(suggestionBox.querySelectorAll('li')).forEach(function(el) {
